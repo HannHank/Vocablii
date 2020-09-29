@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:Vocablii/home.dart';
-
+import 'package:Vocablii/components/InputField.dart';
 class Login extends StatelessWidget {
   static const String route = "login";
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,76 +32,9 @@ class Login extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 30),
-                            Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                        new BorderRadius.circular(10.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          blurRadius: 8,
-                                          offset: Offset(0, 15),
-                                          color: Colors.grey.withOpacity(.6),
-                                          spreadRadius: -9),
-                                    ]),
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                      isDense: true,
-                                      counterText: "",
-                                      contentPadding: EdgeInsets.all(10.0),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(10.0),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      hintText: "Name"),
-                                  textAlign: TextAlign.start,
-                                  maxLines: 1,
-                                  maxLength: 20,
-                                  style: TextStyle(
-                                      fontSize: 20.0,
-                                      height: 1.6,
-                                      color: Colors.black),
-                                  // controller: _locationNameTextController,
-                                )),
+                            basicForm("Name", "Name is missing!"),
                             SizedBox(height: 30),
-                            Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius:
-                                        new BorderRadius.circular(10.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          blurRadius: 8,
-                                          offset: Offset(0, 15),
-                                          color: Colors.grey.withOpacity(.6),
-                                          spreadRadius: -9),
-                                    ]),
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                      isDense: true,
-                                      counterText: "",
-                                      contentPadding: EdgeInsets.all(10.0),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(10.0),
-                                          borderSide: BorderSide.none),
-                                      hintText: "Email"),
-                                  textAlign: TextAlign.start,
-                                  maxLines: 1,
-                                  maxLength: 20,
-                                  style: TextStyle(
-                                      fontSize: 20.0,
-                                      height: 1.6,
-                                      color: Colors.black),
-
-                                  // controller: _locationNameTextController,
-                                )),
+                            basicForm("Email", "Email is invalid or missing!")
                           ],
                         )),
                   ],
@@ -113,7 +47,9 @@ class Login extends StatelessWidget {
                   alignment: FractionalOffset.bottomCenter,
                   child: FloatingActionButton.extended(
                     backgroundColor: Colors.black,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, Home.route,arguments:{'User':'Franz Biedenmaier'});
+                    },
                     label: Text("далше"),
                   )),
             ),
