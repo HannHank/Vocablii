@@ -32,6 +32,7 @@ class Login extends StatelessWidget {
                             ),
                             SizedBox(height: 30),
                             Container(
+                                height: 50,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
@@ -59,6 +60,10 @@ class Login extends StatelessWidget {
                                   textAlign: TextAlign.start,
                                   maxLines: 1,
                                   maxLength: 20,
+                                  style: TextStyle(
+                                      fontSize: 20.0,
+                                      height: 1.6,
+                                      color: Colors.black),
                                   // controller: _locationNameTextController,
                                 )),
                             SizedBox(height: 30),
@@ -89,6 +94,10 @@ class Login extends StatelessWidget {
                                   textAlign: TextAlign.start,
                                   maxLines: 1,
                                   maxLength: 20,
+                                  style: TextStyle(
+                                      fontSize: 20.0,
+                                      height: 1.6,
+                                      color: Colors.black),
 
                                   // controller: _locationNameTextController,
                                 )),
