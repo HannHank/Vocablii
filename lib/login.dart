@@ -1,9 +1,27 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:Vocablii/home.dart';
 import 'package:Vocablii/components/InputField.dart';
-class Login extends StatelessWidget {
+import 'package:firebase_auth/firebase_auth.dart';
+import 'auth/auth.dart';
+
+class Login extends StatefulWidget {
   static const String route = "login";
+  @override
+  _Login createState() => _Login();
+}
+
+class _Login extends State<Login> {
+  final auth = AuthenticationService(FirebaseAuth.instance);
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  String emailErr;
+  String pwdErr;
+  String errMsg = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +50,10 @@ class Login extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 30),
-                            basicForm("Name", "Name is missing!"),
+                            basicForm("Email", emailErr,nameController),
                             SizedBox(height: 30),
-                            basicForm("Email", "Email is invalid or missing!")
+                            basicForm("Password", pwdErr,emailController),
+                            Text(errMsg),
                           ],
                         )),
                   ],
@@ -47,8 +66,19 @@ class Login extends StatelessWidget {
                   alignment: FractionalOffset.bottomCenter,
                   child: FloatingActionButton.extended(
                     backgroundColor: Colors.black,
-                    onPressed: () {
-                      Navigator.pushNamed(context, Home.route,arguments:{'User':'Franz Biedenmaier'});
+                    onPressed: () async{
+                      final state =  await auth.signUp(
+                      email:nameController.text.trim(),
+                      password: emailController.text.trim(),
+                        );
+                      if(state == "Signed up"){
+                        Navigator.pushNamed(context, Home.route,arguments:{'User': nameController.text + ' ' + emailController.text});
+                      }else{
+                          setState(() {
+                            errMsg = state;
+                          });
+                      }
+                      
                     },
                     label: Text("далше"),
                   )),

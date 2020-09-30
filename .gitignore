@@ -15,7 +15,8 @@ bin-release/
 
 build
 .dart_tool
-
+android/app/google-services.json
+ios/
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
