@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget basicForm(String name, String errmsg) {
+Widget basicForm(String name, String errmsg, TextEditingController controller) {
         return Container(
             height: 50,
             decoration: BoxDecoration(
@@ -14,6 +14,7 @@ Widget basicForm(String name, String errmsg) {
                       spreadRadius: -9),
                 ]),
             child: TextField(
+              controller: controller,
               decoration: InputDecoration(
                   isDense: true,
                   counterText: "",
