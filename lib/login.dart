@@ -60,12 +60,15 @@ class _Login extends State<Login> {
                 ),
               ),
             ),
-            Container(
+           Container(
               padding: EdgeInsets.all(30),
               child: Align(
                   alignment: FractionalOffset.bottomRight,
-                  child: FloatingActionButton.extended(
-                    backgroundColor: Colors.black,
+                  
+                  child: FlatButton(
+                    height: 50,
+                     shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    color: Colors.black,
                     onPressed: () async{
                       final state =  await auth.signIn(
                       email:nameController.text.trim(),
@@ -80,15 +83,18 @@ class _Login extends State<Login> {
                       }
                       
                     },
-                    label: Text("Login"),
+                    child: Text("Login", style: TextStyle(color: Colors.white)),
                   )),
             ),
             Container(
               padding: EdgeInsets.all(30),
               child: Align(
                   alignment: FractionalOffset.bottomLeft,
-                  child: FloatingActionButton.extended(
-                    backgroundColor: Colors.black,
+                  
+                  child: FlatButton(
+                    height: 50,
+                     shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    color: Colors.black,
                     onPressed: () async{
                       final state =  await auth.signUp(
                       email:nameController.text.trim(),
@@ -103,7 +109,7 @@ class _Login extends State<Login> {
                       }
                       
                     },
-                    label: Text("Sign Up"),
+                    child: Text("Sign Up", style: TextStyle(color: Colors.white)),
                   )),
             ),
           ],
