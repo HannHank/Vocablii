@@ -63,7 +63,30 @@ class _Login extends State<Login> {
             Container(
               padding: EdgeInsets.all(30),
               child: Align(
-                  alignment: FractionalOffset.bottomCenter,
+                  alignment: FractionalOffset.bottomRight,
+                  child: FloatingActionButton.extended(
+                    backgroundColor: Colors.black,
+                    onPressed: () async{
+                      final state =  await auth.signIn(
+                      email:nameController.text.trim(),
+                      password: emailController.text.trim(),
+                        );
+                      if(state == "Signed in"){
+                        Navigator.pushNamed(context, Home.route,arguments:{'User': nameController.text + ' ' + emailController.text});
+                      }else{
+                          setState(() {
+                            errMsg = state;
+                          });
+                      }
+                      
+                    },
+                    label: Text("Login"),
+                  )),
+            ),
+            Container(
+              padding: EdgeInsets.all(30),
+              child: Align(
+                  alignment: FractionalOffset.bottomLeft,
                   child: FloatingActionButton.extended(
                     backgroundColor: Colors.black,
                     onPressed: () async{
@@ -80,7 +103,7 @@ class _Login extends State<Login> {
                       }
                       
                     },
-                    label: Text("далше"),
+                    label: Text("Sign Up"),
                   )),
             ),
           ],
