@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:Vocablii/vocabulary.dart';
 import 'package:flutter/material.dart';
 import 'package:Vocablii/login.dart';
 import 'auth/auth.dart';
@@ -21,20 +22,24 @@ class _Home extends State<Home> {
   final auth = AuthenticationService(FirebaseAuth.instance);
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
   List allTopics = [];
+  Map<String, Map> topicData = {};
+  Map <String,String> meta = {};
+
   getTopics() {
     topics.get().then((QuerySnapshot querySnapshot) => {
+
           querySnapshot.docs.forEach((doc) {
-            print(doc.id);
             setState(() {
-              allTopics.add(doc.id);
+              meta[doc.id] = doc.data()['meta']['descr']; 
+              topicData[doc.id] = doc.data()['vocabulary'];
             });
+
           }),
         });
   }
 
   @override
   void initState() {
-    print("Hello Word");
     getTopics();
   }
 
@@ -57,11 +62,18 @@ class _Home extends State<Home> {
               ),
               Expanded(
                   child: ListView.builder(
-                      itemCount: allTopics.length,
+                      itemCount: topicData.keys.length,
                       itemBuilder: (BuildContext ctxt, int index) {
                         return new InkWell(
                             onTap: () {
-                              
+                              // print("Name: " + topicData.keys.toList()[index]);
+                              print("Data: " + topicData[topicData.keys.toList()[index]].toString());
+                  
+                              Navigator.pushNamed(
+                                  context, Trainer.route, arguments: {
+                                topicData.keys.toList()[index]:
+                                    topicData[topicData.keys.toList()[index]]
+                              });
                             },
                             child: Container(
                                 margin: EdgeInsets.only(
@@ -84,27 +96,24 @@ class _Home extends State<Home> {
                                       margin: EdgeInsets.all(10),
                                       child: new Stack(
                                         children: <Widget>[
-                                          Text(
-                                            allTopics[index],
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
+                                          Positioned(
+                                            
+                                            child: Text(
+                                              topicData.keys.toList()[index],
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top: 30,
+                                            child: Text(meta[topicData.keys.toList()[index]]),
                                           )
                                         ],
                                       ),
                                     ))));
                       })),
-              // Expanded(
-              //     child: Center(child: Text("Hello " + widget.args['User']))),
-              // Expanded(
-              //   child: FlatButton(
-              //       child: Text("Logout"),
-              //       onPressed: () async {
-              //         auth.signOut().then(
-              //             (state) => {Navigator.pushNamed(context, Login.route)});
-              //       }),
-              // ),
             ],
           ),
         ),
@@ -113,7 +122,7 @@ class _Home extends State<Home> {
           margin: EdgeInsets.all(30),
           child: FloatingActionButton.extended(
               backgroundColor: Colors.black,
-              onPressed: null,
+              onPressed: () {},
               label: Text(
                 "Vokabeln hinzufügen",
               )),
