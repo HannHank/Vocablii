@@ -2,121 +2,220 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_stack_card/flutter_stack_card.dart';
 import 'package:flutter/material.dart';
+import 'card/card.dart';
 import 'package:Vocablii/login.dart';
 import 'auth/auth.dart';
+import 'dart:math';
 
-class Card extends StatefulWidget {
-  static const String route = "Home";
-  final Map<String, String> args;
 
-  Card(this.args);
+
+
+
+class Trainer extends StatefulWidget {
+  static const String route = "vocabulary";
+  final Map<String, Map> args;
+
+  Trainer(this.args);
   @override
   State<StatefulWidget> createState() {
-    return _Card();
+    return _Trainer();
   }
 }
 
-class _Card extends State<Card> {
-  final auth = AuthenticationService(FirebaseAuth.instance);
+class _Trainer extends State<Trainer> {
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
-  List allTopics = [];
-  getTopics() {
-    topics.get().then((QuerySnapshot querySnapshot) => {
-          querySnapshot.docs.forEach((doc) {
-            print(doc.id);
-            setState(() {
-              allTopics.add(doc.id);
-            });
-          }),
-        });
-  }
+  TCardController _controller = TCardController();
+  String paul = "Hallo";
+  Map voc = {};
+  int currentIndex;
+  bool state = true;
+
+  List<Widget> vocs = [];
+ List<Color> colors = [
+  Colors.blue,
+  Colors.yellow,
+  Colors.red,
+  Colors.orange,
+  Colors.pink,
+  Colors.amber,
+  Colors.cyan,
+  Colors.purple,
+  Colors.brown,
+  Colors.teal,
+];
+
+
+  // var colors = <int>[
+  //   0xff2B969D,
+  //   0xff2B529D,
+  //   0xff862B9D,
+  //   0xff953232,
+  //   0xff3B7626,
+  //   0xff328D93
+  // ];
+
+  var random = new Random();
+
+  VocCards voc1;
+  VocCards voc2;
+  VocCards voc3;
 
   @override
   void initState() {
-    print("Hello Word");
-    getTopics();
+    super.initState();
+    setState(() {
+      voc = widget.args[widget.args.keys.toList()[0]];
+      // voc.forEach((key, value) {
+      //   vocs.add(
+      //     FancyCard
+      //     (
+      //       value["ru"]
+      //   ),
+      //  ) ;
+    });
+    print("voc: " + voc.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-          child: new Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 100, left: 10),
-                width: double.infinity,
-                child: Text(
-                  "Deine Themen",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                  textScaleFactor: 2,
-                  // has impact
-                ),
+      child: 
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            
+            Expanded(child:InkWell(
+              onTap: (){
+                print("yes");
+                print("state: " + state.toString());
+                if(state){
+                  setState(() {
+                    state = false;
+                  });
+                }else{
+                   setState(() {
+                    state = true;
+                  });
+                }
+              },
+              child:
+            // TCard(
+            //   cards: 
+            ListView.builder(
+              itemCount: 3,
+              itemBuilder: (BuildContext ctxt, int index) {
+             
+                return state ? Container(
+                  
+                  alignment: Alignment.center,
+                   decoration: BoxDecoration(
+                    color: colors[0],
+                    borderRadius:
+                        new BorderRadius.circular(20.0),
+                    ),
+                  child: Center(child:Text(
+                    voc[voc.keys.toList()[index]]['ru'].toString(),
+                    style: TextStyle(fontSize: 50.0, color: Colors.white),
+                  ),)
+                ):Container(
+                  
+                  alignment: Alignment.center,
+                   decoration: BoxDecoration(
+                    color: colors[0],
+                    borderRadius:
+                        new BorderRadius.circular(20.0),
+                    ),
+                  child: Center(child:Column(children: [
+                    Text(
+                      voc[voc.keys.toList()[index]]['de'].toString(),
+                      style: TextStyle(fontSize: 50.0, color: Colors.white),
+                    ),
+                    // Text(voc[voc.keys.toList()[index]]['desc'].toString(), style: TextStyle(fontSize: 50.0, color: Colors.white)),
+                  ]))
+                );
+              },
               ),
-              Expanded(
-                  child: ListView.builder(
-                      itemCount: allTopics.length,
-                      itemBuilder: (BuildContext ctxt, int index) {
-                        return new InkWell(
-                            onTap: () {
-                              
-                            },
-                            child: Container(
-                                margin: EdgeInsets.only(
-                                    left: 30, right: 30, top: 10),
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            new BorderRadius.circular(20.0),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              blurRadius: 8,
-                                              offset: Offset(0, 15),
-                                              color:
-                                                  Colors.grey.withOpacity(.6),
-                                              spreadRadius: -9),
-                                        ]),
-                                    height: 70,
-                                    child: Container(
-                                      margin: EdgeInsets.all(10),
-                                      child: new Stack(
-                                        children: <Widget>[
-                                          Text(
-                                            allTopics[index],
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                          )
-                                        ],
-                                      ),
-                                    ))));
-                      })),
-              // Expanded(
-              //     child: Center(child: Text("Hello " + widget.args['User']))),
-              // Expanded(
-              //   child: FlatButton(
-              //       child: Text("Logout"),
-              //       onPressed: () async {
-              //         auth.signOut().then(
-              //             (state) => {Navigator.pushNamed(context, Login.route)});
-              //       }),
-              // ),
-            ],
-          ),
+              // size: Size(400, 700),
+              // controller: _controller,
+              // onForward: (index, info) {
+              //   print(index);
+              // },
+              // onBack: (index) {
+              //   print(index);
+              // },
+              // onEnd: () {
+              //   print('end');
+              // },
+            // ),
+            // )
+            ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //   children: <Widget>[
+            //     OutlineButton(
+            //       onPressed: () {
+            //         print(_controller);
+            //         _controller.back();
+            //       },
+            //       child: Text('Back'),
+            //     ),
+            //     OutlineButton(
+            //       onPressed: () {
+            //         _controller.reset();
+            //       },
+            //       child: Text('Reset'),
+            //     ),
+            //     OutlineButton(
+            //       onPressed: () {
+            //         _controller.forward();
+            //       },
+            //       child: Text('Forward'),
+            //     ),
+            //   ],
+            // ),
+          ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Container(
-          margin: EdgeInsets.all(30),
-          child: FloatingActionButton.extended(
-              backgroundColor: Colors.black,
-              onPressed: null,
-              label: Text(
-                "Vokabeln hinzufügen",
-              )),
-        ));
+      ),
+    );
+
+    // child: ListView.builder(
+    //     itemCount: 3,
+    //     itemBuilder: (BuildContext ctxt, int index) {
+    //       return new InkWell(
+    //           onTap: () {},
+    //           child: Container(
+    //               height: 100,
+    //               decoration: BoxDecoration(
+    //                   color: Colors.white,
+    //                   borderRadius: new BorderRadius.circular(20.0),
+    //                   boxShadow: [
+    //                     BoxShadow(
+    //                         blurRadius: 8,
+    //                         offset: Offset(0, 15),
+    //                         color: Colors.grey.withOpacity(.6),
+    //                         spreadRadius: -9),
+    //                   ]),
+    //               child: Center(
+    //                   child: Column(
+    //                 children: <Widget>[
+    //                   Text("Hallo"),
+    //                 ],
+    //               ))));
+    //     })),
   }
+}
+
+class VocCards {
+  Color color;
+  String word;
+  String translation;
+  String descr;
+  VocCards({this.color, this.word, this.translation, this.descr});
 }
