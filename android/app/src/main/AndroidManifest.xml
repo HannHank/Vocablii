@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.Vocablii">
+    package="com.navabase.Vocablii">
    <application
         android:label="Vocablii"
         android:icon="@mipmap/ic_launcher">
