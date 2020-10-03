@@ -6,18 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:Vocablii/login.dart';
 import 'auth/auth.dart';
 
-class Home extends StatefulWidget {
+class Card extends StatefulWidget {
   static const String route = "Home";
   final Map<String, String> args;
 
-  Home(this.args);
+  Card(this.args);
   @override
   State<StatefulWidget> createState() {
-    return _Home();
+    return _Card();
   }
 }
 
-class _Home extends State<Home> {
+class _Card extends State<Card> {
   final auth = AuthenticationService(FirebaseAuth.instance);
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
   List allTopics = [];
