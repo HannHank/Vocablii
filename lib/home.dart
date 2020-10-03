@@ -6,6 +6,7 @@ import 'package:Vocablii/vocabulary.dart';
 import 'package:flutter/material.dart';
 import 'package:Vocablii/login.dart';
 import 'auth/auth.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class Home extends StatefulWidget {
   static const String route = "Home";
@@ -50,12 +51,12 @@ class _Home extends State<Home> {
           child: new Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 100, left: 10),
+                margin: EdgeInsets.only(top: 77, left: 21),
                 width: double.infinity,
                 child: Text(
                   "Deine Themen",
                   textAlign: TextAlign.start,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
                   textScaleFactor: 2,
                   // has impact
                 ),
@@ -65,67 +66,141 @@ class _Home extends State<Home> {
                       itemCount: topicData.keys.length,
                       itemBuilder: (BuildContext ctxt, int index) {
                         return new InkWell(
-                            onTap: () {
-                              // print("Name: " + topicData.keys.toList()[index]);
-                              print("Data: " + topicData[topicData.keys.toList()[index]].toString());
-                  
-                              Navigator.pushNamed(
-                                  context, Trainer.route, arguments: {
-                                topicData.keys.toList()[index]:
-                                    topicData[topicData.keys.toList()[index]]
-                              });
-                            },
-                            child: Container(
-                                margin: EdgeInsets.only(
-                                    left: 30, right: 30, top: 10),
+                            onTap: () {},
+                            child: Padding(
+                              // Padding around Card component
+                              padding: const EdgeInsets.fromLTRB(21, 9, 21, 9),
+                              child: Slidable(
+                                actionPane: SlidableBehindActionPane(),
+                                actionExtentRatio: 0.25,
+                                actions: <Widget>[
+                                  InkWell(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Color(0xffED6B6B),
+                                          borderRadius:
+                                              new BorderRadius.circular(11.0),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              blurRadius: 30,
+                                              offset: Offset(10, 10),
+                                              color:
+                                                  Colors.black.withOpacity(.20),
+                                            ),
+                                          ]),
+                                      child: Center(
+                                        // TODO: Replace with icon
+                                        child: Text('delete'),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                                secondaryActions: <Widget>[
+                                  InkWell(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Color(0xff7E92C8),
+                                          borderRadius:
+                                              new BorderRadius.circular(11.0),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              blurRadius: 30,
+                                              offset: Offset(10, 10),
+                                              color:
+                                                  Colors.black.withOpacity(.20),
+                                            ),
+                                          ]),
+                                      child: Center(
+                                        // TODO: Replace with icon
+                                        child: Text('load'),
+                                      ),
+                                    ),
+                                  )
+                                ],
                                 child: Container(
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius:
-                                            new BorderRadius.circular(20.0),
+                                            new BorderRadius.circular(11.0),
                                         boxShadow: [
                                           BoxShadow(
-                                              blurRadius: 8,
-                                              offset: Offset(0, 15),
-                                              color:
-                                                  Colors.grey.withOpacity(.6),
-                                              spreadRadius: -9),
-                                        ]),
-                                    height: 70,
-                                    child: Container(
-                                      margin: EdgeInsets.all(10),
-                                      child: new Stack(
-                                        children: <Widget>[
-                                          Positioned(
-                                            
-                                            child: Text(
-                                              topicData.keys.toList()[index],
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
+                                            blurRadius: 30,
+                                            offset: Offset(10, 10),
+                                            color:
+                                                Colors.black.withOpacity(.20),
                                           ),
-                                          Positioned(
-                                            top: 30,
-                                            child: Text(meta[topicData.keys.toList()[index]]),
-                                          )
-                                        ],
+                                        ]),
+                                    child: Padding(
+                                      padding:
+                                          // Padding inside Card component
+                                          EdgeInsets.fromLTRB(21, 15, 21, 12),
+                                      child: Container(
+                                        child: new Stack(
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      allTopics[index],
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 14),
+                                                    ),
+                                                    Text(
+                                                      'Vodka, Vodka, Vodka',
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          color:
+                                                              Color(0xff000000),
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                    )
+                                                  ],
+                                                ),
+
+                                                // TODO: Add progress ring
+                                                Row(children: [
+                                                  
+                                                  Text(
+                                                    '15%',
+                                                    style: TextStyle(
+                                                      color: Color(0xff000000),
+                                                    ),
+                                                  )
+                                                ])
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ))));
+                                    )),
+                              ),
+                            ));
                       })),
             ],
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Container(
-          margin: EdgeInsets.all(30),
+          margin: EdgeInsets.only(bottom: 59),
           child: FloatingActionButton.extended(
-              backgroundColor: Colors.black,
-              onPressed: () {},
-              label: Text(
-                "Vokabeln hinzufügen",
-              )),
+              backgroundColor: Color(0xff263238),
+              onPressed: null,
+              label: Text("Vokabeln hinzufügen",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600))),
         ));
   }
 }

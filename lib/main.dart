@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:Vocablii/vocabulary.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'auth/auth.dart';
 import 'home.dart';
 import 'login.dart';
@@ -21,6 +22,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Vocablii',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        brightness: Brightness.light,
+        primaryColor: Color(0xffFFFFFF),
+        accentColor: Color(0xff263238),
+
+        // Define the default font family.
+        fontFamily: 'Montserrat',
+
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
+          bodyText2: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400),
+        ),
+      ),
       initialRoute: Login.route,
       onGenerateRoute: (settings) {
         switch (settings.name) {
