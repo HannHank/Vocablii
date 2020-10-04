@@ -24,17 +24,15 @@ class _Home extends State<Home> {
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
   List allTopics = [];
   Map<String, Map> topicData = {};
-  Map <String,String> meta = {};
+  Map<String, String> meta = {};
 
   getTopics() {
     topics.get().then((QuerySnapshot querySnapshot) => {
-
           querySnapshot.docs.forEach((doc) {
             setState(() {
-              meta[doc.id] = doc.data()['meta']['descr']; 
+              meta[doc.id] = doc.data()['meta']['descr'];
               topicData[doc.id] = doc.data()['vocabulary'];
             });
-
           }),
         });
   }
@@ -66,7 +64,17 @@ class _Home extends State<Home> {
                       itemCount: topicData.keys.length,
                       itemBuilder: (BuildContext ctxt, int index) {
                         return new InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              print('Data: ' +
+                                  topicData[topicData.keys.toList()[index]]
+                                      .toString());
+
+                              Navigator.pushNamed(
+                                  context, Trainer.route, arguments: {
+                                topicData.keys.toList()[index]:
+                                    topicData[topicData.keys.toList()[index]]
+                              });
+                            },
                             child: Padding(
                               // Padding around Card component
                               padding: const EdgeInsets.fromLTRB(21, 9, 21, 9),
@@ -152,7 +160,7 @@ class _Home extends State<Home> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      allTopics[index],
+                                                      topicData.keys.toList()[index],
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontWeight:
@@ -160,7 +168,7 @@ class _Home extends State<Home> {
                                                           fontSize: 14),
                                                     ),
                                                     Text(
-                                                      'Vodka, Vodka, Vodka',
+                                                      meta[topicData.keys.toList()[index]],
                                                       style: TextStyle(
                                                           fontSize: 12,
                                                           color:
@@ -173,7 +181,6 @@ class _Home extends State<Home> {
 
                                                 // TODO: Add progress ring
                                                 Row(children: [
-                                                  
                                                   Text(
                                                     '15%',
                                                     style: TextStyle(
