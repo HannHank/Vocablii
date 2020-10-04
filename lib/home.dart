@@ -25,11 +25,13 @@ class _Home extends State<Home> {
   List allTopics = [];
   Map<String, Map> topicData = {};
   Map<String, String> meta = {};
+  Map<String, String> title = {};
 
   getTopics() {
     topics.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
             setState(() {
+              title[doc.id] = doc.data()['meta']['name'];
               meta[doc.id] = doc.data()['meta']['descr'];
               topicData[doc.id] = doc.data()['vocabulary'];
             });
@@ -160,7 +162,7 @@ class _Home extends State<Home> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      topicData.keys.toList()[index],
+                                                      title[topicData.keys.toList()[index]],
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontWeight:
