@@ -215,11 +215,11 @@ class _CardStackState extends State<CardStack>
                 controller.forward().whenComplete(() {
                   setState(() {
                     controller.reset();
-                    VocCard removedCard = cards.removeAt(0);
+                    VocCard removedCard = cards.removeAt(currentIndex);
                     cards.add(removedCard);
-                    currentIndex = cards[0].index;
+                    currentIndex = cards[currentIndex].index;
 
-                    print('Color change: ' + cards[0].index.toString());
+                    print('Index: ' + cards[0].index.toString());
                   });
                 });
               },
