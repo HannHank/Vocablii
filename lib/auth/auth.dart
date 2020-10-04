@@ -1,7 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
+
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   AuthenticationService(this._firebaseAuth);
 
@@ -39,7 +43,15 @@ class AuthenticationService {
   /// error messages. That way you can throw, return or whatever you prefer with that instead.
   Future<String> signUp({String email, String password}) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+
+      await users
+          .doc(user.toString())
+          .set({
+            'name': email,
+            'class': null,
+          });
+
       return "Signed up";
     } on FirebaseAuthException catch (e) {
       return e.message;
