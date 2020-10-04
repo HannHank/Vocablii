@@ -7,7 +7,6 @@ Map shuffle_map(Map items) {
   var keys = items.keys.toList()..shuffle(); 
   for(var k in keys) { 
     items_shuffeled[k] = items[k];
-    print('$k, ${items[k]}'); 
   }
 
   return items_shuffeled;

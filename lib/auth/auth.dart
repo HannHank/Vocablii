@@ -46,7 +46,7 @@ class AuthenticationService {
       UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
 
       await users
-          .doc(user.toString())
+          .doc(user.user.uid.toString())
           .set({
             'name': email,
             'class': null,

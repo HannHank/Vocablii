@@ -21,14 +21,206 @@ class Trainer extends StatefulWidget {
 }
 
 class _Trainer extends State<Trainer> {
-  CollectionReference topics = FirebaseFirestore.instance.collection('topics');
-  TCardController _controller = TCardController();
-  String paul = "Hallo";
-  Map voc = {};
-  Map voc_shuffeled = {};
+  // TCardController _controller = TCardController();
+
   int currentIndex;
   bool state = true;
 
+  // VocCard voc1;
+  // VocCard voc2;
+  // VocCard voc3;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: CardStack());
+  }
+}
+// Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Expanded(
+//               child: InkWell(
+//                 onTap: () {
+//                   if (state) {
+//                     setState(() {
+//                       state = false;
+//                     });
+//                   } else {
+//                     setState(() {
+//                       state = true;
+//                     });
+//                   }
+//                 },
+//                 child: ListView.builder(
+//                   itemCount: 3,
+//                   itemBuilder: (BuildContext ctxt, int index) {
+//                     return state
+//                         ? Container(
+//                             alignment: Alignment.center,
+//                             decoration: BoxDecoration(
+//                               color: random_color(
+//                                   colors,
+//                                   voc_shuffeled[voc_shuffeled.keys
+//                                           .toList()[index]]['ru']
+//                                       .toString()),
+//                               borderRadius: new BorderRadius.circular(20.0),
+//                             ),
+//                             child: Center(
+//                               child: Text(
+//                                 voc_shuffeled[voc_shuffeled.keys
+//                                         .toList()[index]]['ru']
+//                                     .toString(),
+//                                 style: TextStyle(
+//                                     fontSize: 50.0, color: Colors.white),
+//                               ),
+//                             ))
+//                         : Container(
+//                             alignment: Alignment.center,
+//                             decoration: BoxDecoration(
+//                               color: random_color(
+//                                   colors,
+//                                   voc_shuffeled[voc_shuffeled.keys
+//                                           .toList()[index]]['ru']
+//                                       .toString()),
+//                               borderRadius: new BorderRadius.circular(20.0),
+//                             ),
+//                             child: Center(
+//                                 child: Column(children: [
+//                               Text(
+//                                 voc_shuffeled[voc_shuffeled.keys
+//                                         .toList()[index]]['de']
+//                                     .toString(),
+//                                 style: TextStyle(
+//                                     fontSize: 50.0, color: Colors.white),
+//                               ),
+//                               Text(
+//                                   voc[voc.keys.toList()[index]]['desc']
+//                                       .toString(),
+//                                   style: TextStyle(
+//                                       fontSize: 50.0, color: Colors.white)),
+//                             ])));
+//                   },
+//                 ),
+//               ),
+//             ),
+//             SizedBox(
+//               height: 40,
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+class VocCard extends StatefulWidget {
+  int index;
+  String word;
+  String translation;
+  String description;
+  Color color;
+
+  VocCard(
+      {this.index, this.word, this.translation, this.description, this.color});
+
+  @override
+  _VocCardState createState() => _VocCardState(
+      color: color, word: word, translation: translation, descr: description);
+}
+
+class _VocCardState extends State<VocCard> {
+  Color color;
+  String word;
+  String translation;
+  String descr;
+
+  bool expanded = false;
+
+  _VocCardState({this.color, this.word, this.translation, this.descr});
+
+  void change() {
+    setState(() {
+      print(expanded);
+      expanded = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      color = color;
+      word = word;
+      translation = translation;
+      descr = descr; 
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => {change()},
+      child: expanded
+          ? Container(
+              decoration: BoxDecoration(
+                  color: color, borderRadius: new BorderRadius.circular(11)),
+              width: 300,
+              height: 500,
+              child: Center(
+                child: Column(
+                  children: [
+                    Text('translation',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800)),
+                    Text('description',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800)),
+                  ],
+                ),
+              ),
+            )
+          : Container(
+              decoration: BoxDecoration(
+                  color: color, borderRadius: new BorderRadius.circular(11)),
+              width: 300,
+              height: 500,
+              child: Center(
+                child: Column(
+                  children: [
+                    Text('word',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800)),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
+}
+
+class CardStack extends StatefulWidget {
+  final Function onCardChanged;
+
+  CardStack({this.onCardChanged});
+  @override
+  _CardStackState createState() => _CardStackState();
+}
+
+class _CardStackState extends State<CardStack>
+    with SingleTickerProviderStateMixin {
   List<Widget> vocs = [];
 
   List<Color> colors = [
@@ -40,90 +232,119 @@ class _Trainer extends State<Trainer> {
     Color(0xff328D93),
   ];
 
-  VocCards voc1;
-  VocCards voc2;
-  VocCards voc3;
+  CollectionReference topics = FirebaseFirestore.instance.collection('topics');
+
+  Map voc = {};
+  Map voc_shuffeled = {};
+
+  int currentIndex;
+  AnimationController controller;
+  CurvedAnimation curvedAnimation;
+  Animation<Offset> _translationAnim;
+  Animation<Offset> _moveAnim;
+  Animation<double> _scaleAnim;
+
+  // TODO: Make dynamic
+  var cards = [
+    VocCard(index: 0, word: 'hi', translation: 'wort', description: 'hello world', color: Colors.blue),
+
+    VocCard(index: 1, word: 'nice', translation: 'schön', description: 'hello world 2', color: Colors.red),
+  ];
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      voc = widget.args[widget.args.keys.toList()[0]];
-      voc_shuffeled = shuffle_map(voc);
-    });
+    // voc = widget.args[widget.args.keys.toList()[0]];
+    // voc_shuffeled = shuffle_map(voc);
+
+    currentIndex = 0;
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 150),
+    );
+    curvedAnimation =
+        CurvedAnimation(parent: controller, curve: Curves.easeOut);
+
+    // TODO: Add right properties to anim
+    _translationAnim = Tween(begin: Offset(0.0, 0.0), end: Offset(-1000.0, 0.0))
+        .animate(controller)
+          ..addListener(() {
+            setState(() {});
+          });
+
+    // TODO: Add right properties to anim
+    _scaleAnim = Tween(begin: 0.965, end: 1.0).animate(curvedAnimation);
+    _moveAnim = Tween(begin: Offset(0.0, 0.05), end: Offset(0.0, 0.0))
+        .animate(curvedAnimation);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: InkWell(
-                onTap: () {
-                  if (state) {
-                    setState(() {
-                      state = false;
-                    });
-                  } else {
-                    setState(() {
-                      state = true;
-                    });
-                  }
-                },
-                child:
-                    ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (BuildContext ctxt, int index) {
-                    return state
-                        ? Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: random_color(colors, voc_shuffeled[voc_shuffeled.keys.toList()[index]]['ru'].toString()),
-                              borderRadius: new BorderRadius.circular(20.0),
-                            ),
-                            child: Center(
-                              child: Text(
-                                voc_shuffeled[voc_shuffeled.keys.toList()[index]]['ru'].toString(),
-                                style: TextStyle(
-                                    fontSize: 50.0, color: Colors.white),
-                              ),
-                            ))
-                        : Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: random_color(colors, voc_shuffeled[voc_shuffeled.keys.toList()[index]]['ru'].toString()),
-                              borderRadius: new BorderRadius.circular(20.0),
-                            ),
-                            child: Center(
-                                child: Column(children: [
-                              Text(
-                                voc_shuffeled[voc_shuffeled.keys.toList()[index]]['de'].toString(),
-                                style: TextStyle(
-                                    fontSize: 50.0, color: Colors.white),
-                              ),
-                              Text(voc[voc.keys.toList()[index]]['desc'].toString(), style: TextStyle(fontSize: 50.0, color: Colors.white)),
-                            ])));
-                  },
+    return Stack(
+        clipBehavior: Clip.none,
+        children: cards.reversed.map((card) {
+          if (cards.indexOf(card) <= 2) {
+            return GestureDetector(
+              onHorizontalDragEnd: _horizontalDragEnd,
+              child: Transform.translate(
+                offset: _getFlickTransformOffset(card),
+                child: FractionalTranslation(
+                  translation: _getStackedCardOffset(card),
+                  child: Transform.scale(
+                    scale: _getStackedCardScale(card),
+                    child: Center(child: card),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-          ],
-        ),
-      ),
-    );
+            );
+          } else {
+            return Container();
+          }
+        }).toList());
   }
-}
 
-class VocCards {
-  Color color;
-  String word;
-  String translation;
-  String descr;
-  VocCards({this.color, this.word, this.translation, this.descr});
+  Offset _getStackedCardOffset(VocCard card) {
+    int diff = card.index - currentIndex;
+    if (card.index == currentIndex + 1) {
+      return _moveAnim.value;
+    } else if (diff > 0 && diff <= 2) {
+      return Offset(0.0, 0.05 * diff);
+    } else {
+      return Offset(0.0, 0.0);
+    }
+  }
+
+  double _getStackedCardScale(VocCard card) {
+    int diff = card.index - currentIndex;
+    if (card.index == currentIndex) {
+      return 1.0;
+    } else if (card.index == currentIndex + 1) {
+      return _scaleAnim.value;
+    } else {
+      return (1 - (0.035 * diff.abs()));
+    }
+  }
+
+  Offset _getFlickTransformOffset(VocCard card) {
+    if (card.index == currentIndex) {
+      return _translationAnim.value;
+    }
+    return Offset(0.0, 0.0);
+  }
+
+  void _horizontalDragEnd(DragEndDetails details) {
+    if (details.primaryVelocity < 0) {
+      // Swiped Right to Left
+      controller.forward().whenComplete(() {
+        setState(() {
+          controller.reset();
+          VocCard removedCard = cards.removeAt(0);
+          cards.add(removedCard);
+          currentIndex = cards[0].index;
+          // if (widget.onCardChanged != null)
+          //   widget.onCardChanged(cards[0].imageUrl);
+        });
+      });
+    }
+  }
 }

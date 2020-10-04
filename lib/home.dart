@@ -143,7 +143,7 @@ class _Home extends State<Home> {
                                     child: Padding(
                                       padding:
                                           // Padding inside Card component
-                                          EdgeInsets.fromLTRB(21, 15, 21, 12),
+                                          EdgeInsets.fromLTRB(21, 15, 21, 15),
                                       child: Container(
                                         child: new Stack(
                                           children: <Widget>[
