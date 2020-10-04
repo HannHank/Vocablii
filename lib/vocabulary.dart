@@ -21,7 +21,8 @@ class Trainer extends StatefulWidget {
 }
 
 class _Trainer extends State<Trainer> {
-
+  String word = "test";
+  String translation = "lel";
   // int currentIndex;
   // bool state = true;
 
@@ -33,7 +34,18 @@ class _Trainer extends State<Trainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: CardStack());
+    return Scaffold(body: CardStack(
+        onCardChanged: (new_word,new_translation) {
+                      setState(() {
+                        print("----------------------------------------------");
+                        word = new_word;
+                        translation = new_translation;
+                        // descr = new_descr;
+                        // color = new_color
+                      });
+                    },
+                  )
+    );
   }
 }
 
@@ -132,6 +144,7 @@ class _VocCardState extends State<VocCard> {
 }
 
 class CardStack extends StatefulWidget {
+ 
   final Function onCardChanged;
 
   CardStack({this.onCardChanged});
@@ -141,7 +154,7 @@ class CardStack extends StatefulWidget {
 
 class _CardStackState extends State<CardStack>
     with SingleTickerProviderStateMixin {
-  List<Widget> vocs = [];
+  Map voc;
 
   // TODO: Maybe add to VocCard
   List<Color> colors = [
@@ -156,7 +169,7 @@ class _CardStackState extends State<CardStack>
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
 
   // TODO: Maybe add to VocCard
-  Map voc = {};
+
   Map voc_shuffeled = {};
 
   int currentIndex;
@@ -172,7 +185,10 @@ class _CardStackState extends State<CardStack>
 
     VocCard(index: 1, word: 'nice', translation: 'schön', description: 'hello world 2', color: Colors.red),
 
-    VocCard(index: 2, word: 'nice', translation: 'schön', description: 'hello world 2', color: Colors.yellow),
+    VocCard(index: 2, word: 'hey', translation: 'wort 1', description: 'hello world 3', color: Colors.yellow),
+    VocCard(index: 3, word: 'was', translation: 'wort 2', description: 'hello world 4', color: Colors.green),
+    VocCard(index: 4, word: 'ho', translation: 'wort 3', description: 'hello world 5', color: Colors.black),
+    VocCard(index: 5, word: 'lol', translation: 'wort 4', description: 'hello world 6', color: Colors.grey),
   ];
 
   @override
@@ -193,8 +209,7 @@ class _CardStackState extends State<CardStack>
         .animate(controller)
           ..addListener(() {
             setState(() {
-              cards[0].color = cards[1].color;
-              cards[1].color = cards[2].color;
+              
             });
           });
 
@@ -215,11 +230,18 @@ class _CardStackState extends State<CardStack>
                 controller.forward().whenComplete(() {
                   setState(() {
                     controller.reset();
-                    VocCard removedCard = cards.removeAt(currentIndex);
+                   
+                    VocCard removedCard = cards.removeAt(0);
                     cards.add(removedCard);
-                    currentIndex = cards[currentIndex].index;
-
-                    print('Index: ' + cards[0].index.toString());
+                    print("currentIdex:" + currentIndex.toString());
+                    print("length: " + cards.length.toString());
+                    currentIndex = cards[0].index;
+                    if (widget.onCardChanged != null)
+                      widget.onCardChanged(cards[0].word,cards[0].translation);
+                  
+                    print('Index[0]: ' + cards[0].index.toString());
+                    print('Word[0]: ' + cards[0].word.toString());
+                    print('Color[0]: ' + cards[0].color.value.toString());
                   });
                 });
               },
