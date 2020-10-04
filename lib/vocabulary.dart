@@ -21,14 +21,9 @@ class Trainer extends StatefulWidget {
 }
 
 class _Trainer extends State<Trainer> {
-  // TCardController _controller = TCardController();
 
-  int currentIndex;
-  bool state = true;
-
-  // VocCard voc1;
-  // VocCard voc2;
-  // VocCard voc3;
+  // int currentIndex;
+  // bool state = true;
 
   @override
   void initState() {
@@ -41,84 +36,6 @@ class _Trainer extends State<Trainer> {
     return Scaffold(body: CardStack());
   }
 }
-// Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Expanded(
-//               child: InkWell(
-//                 onTap: () {
-//                   if (state) {
-//                     setState(() {
-//                       state = false;
-//                     });
-//                   } else {
-//                     setState(() {
-//                       state = true;
-//                     });
-//                   }
-//                 },
-//                 child: ListView.builder(
-//                   itemCount: 3,
-//                   itemBuilder: (BuildContext ctxt, int index) {
-//                     return state
-//                         ? Container(
-//                             alignment: Alignment.center,
-//                             decoration: BoxDecoration(
-//                               color: random_color(
-//                                   colors,
-//                                   voc_shuffeled[voc_shuffeled.keys
-//                                           .toList()[index]]['ru']
-//                                       .toString()),
-//                               borderRadius: new BorderRadius.circular(20.0),
-//                             ),
-//                             child: Center(
-//                               child: Text(
-//                                 voc_shuffeled[voc_shuffeled.keys
-//                                         .toList()[index]]['ru']
-//                                     .toString(),
-//                                 style: TextStyle(
-//                                     fontSize: 50.0, color: Colors.white),
-//                               ),
-//                             ))
-//                         : Container(
-//                             alignment: Alignment.center,
-//                             decoration: BoxDecoration(
-//                               color: random_color(
-//                                   colors,
-//                                   voc_shuffeled[voc_shuffeled.keys
-//                                           .toList()[index]]['ru']
-//                                       .toString()),
-//                               borderRadius: new BorderRadius.circular(20.0),
-//                             ),
-//                             child: Center(
-//                                 child: Column(children: [
-//                               Text(
-//                                 voc_shuffeled[voc_shuffeled.keys
-//                                         .toList()[index]]['de']
-//                                     .toString(),
-//                                 style: TextStyle(
-//                                     fontSize: 50.0, color: Colors.white),
-//                               ),
-//                               Text(
-//                                   voc[voc.keys.toList()[index]]['desc']
-//                                       .toString(),
-//                                   style: TextStyle(
-//                                       fontSize: 50.0, color: Colors.white)),
-//                             ])));
-//                   },
-//                 ),
-//               ),
-//             ),
-//             SizedBox(
-//               height: 40,
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class VocCard extends StatefulWidget {
   int index;
@@ -147,7 +64,6 @@ class _VocCardState extends State<VocCard> {
 
   void change() {
     setState(() {
-      print(expanded);
       expanded = true;
     });
   }
@@ -174,19 +90,21 @@ class _VocCardState extends State<VocCard> {
               width: 300,
               height: 500,
               child: Center(
-                child: Column(
-                  children: [
-                    Text('translation',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800)),
-                    Text('description',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800)),
-                  ],
+                child: Container(
+                  child: Column(
+                    children: [
+                      Text(translation,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800)),
+                      Text(descr,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800)),
+                    ],
+                  ),
                 ),
               ),
             )
@@ -196,14 +114,16 @@ class _VocCardState extends State<VocCard> {
               width: 300,
               height: 500,
               child: Center(
-                child: Column(
-                  children: [
-                    Text('word',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800)),
-                  ],
+                child: Container(
+                  child: Column(
+                    children: [
+                      Text(word,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800)),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -223,6 +143,7 @@ class _CardStackState extends State<CardStack>
     with SingleTickerProviderStateMixin {
   List<Widget> vocs = [];
 
+  // TODO: Maybe add to VocCard
   List<Color> colors = [
     Color(0xff2B969D),
     Color(0xff2B529D),
@@ -234,6 +155,7 @@ class _CardStackState extends State<CardStack>
 
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
 
+  // TODO: Maybe add to VocCard
   Map voc = {};
   Map voc_shuffeled = {};
 
@@ -249,6 +171,8 @@ class _CardStackState extends State<CardStack>
     VocCard(index: 0, word: 'hi', translation: 'wort', description: 'hello world', color: Colors.blue),
 
     VocCard(index: 1, word: 'nice', translation: 'schön', description: 'hello world 2', color: Colors.red),
+
+    VocCard(index: 2, word: 'nice', translation: 'schön', description: 'hello world 2', color: Colors.yellow),
   ];
 
   @override
@@ -265,15 +189,17 @@ class _CardStackState extends State<CardStack>
     curvedAnimation =
         CurvedAnimation(parent: controller, curve: Curves.easeOut);
 
-    // TODO: Add right properties to anim
     _translationAnim = Tween(begin: Offset(0.0, 0.0), end: Offset(-1000.0, 0.0))
         .animate(controller)
           ..addListener(() {
-            setState(() {});
+            setState(() {
+              cards[0].color = cards[1].color;
+              cards[1].color = cards[2].color;
+            });
           });
 
-    // TODO: Add right properties to anim
     _scaleAnim = Tween(begin: 0.965, end: 1.0).animate(curvedAnimation);
+
     _moveAnim = Tween(begin: Offset(0.0, 0.05), end: Offset(0.0, 0.0))
         .animate(curvedAnimation);
   }
@@ -281,11 +207,22 @@ class _CardStackState extends State<CardStack>
   @override
   Widget build(BuildContext context) {
     return Stack(
-        clipBehavior: Clip.none,
         children: cards.reversed.map((card) {
           if (cards.indexOf(card) <= 2) {
-            return GestureDetector(
-              onHorizontalDragEnd: _horizontalDragEnd,
+            // TODO: Button click to trigger slide instead of gesture
+            return InkWell(
+              onLongPress: () {
+                controller.forward().whenComplete(() {
+                  setState(() {
+                    controller.reset();
+                    VocCard removedCard = cards.removeAt(0);
+                    cards.add(removedCard);
+                    currentIndex = cards[0].index;
+
+                    print('Color change: ' + cards[0].index.toString());
+                  });
+                });
+              },
               child: Transform.translate(
                 offset: _getFlickTransformOffset(card),
                 child: FractionalTranslation(
@@ -330,21 +267,5 @@ class _CardStackState extends State<CardStack>
       return _translationAnim.value;
     }
     return Offset(0.0, 0.0);
-  }
-
-  void _horizontalDragEnd(DragEndDetails details) {
-    if (details.primaryVelocity < 0) {
-      // Swiped Right to Left
-      controller.forward().whenComplete(() {
-        setState(() {
-          controller.reset();
-          VocCard removedCard = cards.removeAt(0);
-          cards.add(removedCard);
-          currentIndex = cards[0].index;
-          // if (widget.onCardChanged != null)
-          //   widget.onCardChanged(cards[0].imageUrl);
-        });
-      });
-    }
   }
 }
