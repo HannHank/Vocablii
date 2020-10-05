@@ -12,7 +12,7 @@ class AuthenticationService {
   /// Changed to idTokenChanges as it updates depending on more cases.
   Stream<User> get authStateChanges => _firebaseAuth.idTokenChanges();
   User currentUser(){
-    print( _firebaseAuth.currentUser);
+    // print( _firebaseAuth.currentUser);
     return _firebaseAuth.currentUser;
   }
 
