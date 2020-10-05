@@ -67,9 +67,9 @@ class _Home extends State<Home> {
                       itemBuilder: (BuildContext ctxt, int index) {
                         return new InkWell(
                             onTap: () {
-                              print('Data: ' +
-                                  topicData[topicData.keys.toList()[index]]
-                                      .toString());
+                              // print('Data: ' +
+                              //     topicData[topicData.keys.toList()[index]]
+                              //         .toString());
 
                               Navigator.pushNamed(
                                   context, Trainer.route, arguments: {

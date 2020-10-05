@@ -21,8 +21,10 @@ class Trainer extends StatefulWidget {
 }
 
 class _Trainer extends State<Trainer> {
-  String word = "test";
-  String translation = "lel";
+  String word = "";
+  String translation = "";
+  String descr = "";
+  Color color = Colors.blue;
   // int currentIndex;
   // bool state = true;
 
@@ -35,116 +37,21 @@ class _Trainer extends State<Trainer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: CardStack(
-        onCardChanged: (new_word,new_translation) {
-                      setState(() {
-                        print("----------------------------------------------");
-                        word = new_word;
-                        translation = new_translation;
-                        // descr = new_descr;
-                        // color = new_color
-                      });
-                    },
-                  )
-    );
-  }
-}
-
-class VocCard extends StatefulWidget {
-  int index;
-  String word;
-  String translation;
-  String description;
-  Color color;
-
-  VocCard(
-      {this.index, this.word, this.translation, this.description, this.color});
-
-  @override
-  _VocCardState createState() => _VocCardState(
-      color: color, word: word, translation: translation, descr: description);
-}
-
-class _VocCardState extends State<VocCard> {
-  Color color;
-  String word;
-  String translation;
-  String descr;
-
-  bool expanded = false;
-
-  _VocCardState({this.color, this.word, this.translation, this.descr});
-
-  void change() {
-    setState(() {
-      expanded = true;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      color = color;
-      word = word;
-      translation = translation;
-      descr = descr; 
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => {change()},
-      child: expanded
-          ? Container(
-              decoration: BoxDecoration(
-                  color: color, borderRadius: new BorderRadius.circular(11)),
-              width: 300,
-              height: 500,
-              child: Center(
-                child: Container(
-                  child: Column(
-                    children: [
-                      Text(translation,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800)),
-                      Text(descr,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800)),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          : Container(
-              decoration: BoxDecoration(
-                  color: color, borderRadius: new BorderRadius.circular(11)),
-              width: 300,
-              height: 500,
-              child: Center(
-                child: Container(
-                  child: Column(
-                    children: [
-                      Text(word,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800)),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-    );
+      onCardChanged: (new_word, new_translation, new_descr, new_color) {
+        setState(() {
+          print(word);
+          print("----------------------------------------------");
+          word = new_word;
+          translation = new_translation;
+          descr = new_descr;
+          color = new_color;
+        });
+      },
+    ));
   }
 }
 
 class CardStack extends StatefulWidget {
- 
   final Function onCardChanged;
 
   CardStack({this.onCardChanged});
@@ -181,14 +88,42 @@ class _CardStackState extends State<CardStack>
 
   // TODO: Make dynamic
   var cards = [
-    VocCard(index: 0, word: 'hi', translation: 'wort', description: 'hello world', color: Colors.blue),
-
-    VocCard(index: 1, word: 'nice', translation: 'schön', description: 'hello world 2', color: Colors.red),
-
-    VocCard(index: 2, word: 'hey', translation: 'wort 1', description: 'hello world 3', color: Colors.yellow),
-    VocCard(index: 3, word: 'was', translation: 'wort 2', description: 'hello world 4', color: Colors.green),
-    VocCard(index: 4, word: 'ho', translation: 'wort 3', description: 'hello world 5', color: Colors.black),
-    VocCard(index: 5, word: 'lol', translation: 'wort 4', description: 'hello world 6', color: Colors.grey),
+    VocCard(
+        index: 0,
+        word: 'hi',
+        translation: 'wort',
+        description: 'hello world',
+        color: Colors.blue),
+    VocCard(
+        index: 1,
+        word: 'nice',
+        translation: 'schön',
+        description: 'hello world 2',
+        color: Colors.red),
+    VocCard(
+        index: 2,
+        word: 'hey',
+        translation: 'wort 1',
+        description: 'hello world 3',
+        color: Colors.yellow),
+    VocCard(
+        index: 3,
+        word: 'was',
+        translation: 'wort 2',
+        description: 'hello world 4',
+        color: Colors.green),
+    VocCard(
+        index: 4,
+        word: 'ho',
+        translation: 'wort 3',
+        description: 'hello world 5',
+        color: Colors.black),
+    VocCard(
+        index: 5,
+        word: 'lol',
+        translation: 'wort 4',
+        description: 'hello world 6',
+        color: Colors.grey),
   ];
 
   @override
@@ -208,9 +143,7 @@ class _CardStackState extends State<CardStack>
     _translationAnim = Tween(begin: Offset(0.0, 0.0), end: Offset(-1000.0, 0.0))
         .animate(controller)
           ..addListener(() {
-            setState(() {
-              
-            });
+            setState(() {});
           });
 
     _scaleAnim = Tween(begin: 0.965, end: 1.0).animate(curvedAnimation);
@@ -222,44 +155,44 @@ class _CardStackState extends State<CardStack>
   @override
   Widget build(BuildContext context) {
     return Stack(
+        // overflow: Overflow.visible,
         children: cards.reversed.map((card) {
-          if (cards.indexOf(card) <= 2) {
-            // TODO: Button click to trigger slide instead of gesture
-            return InkWell(
-              onLongPress: () {
-                controller.forward().whenComplete(() {
-                  setState(() {
-                    controller.reset();
-                   
-                    VocCard removedCard = cards.removeAt(0);
-                    cards.add(removedCard);
-                    print("currentIdex:" + currentIndex.toString());
-                    print("length: " + cards.length.toString());
-                    currentIndex = cards[0].index;
-                    if (widget.onCardChanged != null)
-                      widget.onCardChanged(cards[0].word,cards[0].translation);
-                  
-                    print('Index[0]: ' + cards[0].index.toString());
-                    print('Word[0]: ' + cards[0].word.toString());
-                    print('Color[0]: ' + cards[0].color.value.toString());
-                  });
-                });
-              },
-              child: Transform.translate(
-                offset: _getFlickTransformOffset(card),
-                child: FractionalTranslation(
-                  translation: _getStackedCardOffset(card),
-                  child: Transform.scale(
-                    scale: _getStackedCardScale(card),
-                    child: Center(child: card),
-                  ),
-                ),
+      if (cards.indexOf(card) <= 2) {
+        return InkWell(
+          onLongPress: () {
+            // TODO: fix card sorting issue
+            controller.forward().whenComplete(() {
+              setState(() {
+                controller.reset();
+
+                VocCard removedCard = cards.removeAt(0);
+                cards.add(removedCard);
+                currentIndex = cards[0].index;
+
+                print(currentIndex.toString() + cards[currentIndex].word);
+
+                if (widget.onCardChanged != null)
+                  widget.onCardChanged(cards[0].word, cards[0].translation,
+                      cards[0].description, cards[0].color);
+              });
+            });
+          },
+          child: Transform.translate(
+            offset: _getFlickTransformOffset(card),
+            child: FractionalTranslation(
+              translation: _getStackedCardOffset(card),
+              child: Transform.scale(
+                scale: _getStackedCardScale(card),
+                // the actual card component
+                child: Center(child: card),
               ),
-            );
-          } else {
-            return Container();
-          }
-        }).toList());
+            ),
+          ),
+        );
+      } else {
+        return Container();
+      }
+    }).toList());
   }
 
   Offset _getStackedCardOffset(VocCard card) {
@@ -291,3 +224,142 @@ class _CardStackState extends State<CardStack>
     return Offset(0.0, 0.0);
   }
 }
+
+class VocCard extends StatelessWidget {
+
+  final int index;
+  final String word;
+  final String translation;
+  final String description;
+  final Color color;
+
+  VocCard(
+      {this.index, this.word, this.translation, this.description, this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: color, borderRadius: new BorderRadius.circular(11)),
+      width: 300,
+      height: 500,
+      child: Center(
+        child: Container(
+          child: Column(
+            children: [
+              Text(word,
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800)),
+              Text(translation,
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800)),
+              Text(description,
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// class VocCard extends StatefulWidget {
+//   final int index;
+//   final String word;
+//   final String translation;
+//   final String description;
+//   final Color color;
+
+//   VocCard(
+//       {this.index, this.word, this.translation, this.description, this.color});
+
+//   @override
+//   _VocCardState createState() => _VocCardState(
+//       color: color, word: word, translation: translation, descr: description);
+// }
+
+// class _VocCardState extends State<VocCard> {
+//   Color color;
+//   String word;
+//   String translation;
+//   String descr;
+
+//   bool expanded = false;
+
+//   _VocCardState({this.color, this.word, this.translation, this.descr});
+
+//   void change() {
+//     setState(() {
+//       expanded = true;
+//     });
+//   }
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     setState(() {
+//       color = color;
+//       word = word;
+//       translation = translation;
+//       descr = descr;
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () => {change()},
+//       child: expanded
+//           ? Container(
+//               decoration: BoxDecoration(
+//                   color: color, borderRadius: new BorderRadius.circular(11)),
+//               width: 300,
+//               height: 500,
+//               child: Center(
+//                 child: Container(
+//                   child: Column(
+//                     children: [
+//                       Text(translation,
+//                           style: TextStyle(
+//                               fontSize: 20,
+//                               color: Colors.white,
+//                               fontWeight: FontWeight.w800)),
+//                       Text(descr,
+//                           style: TextStyle(
+//                               fontSize: 20,
+//                               color: Colors.white,
+//                               fontWeight: FontWeight.w800)),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             )
+//           : Container(
+//               decoration: BoxDecoration(
+//                   color: color, borderRadius: new BorderRadius.circular(11)),
+//               width: 300,
+//               height: 500,
+//               child: Center(
+//                 child: Container(
+//                   child: Column(
+//                     children: [
+//                       Text(word,
+//                           style: TextStyle(
+//                               fontSize: 20,
+//                               color: Colors.white,
+//                               fontWeight: FontWeight.w800)),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ),
+//     );
+//   }
+// }
