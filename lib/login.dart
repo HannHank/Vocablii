@@ -49,10 +49,41 @@ class _Login extends State<Login> {
                                 // has impact
                               ),
                             ),
+                            // SELECTOR BETWEEN LOGIN & SIGNUP
+                            // Padding(
+                            //   padding: EdgeInsets.only(top: 38),
+                            //   child: Container(
+                            //     width: 220,
+                            //     height: 50,
+                            //     decoration: BoxDecoration(
+                            //         color: Color(0xffF8F8F8),
+                            //         borderRadius: BorderRadius.circular(30)),
+                            //     child: Row(
+                            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //       children: [
+                            //         RaisedButton(
+                            //           onPressed: () {},
+                            //           child: Text('Login', style: TextStyle(color: Color(0xff000000)),),
+                            //           elevation: 10,
+                            //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                            //           color: Color(0xffffffff),
+                                      
+                            //         ),
+                            //         RaisedButton(
+                            //           onPressed: () {},
+                            //           child: Text('Regestrieren', style: TextStyle(color: Color(0xff000000)),),
+                            //           elevation: 10,
+                            //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                            //           color: Color(0xffffffff)
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
                             SizedBox(height: 30),
-                            basicForm("Email", emailErr,nameController),
+                            basicForm("Email", emailErr, nameController),
                             SizedBox(height: 30),
-                            basicForm("Password", pwdErr,emailController),
+                            basicForm("Password", pwdErr, emailController),
                             Text(errMsg),
                           ],
                         )),
@@ -60,28 +91,30 @@ class _Login extends State<Login> {
                 ),
               ),
             ),
-           Container(
+            Container(
               padding: EdgeInsets.all(30),
               child: Align(
                   alignment: FractionalOffset.bottomRight,
-                  
                   child: FlatButton(
                     height: 50,
-                     shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)),
                     color: Colors.black,
-                    onPressed: () async{
-                      final state =  await auth.signIn(
-                      email:nameController.text.trim(),
-                      password: emailController.text.trim(),
-                        );
-                      if(state == "Signed in"){
-                        Navigator.pushNamed(context, Home.route,arguments:{'User': nameController.text + ' ' + emailController.text});
-                      }else{
-                          setState(() {
-                            errMsg = state;
-                          });
+                    onPressed: () async {
+                      final state = await auth.signIn(
+                        email: nameController.text.trim(),
+                        password: emailController.text.trim(),
+                      );
+                      if (state == "Signed in") {
+                        Navigator.pushNamed(context, Home.route, arguments: {
+                          'User':
+                              nameController.text + ' ' + emailController.text
+                        });
+                      } else {
+                        setState(() {
+                          errMsg = state;
+                        });
                       }
-                      
                     },
                     child: Text("Login", style: TextStyle(color: Colors.white)),
                   )),
@@ -90,26 +123,29 @@ class _Login extends State<Login> {
               padding: EdgeInsets.all(30),
               child: Align(
                   alignment: FractionalOffset.bottomLeft,
-                  
                   child: FlatButton(
                     height: 50,
-                     shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)),
                     color: Colors.black,
-                    onPressed: () async{
-                      final state =  await auth.signUp(
-                      email:nameController.text.trim(),
-                      password: emailController.text.trim(),
-                        );
-                      if(state == "Signed up"){
-                        Navigator.pushNamed(context, Home.route,arguments:{'User': nameController.text + ' ' + emailController.text});
-                      }else{
-                          setState(() {
-                            errMsg = state;
-                          });
+                    onPressed: () async {
+                      final state = await auth.signUp(
+                        email: nameController.text.trim(),
+                        password: emailController.text.trim(),
+                      );
+                      if (state == "Signed up") {
+                        Navigator.pushNamed(context, Home.route, arguments: {
+                          'User':
+                              nameController.text + ' ' + emailController.text
+                        });
+                      } else {
+                        setState(() {
+                          errMsg = state;
+                        });
                       }
-                      
                     },
-                    child: Text("Sign Up", style: TextStyle(color: Colors.white)),
+                    child:
+                        Text("Sign Up", style: TextStyle(color: Colors.white)),
                   )),
             ),
           ],
