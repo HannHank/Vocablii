@@ -204,7 +204,7 @@ class _Home extends State<Home> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Container(
-          margin: EdgeInsets.only(bottom: 59),
+          margin: EdgeInsets.only(bottom: 10),
           child: FloatingActionButton.extended(
               backgroundColor: Color(0xff263238),
               onPressed: null,
