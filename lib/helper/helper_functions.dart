@@ -8,16 +8,17 @@ Color random_color(List<Color> colors, String word) {
   return color;
 }
 
-List generate_cards(Map voc, List<Color> colors) {
-  List voc_list = List.generate(voc.length, (i) => {
+generate_cards(Map voc, List<Color> colors) {
+  print("lele: " + voc.keys.toList().length.toString());
+   List voc_list = List.generate(voc.keys.toList().length, (i) => {
     VocCard(index: i, 
-            word: voc[i].ru,
-            translation: voc[i].de,
-            description: voc[i].desc,
-            color: random_color(colors, voc[i].descr)),
+            word: "voc[voc.keys.toList()[i]]['ru']",
+            translation: "voc[voc.keys.toList()[i]]['de']",
+            description:" voc[voc.keys.toList()[i]]['translation']",
+            color: Colors.black,)
   });
 
-  voc_list.shuffle();
+ // voc_list.shuffle();
   return voc_list;
   // for(int i = 0; i < voc.length; i++) {
   //   print(voc[i]);

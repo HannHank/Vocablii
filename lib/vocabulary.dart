@@ -31,15 +31,15 @@ class _Trainer extends State<Trainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: CardStack(args));
+    return Scaffold(body: CardStack(args[args.keys.toList()[0]]));
   }
 }
 
 class CardStack extends StatefulWidget {
   // final Function onCardChanged;
-  final Map<String, Map> words;
-
-  CardStack(this.words);
+  final Map voc;
+ 
+  CardStack(this.voc);
   @override
   _CardStackState createState() => _CardStackState();
 }
@@ -47,7 +47,7 @@ class CardStack extends StatefulWidget {
 class _CardStackState extends State<CardStack>
     with SingleTickerProviderStateMixin {
 
-  Map voc;
+
   List cards;
 
   List<Color> colors = [
@@ -71,8 +71,8 @@ class _CardStackState extends State<CardStack>
   @override
   void initState() {
     super.initState();
-    voc = widget.words[widget.words.keys.toList()[0]];
-    cards = generate_cards(voc, colors);
+    print("voc: " + widget.voc.toString());
+    cards = generate_cards(widget.voc, colors);
 
     currentIndex = 0;
     controller = AnimationController(
