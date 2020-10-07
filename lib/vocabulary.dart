@@ -74,14 +74,14 @@ class _CardStackState extends State<CardStack>
   @override
   void initState() {
     super.initState();
+    print("voc: " + voc.toString());
     cards = new List<VocCard>.generate(10, (i) {
       return VocCard(
         index: i,
         word: voc[voc.keys.toList()[i]]['ru'],
         translation: voc[voc.keys.toList()[i]]['de'],
-        description: voc[voc.keys.toList()[i]]['desc'],
-        color: random_color(colors, voc[voc.keys.toList()[i]]['de']),
-      );
+        description: voc[voc.keys.toList()[i]]['desc'].toString(),
+        color:  random_color(colors, voc[voc.keys.toList()[i]]['de']));
     });
 
     currentIndex = 0;
