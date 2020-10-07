@@ -147,7 +147,7 @@ class _VocCardState extends State<VocCard> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(word,
+              Text(widget.word,
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
