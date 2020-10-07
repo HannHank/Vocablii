@@ -81,7 +81,8 @@ class _CardStackState extends State<CardStack>
         word: voc[voc.keys.toList()[i]]['ru'].toString(),
         translation: voc[voc.keys.toList()[i]]['de'].toString(),
         description: voc[voc.keys.toList()[i]]['desc'].toString(),
-        color:  random_color(colors, voc[voc.keys.toList()[i]]['de']));
+        color:  random_color(colors, voc[voc.keys.toList()[i]]['de']),
+        expanded: false,);
     });
 
     currentIndex = 0;
