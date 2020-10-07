@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
-class VocCard extends StatelessWidget {
-
-  final int index;
+class VocCard extends StatefulWidget{
+   final int index;
   final String word;
   final String translation;
   final String description;
   final Color color;
-
   VocCard(
       {this.index, this.word, this.translation, this.description, this.color});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _VocCard();
+  }
+}
+
+class _VocCard extends State<VocCard> {
+
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: color, borderRadius: new BorderRadius.circular(11)),
+          color: widget.color, borderRadius: new BorderRadius.circular(11)),
       width: 300,
       height: 500,
       child: Center(
@@ -22,17 +30,17 @@ class VocCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(word,
+              Text(widget.word,
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.w800)),
-              Text(translation,
+              Text(widget.translation,
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.w800)),
-              Text(description,
+              Text(widget.description,
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
