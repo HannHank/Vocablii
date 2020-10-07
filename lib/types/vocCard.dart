@@ -19,6 +19,11 @@ class VocCard extends StatelessWidget {
       height: 500,
       child: Center(
         child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(blurRadius: 30, offset: Offset(-11, -11), color: Color(0x9900000))
+            ]
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
