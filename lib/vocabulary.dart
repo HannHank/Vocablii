@@ -32,31 +32,24 @@ class _Trainer extends State<Trainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 50),
-            child: Text('Russian Rock', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),)),
-          CardStack(args[args.keys.toList()[0]])]
-      ));
+    return Scaffold(body: CardStack(args[args.keys.toList()[0]]));
   }
 }
 
 class CardStack extends StatefulWidget {
   // final Function onCardChanged;
   final Map voc;
-
+ 
   CardStack(this.voc);
   @override
   _CardStackState createState() => _CardStackState(voc);
 }
 
 class _CardStackState extends State<CardStack>
-    with SingleTickerProviderStateMixin {
-  final Map voc;
-  _CardStackState(this.voc);
+  with SingleTickerProviderStateMixin {
+
+    final Map voc;
+    _CardStackState(this.voc);
 
   List cards;
 
@@ -184,3 +177,4 @@ class _CardStackState extends State<CardStack>
     return Offset(0.0, 0.0);
   }
 }
+
