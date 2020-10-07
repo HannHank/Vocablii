@@ -42,12 +42,14 @@ class CardStack extends StatefulWidget {
  
   CardStack(this.voc);
   @override
-  _CardStackState createState() => _CardStackState();
+  _CardStackState createState() => _CardStackState(voc);
 }
 
 class _CardStackState extends State<CardStack>
-    with SingleTickerProviderStateMixin {
+  with SingleTickerProviderStateMixin {
 
+    final Map voc;
+    _CardStackState(this.voc);
 
   List cards;
 
@@ -72,8 +74,15 @@ class _CardStackState extends State<CardStack>
   @override
   void initState() {
     super.initState();
-    print("voc: " + widget.voc.toString());
-    cards = generate_cards(widget.voc, colors);
+    cards = new List<VocCard>.generate(10, (i) {
+      return VocCard(
+        index: i,
+        word: voc[voc.keys.toList()[i]]['ru'],
+        translation: voc[voc.keys.toList()[i]]['de'],
+        description: voc[voc.keys.toList()[i]]['desc'],
+        color: random_color(colors, voc[voc.keys.toList()[i]]['de']),
+      );
+    });
 
     currentIndex = 0;
     controller = AnimationController(
@@ -104,7 +113,6 @@ class _CardStackState extends State<CardStack>
         return InkWell(
           borderRadius: BorderRadius.circular(11),
           onTap: () {
-            // TODO: fix card sorting issue
             controller.forward().whenComplete(() {
               setState(() {
                 controller.reset();
