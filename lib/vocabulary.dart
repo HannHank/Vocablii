@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter_stack_card/flutter_stack_card.dart';
 import 'package:flutter/material.dart';
 import 'card/card.dart';
 import 'package:Vocablii/login.dart';
@@ -16,18 +15,14 @@ class Trainer extends StatefulWidget {
   Trainer(this.args);
   @override
   State<StatefulWidget> createState() {
-    return _Trainer();
+    return _Trainer(args);
   }
 }
 
 class _Trainer extends State<Trainer> {
-  String word = "";
-  String translation = "";
-  String descr = "";
-  Color color = Colors.blue;
-  // int currentIndex;
-  // bool state = true;
+  final Map<String, Map> args;
 
+  _Trainer(this.args);
   @override
   void initState() {
     super.initState();
@@ -36,34 +31,25 @@ class _Trainer extends State<Trainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: CardStack(
-      onCardChanged: (new_word, new_translation, new_descr, new_color) {
-        setState(() {
-          print(word);
-          print("----------------------------------------------");
-          word = new_word;
-          translation = new_translation;
-          descr = new_descr;
-          color = new_color;
-        });
-      },
-    ));
+    return Scaffold(body: CardStack(args));
   }
 }
 
 class CardStack extends StatefulWidget {
-  final Function onCardChanged;
+  // final Function onCardChanged;
+  final Map<String, Map> words;
 
-  CardStack({this.onCardChanged});
+  CardStack(this.words);
   @override
   _CardStackState createState() => _CardStackState();
 }
 
 class _CardStackState extends State<CardStack>
     with SingleTickerProviderStateMixin {
-  Map voc;
 
-  // TODO: Maybe add to VocCard
+  Map voc;
+  List cards;
+
   List<Color> colors = [
     Color(0xff2B969D),
     Color(0xff2B529D),
@@ -75,10 +61,6 @@ class _CardStackState extends State<CardStack>
 
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
 
-  // TODO: Maybe add to VocCard
-
-  Map voc_shuffeled = {};
-
   int currentIndex;
   AnimationController controller;
   CurvedAnimation curvedAnimation;
@@ -86,51 +68,11 @@ class _CardStackState extends State<CardStack>
   Animation<Offset> _moveAnim;
   Animation<double> _scaleAnim;
 
-  // TODO: Make dynamic
-  var cards = [
-    VocCard(
-        index: 0,
-        word: 'hi',
-        translation: 'wort',
-        description: 'hello world',
-        color: Colors.blue),
-    VocCard(
-        index: 1,
-        word: 'nice',
-        translation: 'schön',
-        description: 'hello world 2',
-        color: Colors.red),
-    VocCard(
-        index: 2,
-        word: 'hey',
-        translation: 'wort 1',
-        description: 'hello world 3',
-        color: Colors.yellow),
-    VocCard(
-        index: 3,
-        word: 'was',
-        translation: 'wort 2',
-        description: 'hello world 4',
-        color: Colors.green),
-    VocCard(
-        index: 4,
-        word: 'ho',
-        translation: 'wort 3',
-        description: 'hello world 5',
-        color: Colors.black),
-    VocCard(
-        index: 5,
-        word: 'lol',
-        translation: 'wort 4',
-        description: 'hello world 6',
-        color: Colors.grey),
-  ];
-
   @override
   void initState() {
     super.initState();
-    // voc = widget.args[widget.args.keys.toList()[0]];
-    // voc_shuffeled = shuffle_map(voc);
+    voc = widget.words[widget.words.keys.toList()[0]];
+    cards = generate_cards(voc, colors);
 
     currentIndex = 0;
     controller = AnimationController(
@@ -159,7 +101,8 @@ class _CardStackState extends State<CardStack>
         children: cards.reversed.map((card) {
       if (cards.indexOf(card) <= 2) {
         return InkWell(
-          onLongPress: () {
+          borderRadius: BorderRadius.circular(11),
+          onTap: () {
             // TODO: fix card sorting issue
             controller.forward().whenComplete(() {
               setState(() {
@@ -171,9 +114,9 @@ class _CardStackState extends State<CardStack>
 
                 print(currentIndex.toString() + cards[currentIndex].word);
 
-                if (widget.onCardChanged != null)
-                  widget.onCardChanged(cards[0].word, cards[0].translation,
-                      cards[0].description, cards[0].color);
+                // if (widget.onCardChanged != null)
+                //   widget.onCardChanged(cards[0].word, cards[0].translation,
+                //       cards[0].description, cards[0].color);
               });
             });
           },
@@ -246,6 +189,7 @@ class VocCard extends StatelessWidget {
       child: Center(
         child: Container(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(word,
                   style: TextStyle(
