@@ -73,7 +73,7 @@ class _CardStackState extends State<CardStack>
   @override
   void initState() {
     super.initState();
-    int amount = (voc.keys.toList().length - 1);
+    int amount = (voc.keys.toList().length);
     print("voc: " + voc[voc.keys.toList()[200]].toString());
     
     currentIndex = 0;
@@ -95,7 +95,7 @@ class _CardStackState extends State<CardStack>
     _moveAnim = Tween(begin: Offset(0.0, 0.05), end: Offset(0.0, 0.0))
         .animate(curvedAnimation);
 
-    cards = new List<VocCard>.generate(199, (i) {
+    cards = new List<VocCard>.generate(amount, (i) {
       return VocCard(
          move: () {
                      controller.forward().whenComplete(() {
@@ -120,13 +120,13 @@ class _CardStackState extends State<CardStack>
         word: voc[voc.keys.toList()[i]]['ru'].toString(),
         translation: voc[voc.keys.toList()[i]]['de'].toString(),
         description: voc[voc.keys.toList()[i]]['desc'].toString(),
-        color:  random_color(colors, voc[voc.keys.toList()[i]]['de']),
+        color:  random_color(colors, voc[voc.keys.toList()[i]]['de'].toString()),
         expanded: false,
     );
 
   });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Stack(
