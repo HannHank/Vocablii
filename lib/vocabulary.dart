@@ -32,7 +32,17 @@ class _Trainer extends State<Trainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: CardStack(args[args.keys.toList()[0]]));
+    return Scaffold(
+        body: Stack(children: [
+      Container(
+          padding: EdgeInsets.only(top: 60),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Text(args.keys.toList()[0].toString(),
+                style: TextStyle(fontSize: 30)),
+          )),
+      CardStack(args[args.keys.toList()[0]])
+    ]));
   }
 }
 
