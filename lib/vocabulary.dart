@@ -75,8 +75,12 @@ class _CardStackState extends State<CardStack>
     super.initState();
     int amount = (voc.keys.toList().length);
     print("voc: " + voc[voc.keys.toList()[200]].toString());
-    
+    List vocKeys = voc.keys.toList();
+    print("bevor: " + vocKeys.toString());
+    vocKeys.shuffle();
+    print("after: " + vocKeys.toString());
     currentIndex = 0;
+
     controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 150),
@@ -117,10 +121,10 @@ class _CardStackState extends State<CardStack>
          },
                     
         index: i,
-        word: voc[voc.keys.toList()[i]]['ru'].toString(),
-        translation: voc[voc.keys.toList()[i]]['de'].toString(),
-        description: voc[voc.keys.toList()[i]]['desc'].toString(),
-        color:  random_color(colors, voc[voc.keys.toList()[i]]['de'].toString()),
+        word: voc[vocKeys[i]]['ru'].toString(),
+        translation: voc[vocKeys[i]]['de'].toString(),
+        description: voc[vocKeys[i]]['desc'].toString(),
+        color:  random_color(colors, voc[vocKeys[i]]['de'].toString()),
         expanded: false,
     );
 
