@@ -148,16 +148,9 @@ class _CardStackState extends State<CardStack>
             controller.forward().whenComplete(() {
               setState(() {
                 controller.reset();
-
                 VocCard removedCard = cards.removeAt(0);
                 cards.add(removedCard);
                 currentIndex = cards[0].index;
-
-                print(currentIndex.toString() + cards[currentIndex].word);
-
-                // if (widget.onCardChanged != null)
-                //   widget.onCardChanged(cards[0].word, cards[0].translation,
-                //       cards[0].description, cards[0].color);
               });
             });
           },
