@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'card/card.dart';
 import 'package:Vocablii/login.dart';
 import 'auth/auth.dart';
-import 'types/vocCard.dart';
+import 'components/vocCard.dart';
 import 'package:Vocablii/helper/helper_functions.dart';
 
 class Trainer extends StatefulWidget {
@@ -47,7 +47,6 @@ class CardStack extends StatefulWidget {
 
 class _CardStackState extends State<CardStack>
   with SingleTickerProviderStateMixin {
-
     final Map voc;
     _CardStackState(this.voc);
 
@@ -74,17 +73,9 @@ class _CardStackState extends State<CardStack>
   @override
   void initState() {
     super.initState();
-    print("voc: " + voc.keys.toList().length.toString());
-    cards = new List<VocCard>.generate(100, (i) {
-      return VocCard(
-        index: i,
-        word: voc[voc.keys.toList()[i]]['ru'].toString(),
-        translation: voc[voc.keys.toList()[i]]['de'].toString(),
-        description: voc[voc.keys.toList()[i]]['desc'].toString(),
-        color:  random_color(colors, voc[voc.keys.toList()[i]]['de']),
-        expanded: false,);
-    });
-
+    int amount = (voc.keys.toList().length - 1);
+    print("voc: " + voc[voc.keys.toList()[200]].toString());
+    
     currentIndex = 0;
     controller = AnimationController(
       vsync: this,
@@ -103,6 +94,37 @@ class _CardStackState extends State<CardStack>
 
     _moveAnim = Tween(begin: Offset(0.0, 0.05), end: Offset(0.0, 0.0))
         .animate(curvedAnimation);
+
+    cards = new List<VocCard>.generate(199, (i) {
+      return VocCard(
+         move: () {
+                     controller.forward().whenComplete(() {
+              setState(() {
+                controller.reset();
+
+                VocCard removedCard = cards.removeAt(0);
+                cards.add(removedCard);
+                currentIndex = cards[0].index;
+
+                print(currentIndex.toString() + cards[currentIndex].word);
+
+                // if (widget.onCardChanged != null)
+                //   widget.onCardChanged(cards[0].word, cards[0].translation,
+                //       cards[0].description, cards[0].color);
+              });
+              
+                     });
+         },
+                    
+        index: i,
+        word: voc[voc.keys.toList()[i]]['ru'].toString(),
+        translation: voc[voc.keys.toList()[i]]['de'].toString(),
+        description: voc[voc.keys.toList()[i]]['desc'].toString(),
+        color:  random_color(colors, voc[voc.keys.toList()[i]]['de']),
+        expanded: false,
+    );
+
+  });
   }
 
   @override
