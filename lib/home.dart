@@ -73,7 +73,7 @@ class _Home extends State<Home> {
 
                               Navigator.pushNamed(
                                   context, Trainer.route, arguments: {
-                                topicData.keys.toList()[index]:
+                                  title[topicData.keys.toList()[index]]:
                                     topicData[topicData.keys.toList()[index]]
                               });
                             },
