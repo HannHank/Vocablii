@@ -39,16 +39,16 @@ class _Trainer extends State<Trainer> {
 class CardStack extends StatefulWidget {
   // final Function onCardChanged;
   final Map voc;
- 
+
   CardStack(this.voc);
   @override
   _CardStackState createState() => _CardStackState(voc);
 }
 
 class _CardStackState extends State<CardStack>
-  with SingleTickerProviderStateMixin {
-    final Map voc;
-    _CardStackState(this.voc);
+    with SingleTickerProviderStateMixin {
+  final Map voc;
+  _CardStackState(this.voc);
 
   List cards;
 
@@ -101,36 +101,33 @@ class _CardStackState extends State<CardStack>
 
     cards = new List<VocCard>.generate(amount, (i) {
       return VocCard(
-         move: () {
-                     controller.forward().whenComplete(() {
-              setState(() {
-                controller.reset();
+        move: () {
+          controller.forward().whenComplete(() {
+            setState(() {
+              controller.reset();
 
-                VocCard removedCard = cards.removeAt(0);
-                cards.add(removedCard);
-                currentIndex = cards[0].index;
+              VocCard removedCard = cards.removeAt(0);
+              cards.add(removedCard);
+              currentIndex = cards[0].index;
 
-                print(currentIndex.toString() + cards[currentIndex].word);
+              print(currentIndex.toString() + cards[currentIndex].word);
 
-                // if (widget.onCardChanged != null)
-                //   widget.onCardChanged(cards[0].word, cards[0].translation,
-                //       cards[0].description, cards[0].color);
-              });
-              
-                     });
-         },
-                    
+              // if (widget.onCardChanged != null)
+              //   widget.onCardChanged(cards[0].word, cards[0].translation,
+              //       cards[0].description, cards[0].color);
+            });
+          });
+        },
         index: i,
         word: voc[vocKeys[i]]['ru'].toString(),
         translation: voc[vocKeys[i]]['de'].toString(),
         description: voc[vocKeys[i]]['desc'].toString(),
-        color:  random_color(colors, voc[vocKeys[i]]['de'].toString()),
+        color: random_color(colors, voc[vocKeys[i]]['de'].toString()),
         expanded: false,
-    );
-
-  });
+      );
+    });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -139,6 +136,14 @@ class _CardStackState extends State<CardStack>
       if (cards.indexOf(card) <= 2) {
         return InkWell(
           borderRadius: BorderRadius.circular(11),
+          onLongPress: () {
+            setState(() {
+              VocCard removedCard = cards.removeAt(cards.length - 1);
+              cards.insert(0, removedCard);
+              currentIndex = cards[0].index;
+              controller.reset();
+            });
+          },
           onTap: () {
             controller.forward().whenComplete(() {
               setState(() {
@@ -203,4 +208,3 @@ class _CardStackState extends State<CardStack>
     return Offset(0.0, 0.0);
   }
 }
-
