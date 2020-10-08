@@ -52,7 +52,9 @@ class _VocCardState extends State<VocCard> {
   @override
   Widget build(BuildContext context) {
     return widget.expanded
-        ? Container(
+        ? InkWell (
+          onTap: (){},
+          child:Container(
             decoration: BoxDecoration(
                 color: widget.color,
                 borderRadius: new BorderRadius.circular(30)),
@@ -117,7 +119,7 @@ class _VocCardState extends State<VocCard> {
                                   color: Colors.white,
                                   height: 80,
                                   minWidth: 80,
-                                  onPressed: () {widget.move();},
+                                  onPressed: () {widget.move();fold();},
                                   child: Text(
                                     "👍",
                                     style: TextStyle(fontSize: 35),
@@ -130,7 +132,7 @@ class _VocCardState extends State<VocCard> {
                                   color: Colors.white,
                                   height: 80,
                                   minWidth: 80,
-                                  onPressed: () {widget.move();},
+                                  onPressed: () {widget.move();fold();},
                                   child: Text(
                                     "🤔",
                                     style: TextStyle(fontSize: 35),
@@ -143,7 +145,7 @@ class _VocCardState extends State<VocCard> {
                                 color: Colors.white,
                                 height: 80,
                                 minWidth: 80,
-                                onPressed: () {widget.move();fold(){}},
+                                onPressed: () {widget.move();fold();},
                                 child: Text(
                                   "🙈",
                                   style: TextStyle(fontSize: 35),
@@ -157,7 +159,8 @@ class _VocCardState extends State<VocCard> {
                 ),
               ),
             ),
-          )
+          ),
+        )
         : Container(
             decoration: BoxDecoration(
                 color: widget.color,
