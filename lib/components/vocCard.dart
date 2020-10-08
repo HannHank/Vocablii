@@ -39,8 +39,10 @@ class _VocCardState extends State<VocCard> {
       }
     });
   }
-  void move(){
-    
+  void fold(){
+    setState(() {
+      widget.expanded = false;
+    });
   }
   @override
   void initState() {
@@ -141,7 +143,7 @@ class _VocCardState extends State<VocCard> {
                                 color: Colors.white,
                                 height: 80,
                                 minWidth: 80,
-                                onPressed: () {widget.move();},
+                                onPressed: () {widget.move();fold(){}},
                                 child: Text(
                                   "🙈",
                                   style: TextStyle(fontSize: 35),
