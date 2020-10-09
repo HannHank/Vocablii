@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'helper/initialiseTopicsForUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Vocablii/vocabulary.dart';
 import 'auth/auth.dart';
@@ -23,7 +24,7 @@ class _Home extends State<Home> {
   Map<String, Map> topicData = {};
   Map<String, String> meta = {};
   Map<String, String> title = {};
-
+  var userStateVoc = {};
   getTopics() {
     topics.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
@@ -36,9 +37,18 @@ class _Home extends State<Home> {
         });
   }
 
+  getStateVoc() async {
+    initialiseUserLernState(auth.currentUser()).then((data) => {
+          setState(() {
+            userStateVoc = data;
+          })
+        });
+  }
+
   @override
   void initState() {
     getTopics();
+    getStateVoc();
   }
 
   @override
@@ -67,12 +77,14 @@ class _Home extends State<Home> {
                               // print('Data: ' +
                               //     topicData[topicData.keys.toList()[index]]
                               //         .toString());
-
-                              Navigator.pushNamed(
-                                  context, Trainer.route, arguments: {
-                                title[topicData.keys.toList()[index]]:
-                                    topicData[topicData.keys.toList()[index]]
-                              });
+                              Navigator.pushNamed(context, Trainer.route,
+                                  arguments: {
+                                    title[topicData.keys.toList()[index]]:
+                                        topicData[
+                                            topicData.keys.toList()[index]],
+                                    'userStateVoc': userStateVoc,
+                                    'user': {'uuid': auth.currentUser().uid},
+                                  });
                             },
                             child: Padding(
                               // Padding around Card component
@@ -202,31 +214,32 @@ class _Home extends State<Home> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Padding(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: FloatingActionButton.extended(
-                        heroTag: "addVocs",
-                        backgroundColor: Color(0xff263238),
-                        onPressed: null,
-                        label: Text("Vokabeln hinzufügen",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600))),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: FloatingActionButton.extended(
-                        heroTag: "settings",
-                        backgroundColor: Color(0xff263238),
-                        onPressed: () {
-                          auth.signOut();
-                        },
-                        label: Icon(Icons.settings)),
-                  )
-                ])));
+        floatingActionButton:
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: FloatingActionButton.extended(
+                heroTag: "addVocs",
+                backgroundColor: Color(0xff263238),
+                onPressed: null,
+                label: Icon(Icons.add),
+              ),
+            ),
+          ),
+          Padding(
+              padding: EdgeInsets.all(10),
+              child: Container(
+                margin: EdgeInsets.only(bottom: 10),
+                child: FloatingActionButton.extended(
+                    heroTag: "settings",
+                    backgroundColor: Color(0xff263238),
+                    onPressed: () {
+                      auth.signOut();
+                    },
+                    label: Icon(Icons.settings)),
+              )),
+        ]));
   }
 }
