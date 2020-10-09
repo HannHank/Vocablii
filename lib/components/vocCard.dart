@@ -1,4 +1,6 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class VocCard extends StatefulWidget {
   final int index;
@@ -7,8 +9,10 @@ class VocCard extends StatefulWidget {
   String description;
   final Color color;
   bool expanded;
-   final Function move;
-
+  final Function move;
+  final String user;
+  final String name;
+  final String title;
   VocCard(
       {this.index,
       this.word,
@@ -16,7 +20,10 @@ class VocCard extends StatefulWidget {
       this.description,
       this.color,
       this.expanded,
-      this.move});
+      this.move,
+      this.user,
+      this.name,
+      this.title});
 
   @override
   _VocCardState createState() => _VocCardState(
@@ -28,9 +35,26 @@ class _VocCardState extends State<VocCard> {
   String word;
   String translation;
   String descr;
-
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+ 
   _VocCardState({this.color, this.word, this.translation, this.descr});
+  updateState(state){
+          setState(() {
+          Map stateVoc = {};
+          stateVoc[widget.name] = state;
+          print("newState: " + stateVoc.toString());
+          users
+          .doc(widget.user.toString())
+          .set({
+            'class':{
+              widget.title:{
+                widget.name:state
+              },}
+            
+          });
 
+          });
+        }
   void change() {
     setState(() {
       widget.expanded = true;
@@ -119,7 +143,7 @@ class _VocCardState extends State<VocCard> {
                                   color: Colors.white,
                                   height: 80,
                                   minWidth: 80,
-                                  onPressed: () {widget.move();fold();},
+                                  onPressed: () {widget.move();fold();updateState("Iknow");},
                                   child: Text(
                                     "👍",
                                     style: TextStyle(fontSize: 35),
@@ -132,7 +156,7 @@ class _VocCardState extends State<VocCard> {
                                   color: Colors.white,
                                   height: 80,
                                   minWidth: 80,
-                                  onPressed: () {widget.move();fold();},
+                                  onPressed: () {widget.move();fold();updateState("notSave");},
                                   child: Text(
                                     "🤔",
                                     style: TextStyle(fontSize: 35),
@@ -145,7 +169,7 @@ class _VocCardState extends State<VocCard> {
                                 color: Colors.white,
                                 height: 80,
                                 minWidth: 80,
-                                onPressed: () {widget.move();fold();},
+                                onPressed: () {widget.move();fold();updateState("wtf");},
                                 child: Text(
                                   "🙈",
                                   style: TextStyle(fontSize: 35),

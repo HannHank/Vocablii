@@ -26,7 +26,7 @@ class _Home extends State<Home> {
   Map<String, Map> topicData = {};
   Map<String, String> meta = {};
   Map<String, String> title = {};
-
+  var userStateVoc = {};
   getTopics() {
     topics.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
@@ -39,11 +39,16 @@ class _Home extends State<Home> {
         });
   }
 
+  getStateVoc() async {
+    setState(() {
+      userStateVoc = initialiseUserLernState(auth.currentUser());
+    });
+  }
+
   @override
   void initState() {
     getTopics();
-    print("2: " + auth.currentUser().toString());
-    initialiseUserLernState(auth.currentUser());
+    getStateVoc();
   }
 
   @override
@@ -73,11 +78,12 @@ class _Home extends State<Home> {
                               //     topicData[topicData.keys.toList()[index]]
                               //         .toString());
 
-                              Navigator.pushNamed(
-                                  context, Trainer.route, arguments: {
-                                title[topicData.keys.toList()[index]]:
-                                    topicData[topicData.keys.toList()[index]]
-                              });
+                              Navigator.pushNamed(context, Trainer.route,
+                                  arguments: {
+                                    title[topicData.keys.toList()[index]]:topicData[topicData.keys.toList()[index]],
+                                    'userStateVoc': userStateVoc,
+                                     'user':{'uuid':auth.currentUser().uid},
+                                  });
                             },
                             child: Padding(
                               // Padding around Card component
