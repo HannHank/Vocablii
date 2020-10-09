@@ -216,31 +216,32 @@ class _Home extends State<Home> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Padding(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: FloatingActionButton.extended(
-                        heroTag: "addVocs",
-                        backgroundColor: Color(0xff263238),
-                        onPressed: null,
-                        label: Text("Vokabeln hinzufügen",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600))),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: FloatingActionButton.extended(
-                        heroTag: "settings",
-                        backgroundColor: Color(0xff263238),
-                        onPressed: () {
-                          auth.signOut();
-                        },
-                        label: Icon(Icons.settings)),
-                  )
-                ])));
+        floatingActionButton:
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: FloatingActionButton.extended(
+                heroTag: "addVocs",
+                backgroundColor: Color(0xff263238),
+                onPressed: null,
+                label: Icon(Icons.add),
+              ),
+            ),
+          ),
+          Padding(
+              padding: EdgeInsets.all(10),
+              child: Container(
+                margin: EdgeInsets.only(bottom: 10),
+                child: FloatingActionButton.extended(
+                    heroTag: "settings",
+                    backgroundColor: Color(0xff263238),
+                    onPressed: () {
+                      auth.signOut();
+                    },
+                    label: Icon(Icons.settings)),
+              )),
+        ]));
   }
 }
