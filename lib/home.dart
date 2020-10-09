@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'helper/initialiseTopicsForUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Vocablii/vocabulary.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +42,8 @@ class _Home extends State<Home> {
   @override
   void initState() {
     getTopics();
+    print("2: " + auth.currentUser().toString());
+    initialiseUserLernState(auth.currentUser());
   }
 
   @override
