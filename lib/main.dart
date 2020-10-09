@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   final auth = AuthenticationService(FirebaseAuth.instance);
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.black);
     return MaterialApp(
       title: 'Vocablii',
       debugShowCheckedModeBanner: false,
