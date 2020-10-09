@@ -44,12 +44,20 @@ class AuthenticationService {
   Future<String> signUp({String email, String password}) async {
     try {
       UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      CollectionReference topics = FirebaseFirestore.instance.collection('topics');
+      Map<String, Map> title = {};
 
+    
+      await topics.get().then((QuerySnapshot querySnapshot) => {
+              querySnapshot.docs.forEach((doc) {
+                  title[doc.data()['meta']['name']] = {};
+              }),
+            });
       await users
           .doc(user.user.uid.toString())
           .set({
             'name': email,
-            'class': null,
+            'class': title,
           });
 
       return "Signed up";
