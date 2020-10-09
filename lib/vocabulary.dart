@@ -115,11 +115,11 @@ class _CardStackState extends State<CardStack>
             setState(() {
               controller.reset();
 
+              cards[0].color = get_color(cards[0].name, {cards[0].name: cards[0].state});
               VocCard removedCard = cards.removeAt(0);
               cards.add(removedCard);
               currentIndex = cards[0].index;
               print(currentIndex.toString() + cards[currentIndex].word);
-
               // if (widget.onCardChanged != null)
               //   widget.onCardChanged(cards[0].word, cards[0].translation,
               //       cards[0].description, cards[0].color);

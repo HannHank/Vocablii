@@ -13,6 +13,7 @@ class VocCard extends StatefulWidget {
   final String user;
   final String name;
   final String title;
+  String state;
   VocCard(
       {this.index,
       this.word,
@@ -39,9 +40,8 @@ class _VocCardState extends State<VocCard> {
 
   _VocCardState({this.color, this.word, this.translation, this.descr});
   updateState(state) {
-  
     setState(() {
-      widget.color = get_color(widget.name, {widget.name: state});
+      widget.state = state;
       Map stateVoc = {};
       stateVoc[widget.name] = state;
       users.doc(widget.user.toString()).update({
@@ -150,9 +150,9 @@ class _VocCardState extends State<VocCard> {
                                     height: 80,
                                     minWidth: 80,
                                     onPressed: () {
+                                      updateState("Iknow");
                                       widget.move();
                                       fold();
-                                      updateState("Iknow");
                                     },
                                     child: Text(
                                       "👍",
@@ -167,9 +167,9 @@ class _VocCardState extends State<VocCard> {
                                     height: 80,
                                     minWidth: 80,
                                     onPressed: () {
+                                      updateState("notSave");
                                       widget.move();
                                       fold();
-                                      updateState("notSave");
                                     },
                                     child: Text(
                                       "🤔",
@@ -184,9 +184,9 @@ class _VocCardState extends State<VocCard> {
                                   height: 80,
                                   minWidth: 80,
                                   onPressed: () {
+                                    updateState("wtf");
                                     widget.move();
                                     fold();
-                                    updateState("wtf");
                                   },
                                   child: Text(
                                     "🙈",
