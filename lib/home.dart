@@ -40,9 +40,11 @@ class _Home extends State<Home> {
   }
 
   getStateVoc() async {
-    setState(() {
-      userStateVoc = initialiseUserLernState(auth.currentUser());
-    });
+    initialiseUserLernState(auth.currentUser()).then((data) => {
+          setState(() {
+            userStateVoc = data;
+          })
+        });
   }
 
   @override
@@ -77,12 +79,13 @@ class _Home extends State<Home> {
                               // print('Data: ' +
                               //     topicData[topicData.keys.toList()[index]]
                               //         .toString());
-
                               Navigator.pushNamed(context, Trainer.route,
                                   arguments: {
-                                    title[topicData.keys.toList()[index]]:topicData[topicData.keys.toList()[index]],
+                                    title[topicData.keys.toList()[index]]:
+                                        topicData[
+                                            topicData.keys.toList()[index]],
                                     'userStateVoc': userStateVoc,
-                                     'user':{'uuid':auth.currentUser().uid},
+                                    'user': {'uuid': auth.currentUser().uid},
                                   });
                             },
                             child: Padding(
