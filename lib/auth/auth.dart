@@ -48,7 +48,7 @@ class AuthenticationService {
           .doc(user.user.uid.toString())
           .set({
             'name': email,
-            'class': null,
+            'class': {},
           });
       return "Signed up";
     } on FirebaseAuthException catch (e) {

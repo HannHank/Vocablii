@@ -1,13 +1,13 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:Vocablii/helper/helper_functions.dart';
 
 class VocCard extends StatefulWidget {
   final int index;
   final String word;
   final String translation;
   String description;
-  final Color color;
+  Color color;
   bool expanded;
   final Function move;
   final String user;
@@ -39,7 +39,9 @@ class _VocCardState extends State<VocCard> {
 
   _VocCardState({this.color, this.word, this.translation, this.descr});
   updateState(state) {
+  
     setState(() {
+      widget.color = get_color(widget.name, {widget.name: state});
       Map stateVoc = {};
       stateVoc[widget.name] = state;
       users.doc(widget.user.toString()).update({
@@ -222,16 +224,6 @@ class _VocCardState extends State<VocCard> {
                               fontSize: 20,
                               color: Colors.white,
                               fontWeight: FontWeight.w800)),
-                      // FlatButton(
-                      //   color: Colors.black,
-                      //   child: Text(
-                      //     "Show",
-                      //     style: TextStyle(color: Colors.white),
-                      //   ),
-                      //   onPressed: () {
-                      //     change();
-                      //   },
-                      // )
                     ],
                   ),
                 ),
