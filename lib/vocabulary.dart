@@ -67,14 +67,6 @@ class _CardStackState extends State<CardStack>
 
   List cards;
 
-  List<Color> colors = [
-    Color(0xff2B969D),
-    Color(0xff2B529D),
-    Color(0xff862B9D),
-    Color(0xff953232),
-    Color(0xff3B7626),
-    Color(0xff328D93),
-  ];
 
 
   int currentIndex;
@@ -138,7 +130,7 @@ class _CardStackState extends State<CardStack>
         word: voc[vocKeys[i]]['ru'].toString(),
         translation: voc[vocKeys[i]]['de'].toString(),
         description: voc[vocKeys[i]]['desc'].toString(),
-        color: get_color(colors, vocKeys[i].toString(),widget.userStateVoc[widget.title]),
+        color: get_color(vocKeys[i].toString(),widget.userStateVoc[widget.title]),
         expanded: false,
         user:widget.user['uuid'],
         name:vocKeys[i],
