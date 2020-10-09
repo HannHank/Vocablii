@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:Vocablii/vocabulary.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 import 'auth/auth.dart';
 import 'home.dart';
@@ -19,14 +19,15 @@ class MyApp extends StatelessWidget {
   final auth = AuthenticationService(FirebaseAuth.instance);
   @override
   Widget build(BuildContext context) {
+    FlutterStatusbarcolor.setStatusBarColor(Colors.white);
     return MaterialApp(
       title: 'Vocablii',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // Define the default brightness and colors.
         brightness: Brightness.light,
-        primaryColor: Color(0xffFFFFFF),
-        accentColor: Color(0xff263238),
+        primaryColor: Colors.black,
+        accentColor: Color(0xffffff),
 
         // Define the default font family.
         fontFamily: 'Montserrat',

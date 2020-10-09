@@ -1,11 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'card/card.dart';
-import 'package:Vocablii/login.dart';
-import 'auth/auth.dart';
 import 'components/vocCard.dart';
 import 'package:Vocablii/helper/helper_functions.dart';
 
