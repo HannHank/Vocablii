@@ -22,11 +22,13 @@ class Trainer extends StatefulWidget {
 class _Trainer extends State<Trainer> {
   final Map<String, Map> args;
 
+
   _Trainer(this.args);
   @override
   void initState() {
     super.initState();
     setState(() {});
+    print("args: " + args.toString());
   }
 
   @override
@@ -40,16 +42,19 @@ class _Trainer extends State<Trainer> {
             child: Text(args.keys.toList()[0].toString(),
                 style: TextStyle(fontSize: 30)),
           )),
-      CardStack(args[args.keys.toList()[0]])
+      CardStack(args[args.keys.toList()[0]],args['userStateVoc'],args['user'],args.keys.toList()[0].toString())
     ]));
   }
 }
 
 class CardStack extends StatefulWidget {
   // final Function onCardChanged;
+  final CollectionReference users = FirebaseFirestore.instance.collection('users');
   final Map voc;
-
-  CardStack(this.voc);
+  final Map userStateVoc;
+  final Map user;
+  final String title;
+  CardStack(this.voc,this.userStateVoc,this.user,this.title);
   @override
   _CardStackState createState() => _CardStackState(voc);
 }
@@ -57,6 +62,7 @@ class CardStack extends StatefulWidget {
 class _CardStackState extends State<CardStack>
     with SingleTickerProviderStateMixin {
   final Map voc;
+   
   _CardStackState(this.voc);
 
   List cards;
@@ -70,7 +76,6 @@ class _CardStackState extends State<CardStack>
     Color(0xff328D93),
   ];
 
-  CollectionReference topics = FirebaseFirestore.instance.collection('topics');
 
   int currentIndex;
   AnimationController controller;
@@ -82,6 +87,8 @@ class _CardStackState extends State<CardStack>
   @override
   void initState() {
     super.initState();
+    // print("Penis: " + widget.user.toString());
+    print("saved: " + widget.userStateVoc.toString());
     int amount = (voc.keys.toList().length);
     print("voc: " + voc[voc.keys.toList()[200]].toString());
     List vocKeys = voc.keys.toList();
@@ -111,6 +118,7 @@ class _CardStackState extends State<CardStack>
     cards = new List<VocCard>.generate(amount, (i) {
       return VocCard(
         move: () {
+          
           controller.forward().whenComplete(() {
             setState(() {
               controller.reset();
@@ -118,7 +126,6 @@ class _CardStackState extends State<CardStack>
               VocCard removedCard = cards.removeAt(0);
               cards.add(removedCard);
               currentIndex = cards[0].index;
-
               print(currentIndex.toString() + cards[currentIndex].word);
 
               // if (widget.onCardChanged != null)
@@ -131,8 +138,11 @@ class _CardStackState extends State<CardStack>
         word: voc[vocKeys[i]]['ru'].toString(),
         translation: voc[vocKeys[i]]['de'].toString(),
         description: voc[vocKeys[i]]['desc'].toString(),
-        color: random_color(colors, voc[vocKeys[i]]['de'].toString()),
+        color: get_color(colors, vocKeys[i].toString(),widget.userStateVoc),
         expanded: false,
+        user:widget.user['uuid'],
+        name:vocKeys[i],
+        title: widget.title,
       );
     });
   }

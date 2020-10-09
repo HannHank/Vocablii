@@ -14,8 +14,6 @@ initialiseUserLernState(user) async{
   }).catchError((err){
     //document not created
   });
-  print("user: " + usersLernStates.toString());
-      Map<String, Map> titles = {};
       await topics.get().then((QuerySnapshot querySnapshot) => {
               querySnapshot.docs.forEach((doc) {
                 if(usersLernStates['class'].containsKey(doc.data()['meta']['name'])){
@@ -30,5 +28,7 @@ initialiseUserLernState(user) async{
           .update({
             'class': usersLernStates['class'],
           });
+
+   //  return usersLernStates['class'];
 
 }
