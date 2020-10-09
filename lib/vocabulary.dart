@@ -26,23 +26,33 @@ class _Trainer extends State<Trainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: CardStack(args[args.keys.toList()[0]]));
+    return Scaffold(
+        body: Stack(children: [
+      Container(
+          padding: EdgeInsets.only(top: 60),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Text(args.keys.toList()[0].toString(),
+                style: TextStyle(fontSize: 30)),
+          )),
+      CardStack(args[args.keys.toList()[0]])
+    ]));
   }
 }
 
 class CardStack extends StatefulWidget {
   // final Function onCardChanged;
   final Map voc;
- 
+
   CardStack(this.voc);
   @override
   _CardStackState createState() => _CardStackState(voc);
 }
 
 class _CardStackState extends State<CardStack>
-  with SingleTickerProviderStateMixin {
-    final Map voc;
-    _CardStackState(this.voc);
+    with SingleTickerProviderStateMixin {
+  final Map voc;
+  _CardStackState(this.voc);
 
   List cards;
 
@@ -67,10 +77,14 @@ class _CardStackState extends State<CardStack>
   @override
   void initState() {
     super.initState();
-    int amount = (voc.keys.toList().length - 1);
+    int amount = (voc.keys.toList().length);
     print("voc: " + voc[voc.keys.toList()[200]].toString());
-    
+    List vocKeys = voc.keys.toList();
+    print("bevor: " + vocKeys.toString());
+    vocKeys.shuffle();
+    print("after: " + vocKeys.toString());
     currentIndex = 0;
+
     controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 150),
@@ -89,36 +103,33 @@ class _CardStackState extends State<CardStack>
     _moveAnim = Tween(begin: Offset(0.0, 0.05), end: Offset(0.0, 0.0))
         .animate(curvedAnimation);
 
-    cards = new List<VocCard>.generate(199, (i) {
+    cards = new List<VocCard>.generate(amount, (i) {
       return VocCard(
-         move: () {
-                     controller.forward().whenComplete(() {
-              setState(() {
-                controller.reset();
+        move: () {
+          controller.forward().whenComplete(() {
+            setState(() {
+              controller.reset();
 
-                VocCard removedCard = cards.removeAt(0);
-                cards.add(removedCard);
-                currentIndex = cards[0].index;
+              VocCard removedCard = cards.removeAt(0);
+              cards.add(removedCard);
+              currentIndex = cards[0].index;
 
-                print(currentIndex.toString() + cards[currentIndex].word);
+              print(currentIndex.toString() + cards[currentIndex].word);
 
-                // if (widget.onCardChanged != null)
-                //   widget.onCardChanged(cards[0].word, cards[0].translation,
-                //       cards[0].description, cards[0].color);
-              });
-              
-                     });
-         },
-                    
+              // if (widget.onCardChanged != null)
+              //   widget.onCardChanged(cards[0].word, cards[0].translation,
+              //       cards[0].description, cards[0].color);
+            });
+          });
+        },
         index: i,
-        word: voc[voc.keys.toList()[i]]['ru'].toString(),
-        translation: voc[voc.keys.toList()[i]]['de'].toString(),
-        description: voc[voc.keys.toList()[i]]['desc'].toString(),
-        color:  random_color(colors, voc[voc.keys.toList()[i]]['de']),
+        word: voc[vocKeys[i]]['ru'].toString(),
+        translation: voc[vocKeys[i]]['de'].toString(),
+        description: voc[vocKeys[i]]['desc'].toString(),
+        color: random_color(colors, voc[vocKeys[i]]['de'].toString()),
         expanded: false,
-    );
-
-  });
+      );
+    });
   }
 
   @override
@@ -127,22 +138,36 @@ class _CardStackState extends State<CardStack>
         // overflow: Overflow.visible,
         children: cards.reversed.map((card) {
       if (cards.indexOf(card) <= 2) {
-        return InkWell(
-          borderRadius: BorderRadius.circular(11),
+        return GestureDetector(
+          // onHorizontalDragUpdate: (details){
+          //    if (details.delta.dx > 50) {
+          //     // Right Swipe
+          //     // Sestivity is integer is used when you don't want to mess up vertical drag
+          //     } else if(details.delta.dx < -50){
+          //     //Left Swipe
+          //    setState(() {
+          //     VocCard removedCard = cards.removeAt(cards.length - 1);
+          //     cards.insert(0, removedCard);
+          //     currentIndex = cards[0].index;
+          //   });
+          //     }
+          // } ,
+          child:
+          InkWell(borderRadius: BorderRadius.circular(11),
+          onDoubleTap: () {
+            setState(() {
+              VocCard removedCard = cards.removeAt(cards.length - 1);
+              cards.insert(0, removedCard);
+              currentIndex = cards[0].index;
+            });
+          },
           onTap: () {
             controller.forward().whenComplete(() {
               setState(() {
                 controller.reset();
-
                 VocCard removedCard = cards.removeAt(0);
                 cards.add(removedCard);
                 currentIndex = cards[0].index;
-
-                print(currentIndex.toString() + cards[currentIndex].word);
-
-                // if (widget.onCardChanged != null)
-                //   widget.onCardChanged(cards[0].word, cards[0].translation,
-                //       cards[0].description, cards[0].color);
               });
             });
           },
@@ -157,7 +182,7 @@ class _CardStackState extends State<CardStack>
               ),
             ),
           ),
-        );
+        ));
       } else {
         return Container();
       }
@@ -193,4 +218,3 @@ class _CardStackState extends State<CardStack>
     return Offset(0.0, 0.0);
   }
 }
-

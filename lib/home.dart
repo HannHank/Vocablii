@@ -70,7 +70,7 @@ class _Home extends State<Home> {
 
                               Navigator.pushNamed(
                                   context, Trainer.route, arguments: {
-                                topicData.keys.toList()[index]:
+                                title[topicData.keys.toList()[index]]:
                                     topicData[topicData.keys.toList()[index]]
                               });
                             },
@@ -159,7 +159,8 @@ class _Home extends State<Home> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      title[topicData.keys.toList()[index]],
+                                                      title[topicData.keys
+                                                          .toList()[index]],
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontWeight:
@@ -167,7 +168,8 @@ class _Home extends State<Home> {
                                                           fontSize: 14),
                                                     ),
                                                     Text(
-                                                      meta[topicData.keys.toList()[index]],
+                                                      meta[topicData.keys
+                                                          .toList()[index]],
                                                       style: TextStyle(
                                                           fontSize: 12,
                                                           color:
@@ -200,13 +202,31 @@ class _Home extends State<Home> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Container(
-          margin: EdgeInsets.only(bottom: 10),
-          child: FloatingActionButton.extended(
-              backgroundColor: Color(0xff263238),
-              onPressed: null,
-              label: Text("Vokabeln hinzufügen",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600))),
-        ));
+        floatingActionButton: Padding(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: FloatingActionButton.extended(
+                        heroTag: "addVocs",
+                        backgroundColor: Color(0xff263238),
+                        onPressed: null,
+                        label: Text("Vokabeln hinzufügen",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w600))),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: FloatingActionButton.extended(
+                        heroTag: "settings",
+                        backgroundColor: Color(0xff263238),
+                        onPressed: () {
+                          auth.signOut();
+                        },
+                        label: Icon(Icons.settings)),
+                  )
+                ])));
   }
 }
