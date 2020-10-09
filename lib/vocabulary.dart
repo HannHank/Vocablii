@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'card/card.dart';
 import 'package:Vocablii/login.dart';
 import 'auth/auth.dart';
 import 'components/vocCard.dart';
@@ -144,14 +143,27 @@ class _CardStackState extends State<CardStack>
         // overflow: Overflow.visible,
         children: cards.reversed.map((card) {
       if (cards.indexOf(card) <= 2) {
-        return InkWell(
-          borderRadius: BorderRadius.circular(11),
-          onLongPress: () {
+        return GestureDetector(
+          // onHorizontalDragUpdate: (details){
+          //    if (details.delta.dx > 50) {
+          //     // Right Swipe
+          //     // Sestivity is integer is used when you don't want to mess up vertical drag
+          //     } else if(details.delta.dx < -50){
+          //     //Left Swipe
+          //    setState(() {
+          //     VocCard removedCard = cards.removeAt(cards.length - 1);
+          //     cards.insert(0, removedCard);
+          //     currentIndex = cards[0].index;
+          //   });
+          //     }
+          // } ,
+          child:
+          InkWell(borderRadius: BorderRadius.circular(11),
+          onDoubleTap: () {
             setState(() {
               VocCard removedCard = cards.removeAt(cards.length - 1);
               cards.insert(0, removedCard);
               currentIndex = cards[0].index;
-              controller.reset();
             });
           },
           onTap: () {
@@ -175,7 +187,7 @@ class _CardStackState extends State<CardStack>
               ),
             ),
           ),
-        );
+        ));
       } else {
         return Container();
       }

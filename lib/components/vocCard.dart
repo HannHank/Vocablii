@@ -161,7 +161,10 @@ class _VocCardState extends State<VocCard> {
             ),
           ),
         )
-        : Container(
+        : InkWell(
+          onLongPress: (){ change();},
+          onTap: widget.move,
+          child:Container(
             decoration: BoxDecoration(
                 color: widget.color,
                 borderRadius: new BorderRadius.circular(30)),
@@ -177,20 +180,20 @@ class _VocCardState extends State<VocCard> {
                             fontSize: 20,
                             color: Colors.white,
                             fontWeight: FontWeight.w800)),
-                    FlatButton(
-                      color: Colors.black,
-                      child: Text(
-                        "Show",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {
-                        change();
-                      },
-                    )
+                    // FlatButton(
+                    //   color: Colors.black,
+                    //   child: Text(
+                    //     "Show",
+                    //     style: TextStyle(color: Colors.white),
+                    //   ),
+                    //   onPressed: () {
+                    //     change();
+                    //   },
+                    // )
                   ],
                 ),
               ),
             ),
-          );
+          ));
   }
 }
