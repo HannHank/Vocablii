@@ -28,7 +28,6 @@ initialiseUserLernState(user) async{
           .update({
             'class': usersLernStates['class'],
           });
-
-   //  return usersLernStates['class'];
+    return usersLernStates['class'];
 
 }

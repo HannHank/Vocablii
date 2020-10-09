@@ -138,7 +138,7 @@ class _CardStackState extends State<CardStack>
         word: voc[vocKeys[i]]['ru'].toString(),
         translation: voc[vocKeys[i]]['de'].toString(),
         description: voc[vocKeys[i]]['desc'].toString(),
-        color: get_color(colors, vocKeys[i].toString(),widget.userStateVoc),
+        color: get_color(colors, vocKeys[i].toString(),widget.userStateVoc[widget.title]),
         expanded: false,
         user:widget.user['uuid'],
         name:vocKeys[i],
@@ -154,19 +154,19 @@ class _CardStackState extends State<CardStack>
         children: cards.reversed.map((card) {
       if (cards.indexOf(card) <= 2) {
         return GestureDetector(
-          // onHorizontalDragUpdate: (details){
-          //    if (details.delta.dx > 50) {
-          //     // Right Swipe
-          //     // Sestivity is integer is used when you don't want to mess up vertical drag
-          //     } else if(details.delta.dx < -50){
-          //     //Left Swipe
-          //    setState(() {
-          //     VocCard removedCard = cards.removeAt(cards.length - 1);
-          //     cards.insert(0, removedCard);
-          //     currentIndex = cards[0].index;
-          //   });
-          //     }
-          // } ,
+          onHorizontalDragUpdate: (details){
+             if (details.delta.dx > 0) {
+              // Right Swipe
+              // Sestivity is integer is used when you don't want to mess up vertical drag
+              } else if(details.delta.dx < -0){
+              //Left Swipe
+             setState(() {
+              VocCard removedCard = cards.removeAt(cards.length - 1);
+              cards.insert(0, removedCard);
+              currentIndex = cards[0].index;
+            });
+              }
+          } ,
           child:
           InkWell(borderRadius: BorderRadius.circular(11),
           onDoubleTap: () {
