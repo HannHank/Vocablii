@@ -26,9 +26,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // Define the default brightness and colors.
         brightness: Brightness.light,
-        primaryColor: Colors.black,
-        accentColor: Color(0xffffff),
-
+        primaryColor: Color(0xffFFFFFF),
+        accentColor: Color(0xff263238),
+        canvasColor: Colors.transparent,
+        
         // Define the default font family.
         fontFamily: 'Montserrat',
 
