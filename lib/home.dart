@@ -259,8 +259,23 @@ class Nav extends StatelessWidget {
       onPressed: () {
         showBottomSheet(
             context: context,
-            builder: (context) => Container(
-                color: Colors.lightBlue,
+            builder: (context) =>
+           Container(
+             margin: EdgeInsets.only(left:30,bottom: 20),
+             padding: EdgeInsets.all(50),
+               decoration: BoxDecoration(
+                  color: Colors.lightBlue,
+                  borderRadius: new BorderRadius.circular(30)),
+              width: 350,
+              height: 600,
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                        blurRadius: 30,
+                        offset: Offset(-11, -11),
+                        color: Color(0x9900000))
+                  ]),
                 child: Center(
                 child:Column(
                   children: [
@@ -275,7 +290,7 @@ class Nav extends StatelessWidget {
                       child: Text("Add"),
                     ),
                   ],
-                ))));
+                ))))));
       },
     );
   }
