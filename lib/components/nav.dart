@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'settingsButton.dart';
 import 'package:Vocablii/auth/auth.dart';
+import 'InputField.dart';
 
 class Nav extends StatelessWidget {
   final AuthenticationService auth;
@@ -62,33 +63,7 @@ class Nav extends StatelessWidget {
                                   fontSize: 14),
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 5, bottom: 5),
-                            child: InkWell(
-                              onTap: () {
-                                print('tap on settings');
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(11),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey[600],
-                                          blurRadius: 10,
-                                          offset: Offset(4, 4)),
-                                    ]),
-                                child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Row(
-                                    children: [
-                                      Text('Username'),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          basicForm("Nutzername",10.0,30, "wrong", null),
                           // change user name
                           Container(
                             margin: EdgeInsets.only(top: 25, bottom: 7),
@@ -100,60 +75,9 @@ class Nav extends StatelessWidget {
                                   fontSize: 14),
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 5, bottom: 5),
-                            child: InkWell(
-                              onTap: () {
-                                print('tap on settings');
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(11),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey[600],
-                                          blurRadius: 10,
-                                          offset: Offset(4, 4)),
-                                    ]),
-                                child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Row(
-                                    children: [
-                                      Text('Password'),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 5, bottom: 5),
-                            child: InkWell(
-                              onTap: () {
-                                print('tap on settings');
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(11),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey[600],
-                                          blurRadius: 10,
-                                          offset: Offset(4, 4)),
-                                    ]),
-                                child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Row(
-                                    children: [
-                                      Text('Password wiederholen'),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          basicForm("Password",10.0,30, "wrong", null),
+                          basicForm("Password wiederholen",10.0,30, "wrong", null),
+                      
                           // change user name
                           Container(
                             margin: EdgeInsets.only(top: 25, bottom: 7),
