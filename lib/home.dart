@@ -265,7 +265,7 @@ class Nav extends StatelessWidget {
              margin: EdgeInsets.only(left:20,right: 20, bottom: 10),
              padding: EdgeInsets.all(50),
                decoration: BoxDecoration(
-                  color: Colors.lightBlue,
+                  color: Colors.white,
                   borderRadius: new BorderRadius.circular(30)),
               width: 350,
               height: 600,
