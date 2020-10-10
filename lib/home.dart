@@ -46,6 +46,35 @@ class _Home extends State<Home> {
           })
         });
   }
+  // static final List<String> _listViewData = [
+  //   "Inducesmile.com",
+  //   "Flutter Dev",
+  //   "Android Dev",
+  //   "iOS Dev!",
+  //   "React Native Dev!",
+  //   "React Dev!",
+  // ];
+
+  // showDrawer() {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       builder: (context) {
+  //         return Container(
+  //           child: ListView(
+  //             children: [
+  //               Column(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: _listViewData
+  //                     .map((data) => ListTile(
+  //                           title: Text(data),
+  //                         ))
+  //                     .toList(),
+  //               )
+  //             ],
+  //           ),
+  //         );
+  //       });
 
   @override
   void initState() {
@@ -216,32 +245,38 @@ class _Home extends State<Home> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton:
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Container(
-              margin: EdgeInsets.only(bottom: 10),
-              child: FloatingActionButton.extended(
-                heroTag: "addVocs",
-                backgroundColor: Color(0xff263238),
-                onPressed: null,
-                label: Icon(Icons.add),
-              ),
-            ),
-          ),
-          Padding(
-              padding: EdgeInsets.all(10),
-              child: Container(
-                margin: EdgeInsets.only(bottom: 10),
-                child: FloatingActionButton.extended(
-                    heroTag: "settings",
-                    backgroundColor: Color(0xff263238),
-                    onPressed: () {
-                      auth.signOut();
-                    },
-                    label: Icon(Icons.settings)),
-              )),
-        ]));
+        floatingActionButton: Nav(auth));
+  }
+}
+
+class Nav extends StatelessWidget {
+  final AuthenticationService auth;
+  Nav(this.auth);
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      child: Icon(Icons.settings),
+      onPressed: () {
+        showBottomSheet(
+            context: context,
+            builder: (context) => Container(
+                color: Colors.lightBlue,
+                child: Center(
+                child:Column(
+                  children: [
+                    FlatButton(
+                      onPressed: () {
+                        auth.signOut();
+                      },
+                      child: Text("Logout"),
+                    ),
+                    FlatButton(
+                      onPressed: () {},
+                      child: Text("Add"),
+                    ),
+                  ],
+                ))));
+      },
+    );
   }
 }
