@@ -60,7 +60,7 @@ class _VocCardState extends State<VocCard> {
       widget.state = state;
       users
           .doc(widget.user.toString())
-          .update({'class.' + widget.title + "." + state :[widget.name]});
+          .update({'class.' + widget.title + "." + state + '.' + widget.name : widget.index});
     });
   }
 
