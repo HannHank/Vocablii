@@ -44,35 +44,6 @@ class _Home extends State<Home> {
           })
         });
   }
-  // static final List<String> _listViewData = [
-  //   "Inducesmile.com",
-  //   "Flutter Dev",
-  //   "Android Dev",
-  //   "iOS Dev!",
-  //   "React Native Dev!",
-  //   "React Dev!",
-  // ];
-
-  // showDrawer() {
-  //   showModalBottomSheet(
-  //       context: context,
-  //       builder: (context) {
-  //         return Container(
-  //           child: ListView(
-  //             children: [
-  //               Column(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: _listViewData
-  //                     .map((data) => ListTile(
-  //                           title: Text(data),
-  //                         ))
-  //                     .toList(),
-  //               )
-  //             ],
-  //           ),
-  //         );
-  //       });
 
   @override
   void initState() {
@@ -258,38 +229,200 @@ class Nav extends StatelessWidget {
       onPressed: () {
         showModalBottomSheet(
             context: context,
-            builder: (context) =>
-           Container(
-             margin: EdgeInsets.only(left:20,right: 20, bottom: 10),
-             padding: EdgeInsets.all(50),
-               decoration: BoxDecoration(
-                  color: Colors.lightBlue,
-                  borderRadius: new BorderRadius.circular(30)),
-              width: 350,
-              height: 600,
-              child: Center(
-                child: Container(
-                  decoration: BoxDecoration(boxShadow: [
-                    BoxShadow(
-                        blurRadius: 30,
-                        offset: Offset(-11, -11),
-                        color: Color(0x9900000))
-                  ]),
-                child: Center(
-                child:Column(
+            builder: (context) => Container(
+                margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                padding: EdgeInsets.all(50),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: new BorderRadius.circular(30)),
+                width: 350,
+                height: 600,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    FlatButton(
-                      onPressed: () {
-                        auth.signOut();
-                      },
-                      child: Text("Logout"),
-                    ),
-                    FlatButton(
-                      onPressed: () {},
-                      child: Text("Add"),
-                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Settings
+                          Container(
+                            margin: EdgeInsets.only(top: 0, bottom: 7),
+                            child: Text(
+                              'Einstellungen',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5, bottom: 5),
+                            child: InkWell(
+                              onTap: () {
+                                print('tap on settings');
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(11),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey[600],
+                                          blurRadius: 10,
+                                          offset: Offset(4, 4)),
+                                    ]),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(
+                                    children: [
+                                      // TODO: make dynamic
+                                      Padding(
+                                          padding: EdgeInsets.only(right: 5),
+                                          child: Text('✅')),
+                                      Text('Beantwortete Anzeigen')
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5, bottom: 5),
+                            child: InkWell(
+                              onTap: () {
+                                print('tap on settings');
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(11),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey[600],
+                                          blurRadius: 10,
+                                          offset: Offset(4, 4)),
+                                    ]),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(
+                                    children: [
+                                      // TODO: make dynamic
+                                      Padding(
+                                          padding: EdgeInsets.only(right: 5),
+                                          child: Text('✅')),
+                                      Text('Audio Vokabeln')
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5, bottom: 5),
+                            child: InkWell(
+                              onTap: () {
+                                print('tap on settings');
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(11),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey[600],
+                                          blurRadius: 10,
+                                          offset: Offset(4, 4)),
+                                    ]),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(
+                                    children: [
+                                      // TODO: make dynamic
+                                      Padding(
+                                          padding: EdgeInsets.only(right: 5),
+                                          child: Text('⛔')),
+                                      Text('Audio nur über WLAN')
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          // change user name
+                          Container(
+                            margin: EdgeInsets.only(top: 25, bottom: 7),
+                            child: Text(
+                              'Nutzernamen ändern',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5, bottom: 5),
+                            child: InkWell(
+                              onTap: () {
+                                print('tap on settings');
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(11),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey[600],
+                                          blurRadius: 10,
+                                          offset: Offset(4, 4)),
+                                    ]),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(
+                                    children: [
+                                      Text('Username'),
+                                      
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Logout
+                          Center(
+                            child: FloatingActionButton(
+                              onPressed: null,
+                              child: Icon(Icons.logout),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
                   ],
-                ))))));
+                )
+                // child: Center(
+                //   child: Container(
+                //     decoration: BoxDecoration(boxShadow: [
+                //       BoxShadow(
+                //           blurRadius: 30,
+                //           offset: Offset(-11, -11),
+                //           color: Color(0x9900000))
+                //     ]),
+                //   child: Center(
+                //   child:Column(
+                //     children: [
+                //       FlatButton(
+                //         onPressed: () {
+                //           auth.signOut();
+                //         },
+                //         child: Text("Logout"),
+                //       ),
+                //       FlatButton(
+                //         onPressed: () {},
+                //         child: Text("Add"),
+                //       ),
+                //     ],
+                //   ))))
+                ));
       },
     );
   }

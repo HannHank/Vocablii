@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   final auth = AuthenticationService(FirebaseAuth.instance);
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.black);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
     return MaterialApp(
       title: 'Vocablii',
       debugShowCheckedModeBanner: false,
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color(0xffFFFFFF),
         accentColor: Color(0xff263238),
         canvasColor: Colors.transparent,
-        
+
         // Define the default font family.
         fontFamily: 'Montserrat',
 
