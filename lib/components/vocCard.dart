@@ -99,6 +99,7 @@ class _VocCardState extends State<VocCard> {
             onTap: () {},
             child: Container(
               decoration: BoxDecoration(
+                  boxShadow: [BoxShadow(offset: Offset(5, 5), blurRadius: 10, color: Color(0x80000000))],
                   color: widget.color,
                   borderRadius: new BorderRadius.circular(30)),
               width: 350,
@@ -250,6 +251,7 @@ class _VocCardState extends State<VocCard> {
             onTap: widget.move,
             child: Container(
               decoration: BoxDecoration(
+                  boxShadow: [BoxShadow(offset: Offset(5, 5), blurRadius: 10, color: Color(0x80000000))],
                   color: widget.color,
                   borderRadius: new BorderRadius.circular(30)),
               width: 350,
