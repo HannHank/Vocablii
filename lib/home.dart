@@ -229,16 +229,25 @@ class Nav extends StatelessWidget {
       onPressed: () {
         showModalBottomSheet(
             context: context,
-            builder: (context) => Container(
-                margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                padding: EdgeInsets.all(50),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: new BorderRadius.circular(30)),
-                width: 350,
-                height: 600,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+            builder: (context) =>
+           Container(
+             margin: EdgeInsets.only(left:20,right: 20, bottom: 10),
+             padding: EdgeInsets.all(50),
+               decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.circular(30)),
+              width: 350,
+              height: 600,
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                        blurRadius: 30,
+                        offset: Offset(-11, -11),
+                        color: Color(0x9900000))
+                  ]),
+                child: Center(
+                child:Column(
                   children: [
                     Container(
                       child: Column(

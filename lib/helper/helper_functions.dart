@@ -15,14 +15,23 @@ import '../components/vocCard.dart';
 Color get_color(String word,Map userStateVoc) {
 
   Color color;
-  if(userStateVoc[word] == "Iknow"){
+  if(userStateVoc[word] != null)
+  {
+  if(userStateVoc[word]['state'] == "Iknow"){
   color = colors[5];
   }
-  else if(userStateVoc[word] == "notSave"){
+  else if(userStateVoc[word]['state'] == "notSave"){
      color = colors[2];
-  }else{
+  }
+  else{
+    // state not in index
+    color = colors[0];
+  }
+  }
+  else{
     color = colors[3];
   }
+  
   return color;
 }
 
