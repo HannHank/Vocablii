@@ -34,6 +34,7 @@ class _Trainer extends State<Trainer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         body: Stack(children: [
       Container(
           padding: EdgeInsets.only(top: 60),
