@@ -21,6 +21,11 @@ class _Login extends State<Login> {
   String emailErr;
   String pwdErr;
   String errMsg = "";
+  @override
+  void initState() {
+    super.initState();
+    auth.firebaseHandler();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,20 +135,21 @@ class _Login extends State<Login> {
                         borderRadius: new BorderRadius.circular(30.0)),
                     color: Colors.black,
                     onPressed: () async {
-                      final state = await auth.signUp(
-                        email: nameController.text.trim(),
-                        password: emailController.text.trim(),
-                      );
-                      if (state == "Signed up") {
-                        Navigator.pushNamed(context, Home.route, arguments: {
-                          'User':
-                              nameController.text + ' ' + emailController.text
-                        });
-                      } else {
-                        setState(() {
-                          errMsg = state;
-                        });
-                      }
+                        await auth.sendEmail(nameController.text.trim());
+                      // final state = await auth.signUp(
+                      //   email: nameController.text.trim(),
+                      //   password: emailController.text.trim(),
+                      // );
+                      // if (state == "Signed up") {
+                      //   Navigator.pushNamed(context, Home.route, arguments: {
+                      //     'User':
+                      //         nameController.text + ' ' + emailController.text
+                      //   });
+                      // } else {
+                      //   setState(() {
+                      //     errMsg = state;
+                      //   });
+                      // }
                     },
                     child:
                         Text("Sign Up", style: TextStyle(color: Colors.white)),
