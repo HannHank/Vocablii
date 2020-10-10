@@ -1,8 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
-Widget basicForm(String name, String errmsg, TextEditingController controller) {
+Widget basicForm(String name,double fontSize,double height, String errmsg, TextEditingController controller) {
         return Container(
-            height: 50,
+            height: height,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: new BorderRadius.circular(10.0),
@@ -30,7 +32,7 @@ Widget basicForm(String name, String errmsg, TextEditingController controller) {
               maxLines: 1,
               maxLength: 20,
               style:
-                  TextStyle(fontSize: 20.0, height: 1.6, color: Colors.black),
+                  TextStyle(fontSize: fontSize, height: 1.6, color: Colors.black),
               // controller: _locationNameTextController,
             ));
       
