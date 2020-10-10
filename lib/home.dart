@@ -380,7 +380,113 @@ class Nav extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Text('Username'),
-                                      
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          // change user name
+                          Container(
+                            margin: EdgeInsets.only(top: 25, bottom: 7),
+                            child: Text(
+                              'Password ändern',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5, bottom: 5),
+                            child: InkWell(
+                              onTap: () {
+                                print('tap on settings');
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(11),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey[600],
+                                          blurRadius: 10,
+                                          offset: Offset(4, 4)),
+                                    ]),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(
+                                    children: [
+                                      Text('Password'),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5, bottom: 5),
+                            child: InkWell(
+                              onTap: () {
+                                print('tap on settings');
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(11),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey[600],
+                                          blurRadius: 10,
+                                          offset: Offset(4, 4)),
+                                    ]),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(
+                                    children: [
+                                      Text('Password wiederholen'),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          // change user name
+                          Container(
+                            margin: EdgeInsets.only(top: 25, bottom: 7),
+                            child: Text(
+                              'Fortschritt zurücksetzen',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 5, bottom: 5),
+                            child: InkWell(
+                              onTap: () {
+                                print('tap on settings');
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(11),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.grey[600],
+                                          blurRadius: 10,
+                                          offset: Offset(4, 4)),
+                                    ]),
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(
+                                    children: [
+                                      // TODO: make dynamic
+                                      Padding(
+                                          padding: EdgeInsets.only(right: 5),
+                                          child: Text('❌')),
+                                      Text('Alles zurücksetzen?')
                                     ],
                                   ),
                                 ),
