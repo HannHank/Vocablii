@@ -19,9 +19,9 @@ Color get_color(String word,Map userStateVoc) {
   color = colors[5];
   }
   else if(userStateVoc[word] == "notSave"){
-     color = colors[4];
+     color = colors[2];
   }else{
-    color = colors[1];
+    color = colors[3];
   }
   return color;
 }
