@@ -6,7 +6,7 @@ initialiseUserLernState(user) async{
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   Map<String, Map> usersLernStates = {
-    'class': null
+    'class': {}
   };
  await users.doc(user.uid.toString()).get().then((snapshot) => {
     usersLernStates['class'] = snapshot.data()['class'],
@@ -16,6 +16,7 @@ initialiseUserLernState(user) async{
   });
       await topics.get().then((QuerySnapshot querySnapshot) => {
               querySnapshot.docs.forEach((doc) {
+                print("not null: " + usersLernStates.toString());
                 if(usersLernStates['class'].containsKey(doc.data()['meta']['name'])){
                   //nothing to do
                 }else{

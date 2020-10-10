@@ -62,14 +62,6 @@ class _CardStackState extends State<CardStack>
 
   List cards;
 
-  List<Color> colors = [
-    Color(0xff2B969D),
-    Color(0xff2B529D),
-    Color(0xff862B9D),
-    Color(0xff953232),
-    Color(0xff3B7626),
-    Color(0xff328D93),
-  ];
 
 
   int currentIndex;
@@ -118,11 +110,11 @@ class _CardStackState extends State<CardStack>
             setState(() {
               controller.reset();
 
+              cards[0].color = get_color(cards[0].name, {cards[0].name: cards[0].state});
               VocCard removedCard = cards.removeAt(0);
               cards.add(removedCard);
               currentIndex = cards[0].index;
               print(currentIndex.toString() + cards[currentIndex].word);
-
               // if (widget.onCardChanged != null)
               //   widget.onCardChanged(cards[0].word, cards[0].translation,
               //       cards[0].description, cards[0].color);
@@ -133,7 +125,7 @@ class _CardStackState extends State<CardStack>
         word: voc[vocKeys[i]]['ru'].toString(),
         translation: voc[vocKeys[i]]['de'].toString(),
         description: voc[vocKeys[i]]['desc'].toString(),
-        color: get_color(colors, vocKeys[i].toString(),widget.userStateVoc[widget.title]),
+        color: get_color(vocKeys[i].toString(),widget.userStateVoc[widget.title]),
         expanded: false,
         user:widget.user['uuid'],
         name:vocKeys[i],
