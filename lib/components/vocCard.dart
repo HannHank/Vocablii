@@ -13,7 +13,7 @@ class VocCard extends StatefulWidget {
   final String user;
   final String name;
   final String title;
-  Map state;
+  String state;
   VocCard(
       {this.index,
       this.word,
@@ -41,11 +41,11 @@ class _VocCardState extends State<VocCard> {
   _VocCardState({this.color, this.word, this.translation, this.descr});
   updateState(state) {
     setState(() {
-      widget.state = {'state':state,'ru':widget.word,'de':widget.translation,'descr':widget.description};
+      widget.state = state;
       Map stateVoc = {};
       stateVoc[widget.name] = state;
       users.doc(widget.user.toString()).update({
-        'class.' + widget.title +"."+widget.name:{'state':state,'ru':widget.word,'de':widget.translation,'descr':widget.description}
+        'class.' + widget.title +"."+widget.name:state
       });
     });
   }
