@@ -42,33 +42,30 @@ class _VocCardState extends State<VocCard> {
   final assetsAudioPlayer = AssetsAudioPlayer();
 
   _VocCardState({this.color, this.word, this.translation, this.descr});
-  updateState(state) {
-    setState(() async {
-      try {
-        // url = await FirebaseStorage().ref().child('/vocabulary_audio/' + word.toString() + '.mp3').getDownloadURL();
-        url = await FirebaseStorage()
-            .ref()
-            .child('/vocabulary_audio/word.mp3')
-            .getDownloadURL();
+  updateState(state) async {
+    try {
+      // url = await FirebaseStorage().ref().child('/vocabulary_audio/' + word.toString() + '.mp3').getDownloadURL();
+      url = await FirebaseStorage()
+        .ref()
+        .child('/vocabulary_audio/word.mp3')
+        .getDownloadURL();
 
-        await assetsAudioPlayer.open(
-          Audio.network(url),
-        );
-      } catch (e) {
-        print(e);
-      }
-
+      // await assetsAudioPlayer.open(
+      //   Audio.network(url),
+      // );
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
       widget.state = state;
-      Map stateVoc = {};
-      stateVoc[widget.name] = state;
       users
           .doc(widget.user.toString())
-          .update({'class.' + widget.title + "." + widget.name: state});
+          .update({'class.' + widget.title + "." + state :[widget.name]});
     });
   }
 
   void play() {
-    assetsAudioPlayer.play();
+    // assetsAudioPlayer.play();
   }
 
   void change() {
@@ -96,6 +93,7 @@ class _VocCardState extends State<VocCard> {
   Widget build(BuildContext context) {
     return widget.expanded
         ? InkWell(
+          borderRadius: new BorderRadius.circular(30),
             onTap: () {},
             child: Container(
               decoration: BoxDecoration(
@@ -139,6 +137,7 @@ class _VocCardState extends State<VocCard> {
                                     child: Icon(Icons.play_arrow_rounded, color: Colors.white),
                                   ),
                                   FlatButton(
+                                    onPressed: (){},
                                     child: Icon(Icons.favorite, color: Colors.white,),
                                   ),
                                 ],
@@ -245,6 +244,7 @@ class _VocCardState extends State<VocCard> {
             ),
           )
         : InkWell(
+          borderRadius: new BorderRadius.circular(30),
             onLongPress: () {
               change();
             },

@@ -39,16 +39,24 @@ class _Home extends State<Home> {
 
   getStateVoc() async {
     initialiseUserLernState(auth.currentUser()).then((data) => {
-          setState(() {
-            userStateVoc = data;
-          })
-        });
+      setState(() {
+        userStateVoc = data;
+      })
+    });
+  }
+  getPercent(int all, int known){
+    print("all: " + all.toString() + "known: " + known.toString());
+    double percent = ((known / all) * 100);
+    return percent;
   }
 
   @override
   void initState() {
+    super.initState();
     getTopics();
     getStateVoc();
+    print(userStateVoc.keys.toString());
+    print(topicData.keys.toString());
   }
 
   @override
@@ -192,11 +200,14 @@ class _Home extends State<Home> {
                                                     )
                                                   ],
                                                 ),
-
-                                                // TODO: Add progress ring
+                                                CircularProgressIndicator(
+                                                  strokeWidth: 6.0,
+                                                  backgroundColor: Color(0xff40FF53),
+                                                  value: getPercent(topicData.keys.toList().length, userStateVoc.keys.toList().length),
+                                                ),
                                                 Row(children: [
                                                   Text(
-                                                    '15%',
+                                                    getPercent(topicData.keys.toList().length, userStateVoc.keys.toList().length).toString() + '%',
                                                     style: TextStyle(
                                                       color: Color(0xff000000),
                                                     ),
