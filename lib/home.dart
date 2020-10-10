@@ -85,6 +85,7 @@ class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         body: Center(
           child: new Column(
             children: <Widget>[
@@ -257,11 +258,11 @@ class Nav extends StatelessWidget {
     return FloatingActionButton(
       child: Icon(Icons.settings),
       onPressed: () {
-        showBottomSheet(
+        showModalBottomSheet(
             context: context,
             builder: (context) =>
            Container(
-             margin: EdgeInsets.only(left:30,bottom: 20),
+             margin: EdgeInsets.only(left:20,right: 20, bottom: 10),
              padding: EdgeInsets.all(50),
                decoration: BoxDecoration(
                   color: Colors.lightBlue,
