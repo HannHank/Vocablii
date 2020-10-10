@@ -217,7 +217,7 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - assets_audio_player_web (0.0.1):
+  - assets_audio_player (0.0.1):
     - Flutter
   - BoringSSL-GRPC (0.0.7):
     - BoringSSL-GRPC/Implementation (= 0.0.7)
@@ -469,7 +469,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - assets_audio_player_web (from `.symlinks/plugins/assets_audio_player_web/ios`)
+  - assets_audio_player (from `.symlinks/plugins/assets_audio_player/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -522,8 +522,8 @@ SPEC REPOS:
     - Protobuf
 
 EXTERNAL SOURCES:
-  assets_audio_player_web:
-    :path: ".symlinks/plugins/assets_audio_player_web/ios"
+  assets_audio_player:
+    :path: ".symlinks/plugins/assets_audio_player/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   firebase_analytics:
@@ -556,7 +556,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
+  assets_audio_player: 1f5d855ea3e0484357e2efb0cb703b17959e6170
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: d800bcc818ca2307beaeb697a94aa76341bc661d
   Firebase: 7cf5f9c67f03cb3b606d1d6535286e1080e57eb6

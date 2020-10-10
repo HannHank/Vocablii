@@ -537,7 +537,7 @@ class Nav extends StatelessWidget {
                 //       ),
                 //     ],
                 //   ))))
-                ));
+                )))));
       },
     );
   }

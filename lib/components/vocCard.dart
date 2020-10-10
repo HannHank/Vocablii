@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:Vocablii/helper/helper_functions.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 class VocCard extends StatefulWidget {
   final int index;
@@ -36,21 +37,42 @@ class _VocCardState extends State<VocCard> {
   String word;
   String translation;
   String descr;
+  String url;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final assetsAudioPlayer = AssetsAudioPlayer();
 
   _VocCardState({this.color, this.word, this.translation, this.descr});
   updateState(state) {
-    setState(() {
+    setState(() async {
+      try {
+        // url = await FirebaseStorage().ref().child('/vocabulary_audio/' + word.toString() + '.mp3').getDownloadURL();
+        url = await FirebaseStorage()
+            .ref()
+            .child('/vocabulary_audio/word.mp3')
+            .getDownloadURL();
+
+        await assetsAudioPlayer.open(
+          Audio.network(url),
+        );
+      } catch (e) {
+        print(e);
+      }
+
       widget.state = state;
       Map stateVoc = {};
       stateVoc[widget.name] = state;
-      users.doc(widget.user.toString()).update({
-        'class.' + widget.title +"."+widget.name:state
-      });
+      users
+          .doc(widget.user.toString())
+          .update({'class.' + widget.title + "." + widget.name: state});
     });
   }
 
+  void play() {
+    assetsAudioPlayer.play();
+  }
+
   void change() {
+    play();
     setState(() {
       widget.expanded = true;
       if (widget.description == "0") {
@@ -92,25 +114,43 @@ class _VocCardState extends State<VocCard> {
                   child: Stack(
                     children: [
                       Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(widget.word,
-                                style: TextStyle(
+                        child: Padding(
+                          padding: const EdgeInsets.all(30),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(widget.word,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800)),
+                              Text(widget.translation,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  FlatButton(
+                                    onPressed: () {play();},
+                                    child: Icon(Icons.play_arrow_rounded, color: Colors.white),
+                                  ),
+                                  FlatButton(
+                                    child: Icon(Icons.favorite, color: Colors.white,),
+                                  ),
+                                ],
+                              ),
+                              Text(widget.description,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w800)),
-                            Text(widget.translation,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w800)),
-                            Text(widget.description,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w800)),
-                          ],
+                                    fontWeight: FontWeight.w800,
+                                  )),
+                            ],
+                          ),
                         ),
                       ),
                       Align(
