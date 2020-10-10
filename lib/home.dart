@@ -24,7 +24,7 @@ class _Home extends State<Home> {
   Map<String, Map> topicData = {};
   Map<String, String> meta = {};
   Map<String, String> title = {};
-  var userStateVoc = {};
+  dynamic userStateVoc = {};
   getTopics() {
     topics.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
@@ -46,7 +46,7 @@ class _Home extends State<Home> {
   }
   getPercent(int all, int known){
     print("all: " + all.toString() + "known: " + known.toString());
-    double percent = ((known / all) * 100);
+    int percent = (known / all * 100).toInt();
     return percent;
   }
 
@@ -55,8 +55,7 @@ class _Home extends State<Home> {
     super.initState();
     getTopics();
     getStateVoc();
-    print(userStateVoc.keys.toString());
-    print(topicData.keys.toString());
+   
   }
 
   @override
@@ -86,7 +85,9 @@ class _Home extends State<Home> {
                               // print('Data: ' +
                               //     topicData[topicData.keys.toList()[index]]
                               //         .toString());
-                              Navigator.pushNamed(context, Trainer.route,
+                               print(userStateVoc.keys.toString());
+                            print("hallo" +topicData[ topicData.keys.toList()[index]].keys.toList().length.toString());
+                                Navigator.pushNamed(context, Trainer.route,
                                   arguments: {
                                     title[topicData.keys.toList()[index]]:
                                         topicData[
@@ -203,11 +204,11 @@ class _Home extends State<Home> {
                                                 CircularProgressIndicator(
                                                   strokeWidth: 6.0,
                                                   backgroundColor: Color(0xff40FF53),
-                                                  value: getPercent(topicData.keys.toList().length, userStateVoc.keys.toList().length),
+                                                  value: getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['Iknow'].keys.toList().length).toDouble(),
                                                 ),
                                                 Row(children: [
                                                   Text(
-                                                    getPercent(topicData.keys.toList().length, userStateVoc.keys.toList().length).toString() + '%',
+                                                    getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['Iknow'].keys.toList().length).toString() + '%',
                                                     style: TextStyle(
                                                       color: Color(0xff000000),
                                                     ),
