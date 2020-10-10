@@ -36,7 +36,7 @@ class _Trainer extends State<Trainer> {
           child: Align(
             alignment: Alignment.topCenter,
             child: Text(args.keys.toList()[0].toString(),
-                style: TextStyle(fontSize: 30)),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
           )),
       CardStack(args[args.keys.toList()[0]],args['userStateVoc'],args['user'],args.keys.toList()[0].toString())
     ]));
