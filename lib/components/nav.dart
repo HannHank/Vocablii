@@ -6,6 +6,21 @@ import 'InputField.dart';
 class Nav extends StatelessWidget {
   final AuthenticationService auth;
   Nav(this.auth);
+
+  Map settings = {
+    'show_answerd': true,
+    'audio': true,
+    'audio_over_wifi': false
+  };
+
+  String emoji(String key) {
+    if(settings[key] == true) {
+      return '✅';
+    } else {
+      return '⛔';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
@@ -49,9 +64,15 @@ class Nav extends StatelessWidget {
                                   fontSize: 14),
                             ),
                           ),
-                          settingButton('✅', 'Beantwortete Anzeigen', (){}),
-                          settingButton('✅', 'Audio Vokabeln', (){}),
-                          settingButton('⛔', 'Audio nur über WLAN', (){}),
+                          settingButton(emoji('show_answerd'), 'Beantwortete Anzeigen', (){
+                            settings['show_answerd'] = !settings['show_answerd'];
+                          }),
+                          settingButton(emoji('audio'), 'Audio Vokabeln', (){
+                            settings['audio'] = !settings['audio'];
+                          }),
+                          settingButton(emoji('audio_over_wifi'), 'Audio nur über WLAN', (){
+                            settings['audio_over_wifi'] = !settings['audio_over_wifi'];
+                          }),
                           // change user name
                           Container(
                             margin: EdgeInsets.only(top: 25, bottom: 7),
