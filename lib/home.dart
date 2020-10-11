@@ -229,7 +229,7 @@ class _Home extends State<Home> {
                                                   strokeWidth: 6.0,
                                                   backgroundColor: Color(0xffCECECE),
                                                   valueColor: new AlwaysStoppedAnimation<Color>(Color(0xff40FF53)),
-                                                  value:  show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['percent']).toDouble():0.0,
+                                                  value:  show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['percent']).toDouble()/100:0.0,
                                                 ),
                                               ],
                                             ),
