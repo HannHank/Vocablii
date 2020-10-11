@@ -49,6 +49,7 @@ class AuthenticationService {
           .set({
             'name': email,
             'class': {},
+            
           });
       return "Signed up";
     } on FirebaseAuthException catch (e) {
