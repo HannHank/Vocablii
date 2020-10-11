@@ -1,9 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:Vocablii/components/InputField.dart';
+import 'package:http/http.dart' as http;
 
 class AddVoc extends StatelessWidget {
   final String type; // voc, exc, aud
   AddVoc({this.type});
+
+  dynamic translation;
+  String target;
+
+  dynamic fetchTranslation(String word, String origin) async {
+    if(origin == 'ru') {
+      target = 'de';
+    } else {
+      target = 'ru';
+    }
+
+    return await http.post(
+      'https://translation.googleapis.com/language/translate/v2',
+      headers: {
+        'Authorization': '',
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: {
+        "q": word,
+        "source": origin,
+        "target": target,
+        "format": "text"
+      });
+
+    // {
+    //   "data": {
+    //     "translations": [{
+    //       "translatedText": ""
+    //     }]
+    //   }
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +49,7 @@ class AddVoc extends StatelessWidget {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
           ),
           basicForm('Russische Vokabel', 12.0, 'Something is wrong', null),
-          // TODO: Add automatic translate
+          // TODO: Add automatic translate -> fetchTranslation(input, lang)
           basicForm('Deutsche Übersetzung', 12.0, 'Something is wrong', null),
           basicForm('Beschreibung', 12.0, 'Something is wrong', null),
           FloatingActionButton(

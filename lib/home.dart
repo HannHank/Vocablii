@@ -49,6 +49,9 @@ class _Home extends State<Home> {
   }
   getPercent(int all, int known){
     print("all: " + all.toString() + "known: " + known.toString());
+    if(known == null) {
+      known = 0;
+    }
     int percent = (known / all * 100).toInt();
     return percent;
   }
@@ -121,7 +124,11 @@ class _Home extends State<Home> {
                                           ]),
                                       child: Center(
                                         // TODO: Replace with icon
-                                        child: Text('delete'),
+                                        child: Text('🤫',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 25)),
                                       ),
                                     ),
                                   )
@@ -143,7 +150,13 @@ class _Home extends State<Home> {
                                           ]),
                                       child: Center(
                                         // TODO: Replace with icon
-                                        child: Text('load'),
+                                        child: Text(
+                                          '🤓',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 25),
+                                        ),
                                       ),
                                     ),
                                   )
@@ -203,11 +216,6 @@ class _Home extends State<Home> {
                                                     )
                                                   ],
                                                 ),
-                                                CircularProgressIndicator(
-                                                  strokeWidth: 6.0,
-                                                  backgroundColor: Color(0xff40FF53),
-                                                  value:  show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['percent']).toDouble():0.0,
-                                                ),
                                                 Row(children: [
                                                   Text(
                                                     show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['percent']).toString() + '%':"0%",
@@ -215,7 +223,13 @@ class _Home extends State<Home> {
                                                       color: Color(0xff000000),
                                                     ),
                                                   )
-                                                ])
+                                                ]),
+                                                CircularProgressIndicator(
+                                                  strokeWidth: 6.0,
+                                                  backgroundColor: Color(0xffCECECE),
+                                                  valueColor: new AlwaysStoppedAnimation<Color>(Color(0xff40FF53)),
+                                                  value:  show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['percent']).toDouble():0.0,
+                                                ),
                                               ],
                                             ),
                                           ],
@@ -229,6 +243,20 @@ class _Home extends State<Home> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Nav(auth));
+        floatingActionButton:
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            // TODO: Navigate to Add Vocabulary screen
+            child: FloatingActionButton(
+              onPressed: null,
+              child: Icon(Icons.add),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Nav(auth),
+          ),
+        ]));
   }
 }
