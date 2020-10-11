@@ -126,12 +126,11 @@ class _Home extends State<Home> {
                                           ]),
                                       child: Center(
                                         // TODO: Replace with icon
-                                        child: Text(
-                                          '🤫',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(color: Colors.white,
-                                          fontSize: 25)
-                                        ),
+                                        child: Text('🤫',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 25)),
                                       ),
                                     ),
                                   )
@@ -156,8 +155,9 @@ class _Home extends State<Home> {
                                         child: Text(
                                           '🤓',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(color: Colors.white,
-                                          fontSize: 25),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 25),
                                         ),
                                       ),
                                     ),
@@ -276,21 +276,20 @@ class _Home extends State<Home> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              // TODO: Navigate to Add Vocabulary screen
-              child: FloatingActionButton(
-                onPressed: null,
-                child: Icon(Icons.add),
-              ),
+        floatingActionButton:
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            // TODO: Navigate to Add Vocabulary screen
+            child: FloatingActionButton(
+              onPressed: null,
+              child: Icon(Icons.add),
             ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Nav(auth),
-            ),
-          ]));
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Nav(auth),
+          ),
+        ]));
   }
 }
