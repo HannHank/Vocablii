@@ -54,11 +54,14 @@ class _VocCardState extends State<VocCard> {
       widget.word = ruController.text.trim();
       widget.translation = deController.text.trim();
       widget.description = descrController.text.trim();
+      if(descrController.text.trim() == ""){
+        widget.description = "0";
+      }
       // need to be dynamic
       topics.doc("russian_rock").update({
         "vocabulary." + widget.name + "." + widget.name: {
           "de": widget.translation,
-          "desc:": widget.description,
+          "desc": widget.description,
           "ru": widget.word
         }
       });
