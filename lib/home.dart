@@ -6,6 +6,7 @@ import 'package:Vocablii/vocabulary.dart';
 import 'auth/auth.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'components/nav.dart';
+
 class Home extends StatefulWidget {
   static const String route = "Home";
   final Map<String, String> args;
