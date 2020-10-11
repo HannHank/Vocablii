@@ -100,6 +100,7 @@ class _Home extends State<Home> {
                                             topicData.keys.toList()[index]],
                                     'userStateVoc': userStateVoc,
                                     'user': {'uuid': auth.currentUser().uid},
+                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]}
                                   });
                             },
                             child: Padding(
@@ -217,14 +218,16 @@ class _Home extends State<Home> {
                                                     )
                                                   ],
                                                 ),
-                                                Row(children: [
-                                                  Text(
+                                            
+                                                  Padding(
+                                                       padding: EdgeInsets.only(left: 60),
+                                                  child:Text(
                                                     show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['percent']).toString() + '%':"0%",
                                                     style: TextStyle(
                                                       color: Color(0xff000000),
                                                     ),
-                                                  )
-                                                ]),
+                                                  ),),
+                                          
                                                 CircularProgressIndicator(
                                                   strokeWidth: 6.0,
                                                   backgroundColor: Color(0xffCECECE),
