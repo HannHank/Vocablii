@@ -6,7 +6,6 @@ import 'package:Vocablii/vocabulary.dart';
 import 'auth/auth.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'components/nav.dart';
-
 class Home extends StatefulWidget {
   static const String route = "Home";
   final Map<String, String> args;
@@ -25,8 +24,9 @@ class _Home extends State<Home> {
   Map<String, Map> topicData = {};
   Map<String, String> meta = {};
   Map<String, String> title = {};
-  dynamic userStateVoc = {};
-  getTopics() {
+  Map userStateVoc = {};
+  bool show = false;
+    getTopics() {
     topics.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
             setState(() {
@@ -39,14 +39,15 @@ class _Home extends State<Home> {
   }
 
   getStateVoc() async {
-    initialiseUserLernState(auth.currentUser()).then((data) => {
-          setState(() {
-            userStateVoc = data;
-          })
-        });
+    await initialiseUserLernState(auth.currentUser()).then((data) => {
+      setState(() {
+        userStateVoc = data;
+        show = true;
+      })
+    });
+    print("heollo:" + userStateVoc[title[topicData.keys.toList()[0]]]['percent'].toString());
   }
-
-  getPercent(int all, int known) {
+  getPercent(int all, int known){
     print("all: " + all.toString() + "known: " + known.toString());
     int percent = (known / all * 100).toInt();
     return percent;
@@ -57,6 +58,7 @@ class _Home extends State<Home> {
     super.initState();
     getTopics();
     getStateVoc();
+   
   }
 
   @override
@@ -83,17 +85,11 @@ class _Home extends State<Home> {
                       itemBuilder: (BuildContext ctxt, int index) {
                         return new InkWell(
                             onTap: () {
-                              // print('Data: ' +
-                              //     topicData[topicData.keys.toList()[index]]
-                              //         .toString());
-                              print(userStateVoc.keys.toString());
-                              print("hallo" +
-                                  topicData[topicData.keys.toList()[index]]
-                                      .keys
-                                      .toList()
-                                      .length
-                                      .toString());
-                              Navigator.pushNamed(context, Trainer.route,
+                              print('Data: ' +
+                                
+                                      userStateVoc.toString());
+                             
+                                Navigator.pushNamed(context, Trainer.route,
                                   arguments: {
                                     title[topicData.keys.toList()[index]]:
                                         topicData[
@@ -111,7 +107,6 @@ class _Home extends State<Home> {
                                 actions: <Widget>[
                                   InkWell(
                                     child: Container(
-                                      width: 800,
                                       decoration: BoxDecoration(
                                           color: Color(0xffED6B6B),
                                           borderRadius:
@@ -218,51 +213,19 @@ class _Home extends State<Home> {
                                                     )
                                                   ],
                                                 ),
-                                                Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      Text(
-                                                        getPercent(
-                                                                    topicData[topicData.keys.toList()[
-                                                                            index]]
-                                                                        .keys
-                                                                        .toList()
-                                                                        .length,
-                                                                    userStateVoc[title[topicData
-                                                                            .keys
-                                                                            .toList()[index]]]['Iknow']
-                                                                        .keys
-                                                                        .toList()
-                                                                        .length)
-                                                                .toString() +
-                                                            '%',
-                                                        style: TextStyle(
-                                                          color:
-                                                              Color(0xff000000),
-                                                        ),
-                                                      )
-                                                    ]),
                                                 CircularProgressIndicator(
                                                   strokeWidth: 6.0,
-                                                  backgroundColor:
-                                                      Color(0xff40FF53),
-                                                  value: getPercent(
-                                                          topicData[topicData.keys
-                                                                      .toList()[
-                                                                  index]]
-                                                              .keys
-                                                              .toList()
-                                                              .length,
-                                                          userStateVoc[title[topicData
-                                                                      .keys
-                                                                      .toList()[
-                                                                  index]]]['Iknow']
-                                                              .keys
-                                                              .toList()
-                                                              .length)
-                                                      .toDouble(),
+                                                  backgroundColor: Color(0xff40FF53),
+                                                  value:  show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['percent']).toDouble():0.0,
                                                 ),
+                                                Row(children: [
+                                                  Text(
+                                                    show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['percent']).toString() + '%':"0%",
+                                                    style: TextStyle(
+                                                      color: Color(0xff000000),
+                                                    ),
+                                                  )
+                                                ])
                                               ],
                                             ),
                                           ],

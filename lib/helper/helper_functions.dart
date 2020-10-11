@@ -12,20 +12,8 @@ import '../components/vocCard.dart';
     Color(0xff328D93),
   ];
 
-Color get_color_initial(String word,Map<String,dynamic> userStateVoc) {
-  print("list: " + userStateVoc.toString());
-  Color color;
-  if(userStateVoc['Iknow'].keys.toList().contains(word)){
-    color = colors[5];
-  }
-  else if(userStateVoc['notSave'].keys.toList().contains(word)){
-     color = colors[2];
-  }else{
-    color = colors[3];
-  }
-  return color;
-}
-Color get_color(String word,Map<String,dynamic> userStateVoc) {
+Color get_color(String word,Map userStateVoc) {
+
   Color color;
   if(userStateVoc[word] == "Iknow"){
   color = colors[5];
@@ -37,6 +25,3 @@ Color get_color(String word,Map<String,dynamic> userStateVoc) {
   }
   return color;
 }
-
-
-

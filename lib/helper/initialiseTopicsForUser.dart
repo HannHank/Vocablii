@@ -21,9 +21,7 @@ initialiseUserLernState(user) async{
                   //nothing to do
                 }else{
                   usersLernStates['class'][doc.data()['meta']['name']] = {
-                    'Iknow':{},
-                    'notSave':{},
-                    'wtf':{}
+                    "percent":0
                   };
                 }
               }),
