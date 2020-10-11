@@ -38,17 +38,28 @@ class _VocCardState extends State<VocCard> {
   String translation;
   String descr;
   String url;
+  int percent;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   final assetsAudioPlayer = AssetsAudioPlayer();
 
   _VocCardState({this.color, this.word, this.translation, this.descr});
   updateState(state) async {
+    await users.doc(widget.user.toString()).get().then((snapshot) => {
+      percent = snapshot['class'][widget.title]['percent']
+    });
+    if(state == "wtf" && percent != 0 && widget.state != "wtf"){
+      percent -= 1;
+    }else if (state == "Iknow" && widget.state != "Iknow"){
+      percent += 1;
+    }else{
+      // do nothing
+    }
     try {
       // url = await FirebaseStorage().ref().child('/vocabulary_audio/' + word.toString() + '.mp3').getDownloadURL();
       url = await FirebaseStorage()
-        .ref()
-        .child('/vocabulary_audio/word.mp3')
-        .getDownloadURL();
+          .ref()
+          .child('/vocabulary_audio/word.mp3')
+          .getDownloadURL();
 
       // await assetsAudioPlayer.open(
       //   Audio.network(url),
@@ -60,7 +71,7 @@ class _VocCardState extends State<VocCard> {
       widget.state = state;
       users
           .doc(widget.user.toString())
-          .update({'class.' + widget.title + "." + state + '.' + widget.name : widget.index});
+          .update({'class.' + widget.title + "." + widget.name: state,'class.' + widget.title + "." + "percent": percent });
     });
   }
 
@@ -93,11 +104,16 @@ class _VocCardState extends State<VocCard> {
   Widget build(BuildContext context) {
     return widget.expanded
         ? InkWell(
-          borderRadius: new BorderRadius.circular(30),
+            borderRadius: new BorderRadius.circular(30),
             onTap: () {},
             child: Container(
               decoration: BoxDecoration(
-                  boxShadow: [BoxShadow(offset: Offset(5, 5), blurRadius: 10, color: Color(0x80000000))],
+                  boxShadow: [
+                    BoxShadow(
+                        offset: Offset(5, 5),
+                        blurRadius: 10,
+                        color: Color(0x80000000))
+                  ],
                   color: widget.color,
                   borderRadius: new BorderRadius.circular(30)),
               width: 350,
@@ -133,12 +149,18 @@ class _VocCardState extends State<VocCard> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   FlatButton(
-                                    onPressed: () {play();},
-                                    child: Icon(Icons.play_arrow_rounded, color: Colors.white),
+                                    onPressed: () {
+                                      play();
+                                    },
+                                    child: Icon(Icons.play_arrow_rounded,
+                                        color: Colors.white),
                                   ),
                                   FlatButton(
-                                    onPressed: (){},
-                                    child: Icon(Icons.favorite, color: Colors.white,),
+                                    onPressed: () {},
+                                    child: Icon(
+                                      Icons.favorite,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -244,14 +266,19 @@ class _VocCardState extends State<VocCard> {
             ),
           )
         : InkWell(
-          borderRadius: new BorderRadius.circular(30),
+            borderRadius: new BorderRadius.circular(30),
             onLongPress: () {
               change();
             },
             onTap: widget.move,
             child: Container(
               decoration: BoxDecoration(
-                  boxShadow: [BoxShadow(offset: Offset(5, 5), blurRadius: 10, color: Color(0x80000000))],
+                  boxShadow: [
+                    BoxShadow(
+                        offset: Offset(5, 5),
+                        blurRadius: 10,
+                        color: Color(0x80000000))
+                  ],
                   color: widget.color,
                   borderRadius: new BorderRadius.circular(30)),
               width: 350,

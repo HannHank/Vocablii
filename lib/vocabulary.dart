@@ -126,7 +126,7 @@ class _CardStackState extends State<CardStack>
         word: voc[vocKeys[i]]['ru'].toString(),
         translation: voc[vocKeys[i]]['de'].toString(),
         description: voc[vocKeys[i]]['desc'].toString(),
-        color: get_color_initial(vocKeys[i].toString(), widget.userStateVoc[widget.title]),
+        color: get_color(vocKeys[i].toString(),widget.userStateVoc[widget.title]),
         expanded: false,
         user:widget.user['uuid'],
         name:vocKeys[i],
