@@ -6,7 +6,6 @@ import 'package:Vocablii/vocabulary.dart';
 import 'auth/auth.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'components/nav.dart';
-
 class Home extends StatefulWidget {
   static const String route = "Home";
   final Map<String, String> args;
@@ -48,8 +47,7 @@ class _Home extends State<Home> {
     });
     print("heollo:" + userStateVoc[title[topicData.keys.toList()[0]]]['percent'].toString());
   }
-
-  getPercent(int all, int known) {
+  getPercent(int all, int known){
     print("all: " + all.toString() + "known: " + known.toString());
     int percent = (known / all * 100).toInt();
     return percent;
@@ -60,6 +58,7 @@ class _Home extends State<Home> {
     super.initState();
     getTopics();
     getStateVoc();
+   
   }
 
   @override
@@ -108,7 +107,6 @@ class _Home extends State<Home> {
                                 actions: <Widget>[
                                   InkWell(
                                     child: Container(
-                                      width: 800,
                                       decoration: BoxDecoration(
                                           color: Color(0xffED6B6B),
                                           borderRadius:
@@ -123,12 +121,7 @@ class _Home extends State<Home> {
                                           ]),
                                       child: Center(
                                         // TODO: Replace with icon
-                                        child: Text(
-                                          '🤫',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(color: Colors.white,
-                                          fontSize: 25)
-                                        ),
+                                        child: Text('delete'),
                                       ),
                                     ),
                                   )
@@ -150,12 +143,7 @@ class _Home extends State<Home> {
                                           ]),
                                       child: Center(
                                         // TODO: Replace with icon
-                                        child: Text(
-                                          '🤓',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(color: Colors.white,
-                                          fontSize: 25),
-                                        ),
+                                        child: Text('load'),
                                       ),
                                     ),
                                   )
@@ -215,31 +203,6 @@ class _Home extends State<Home> {
                                                     )
                                                   ],
                                                 ),
-                                                Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      Text(
-                                                        getPercent(
-                                                                    topicData[topicData.keys.toList()[
-                                                                            index]]
-                                                                        .keys
-                                                                        .toList()
-                                                                        .length,
-                                                                    userStateVoc[title[topicData
-                                                                            .keys
-                                                                            .toList()[index]]]['Iknow']
-                                                                        .keys
-                                                                        .toList()
-                                                                        .length)
-                                                                .toString() +
-                                                            '%',
-                                                        style: TextStyle(
-                                                          color:
-                                                              Color(0xff000000),
-                                                        ),
-                                                      )
-                                                    ]),
                                                 CircularProgressIndicator(
                                                   strokeWidth: 6.0,
                                                   backgroundColor: Color(0xff40FF53),
@@ -266,21 +229,6 @@ class _Home extends State<Home> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              // TODO: Navigate to Add Vocabulary screen
-              child: FloatingActionButton(
-                onPressed: null,
-                child: Icon(Icons.add),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Nav(auth),
-            ),
-          ]));
+        floatingActionButton: Nav(auth));
   }
 }
