@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget basicForm(String name, double fontSize, String errmsg,
     TextEditingController controller) {
-  return Container(
+    return Container(
       margin: EdgeInsets.only(top: 5, bottom: 5),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -27,8 +27,8 @@ Widget basicForm(String name, double fontSize, String errmsg,
               ),
               hintText: name),
           textAlign: TextAlign.start,
-          maxLines: 1,
-          maxLength: 20,
+          maxLines: null,
+          maxLength: null,
           style: TextStyle(fontSize: fontSize, height: 1.6, color: Colors.black),
           // controller: _locationNameTextController,
         ),
