@@ -1,3 +1,4 @@
+import 'package:Vocablii/components/InputField.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -5,8 +6,8 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 
 class VocCard extends StatefulWidget {
   final int index;
-  final String word;
-  final String translation;
+  String word;
+  String translation;
   String description;
   Color color;
   bool expanded;
@@ -40,18 +41,41 @@ class _VocCardState extends State<VocCard> {
   String url;
   int percent;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference topics = FirebaseFirestore.instance.collection('topics');
+  final ruController = TextEditingController();
+  final deController = TextEditingController();
+  final descrController = TextEditingController();
+
   final assetsAudioPlayer = AssetsAudioPlayer();
 
   _VocCardState({this.color, this.word, this.translation, this.descr});
-  updateState(state) async {
-    await users.doc(widget.user.toString()).get().then((snapshot) => {
-      percent = snapshot['class'][widget.title]['percent']
+  saveNewContent() {
+    setState(() {
+      widget.word = ruController.text.trim();
+      widget.translation = deController.text.trim();
+      widget.description = descrController.text.trim();
+      if(descrController.text.trim() == ""){
+        widget.description = "0";
+      }
+      // need to be dynamic
+      topics.doc("russian_rock").update({
+        "vocabulary." + widget.name + "." + widget.name: {
+          "de": widget.translation,
+          "desc": widget.description,
+          "ru": widget.word
+        }
+      });
     });
-    if(state == "wtf" && percent != 0 && widget.state != "wtf"){
+  }
+
+  updateState(state) async {
+    await users.doc(widget.user.toString()).get().then(
+        (snapshot) => {percent = snapshot['class'][widget.title]['percent']});
+    if (state == "wtf" && percent != 0 && widget.state != "wtf") {
       percent -= 1;
-    }else if (state == "Iknow" && widget.state != "Iknow"){
+    } else if (state == "Iknow" && widget.state != "Iknow") {
       percent += 1;
-    }else{
+    } else {
       // do nothing
     }
     try {
@@ -69,9 +93,10 @@ class _VocCardState extends State<VocCard> {
     }
     setState(() {
       widget.state = state;
-      users
-          .doc(widget.user.toString())
-          .update({'class.' + widget.title + "." + widget.name: state,'class.' + widget.title + "." + "percent": percent });
+      users.doc(widget.user.toString()).update({
+        'class.' + widget.title + "." + widget.name: state,
+        'class.' + widget.title + "." + "percent": percent
+      });
     });
   }
 
@@ -159,6 +184,113 @@ class _VocCardState extends State<VocCard> {
                                     onPressed: () {},
                                     child: Icon(
                                       Icons.favorite,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        ruController.text = widget.word;
+                                        deController.text = widget.translation;
+                                        descrController.text =
+                                            widget.description;
+                                      });
+                                      showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          context: context,
+                                          builder: (context) => Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 20,
+                                                  right: 20,
+                                                  bottom: 20),
+                                              padding: EdgeInsets.fromLTRB(
+                                                  50, 50, 50, 0),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      new BorderRadius.circular(
+                                                          30)),
+                                              width: 350,
+                                              height: 700,
+                                              child: Center(
+                                                  child: Container(
+                                                      decoration: BoxDecoration(
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                                blurRadius: 30,
+                                                                offset: Offset(
+                                                                    -11, -11),
+                                                                color: Color(
+                                                                    0x9900000))
+                                                          ]),
+                                                      child: Center(
+                                                          child: Column(
+                                                        children: [
+                                                          Container(
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                // Settings
+                                                                Container(
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          top:
+                                                                              0,
+                                                                          bottom:
+                                                                              7),
+                                                                  child: Text(
+                                                                    'VoKabel bearbeiten',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w700,
+                                                                        fontSize:
+                                                                            14),
+                                                                  ),
+                                                                ),
+                                                                basicForm(
+                                                                    "Russisch",
+                                                                    12,
+                                                                    "not working",
+                                                                    ruController),
+                                                                basicForm(
+                                                                    "Deutsch",
+                                                                    12,
+                                                                    "not working",
+                                                                    deController),
+                                                                basicForm(
+                                                                    "Beschreibung",
+                                                                    12,
+                                                                    "not working",
+                                                                    descrController),
+                                                                Center(
+                                                                    child:
+                                                                        Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              25),
+                                                                  child:
+                                                                      FloatingActionButton(
+                                                                    onPressed:
+                                                                        () {saveNewContent();},
+                                                                    child: Icon(
+                                                                        Icons
+                                                                            .save),
+                                                                  ),
+                                                                )),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ))))));
+                                    },
+                                    child: Icon(
+                                      Icons.edit,
                                       color: Colors.white,
                                     ),
                                   ),

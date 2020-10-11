@@ -250,6 +250,7 @@ class _Home extends State<Home> {
             padding: const EdgeInsets.all(4.0),
             // TODO: Navigate to Add Vocabulary screen
             child: FloatingActionButton(
+              heroTag: "add",
               onPressed: null,
               child: Icon(Icons.add),
             ),
