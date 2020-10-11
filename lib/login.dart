@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:Vocablii/home.dart';
 import 'package:Vocablii/components/InputField.dart';
@@ -82,9 +80,9 @@ class _Login extends State<Login> {
                             //   ),
                             // ),
                             SizedBox(height: 30),
-                            basicForm("Email",20.0,50, emailErr, nameController),
+                            basicForm("Email", 14.0, emailErr, nameController),
                             SizedBox(height: 30),
-                            basicForm("Password",20.0,50 ,pwdErr, emailController),
+                            basicForm("Password", 14.0 ,pwdErr, emailController),
                             Text(errMsg),
                           ],
                         )),

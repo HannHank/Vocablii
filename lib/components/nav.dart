@@ -31,8 +31,8 @@ class Nav extends StatelessWidget {
             context: context,
             builder: (context) =>
            Container(
-             margin: EdgeInsets.only(left:20,right: 20, bottom: 10),
-             padding: EdgeInsets.all(50),
+             margin: EdgeInsets.only(left:20,right: 20, bottom: 20),
+             padding: EdgeInsets.fromLTRB(50, 50, 50, 0),
                decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: new BorderRadius.circular(30)),
@@ -65,6 +65,7 @@ class Nav extends StatelessWidget {
                             ),
                           ),
                           settingButton(emoji('show_answerd'), 'Beantwortete Anzeigen', (){
+                            print('button pressed');
                             settings['show_answerd'] = !settings['show_answerd'];
                           }),
                           settingButton(emoji('audio'), 'Audio Vokabeln', (){
@@ -84,7 +85,7 @@ class Nav extends StatelessWidget {
                                   fontSize: 14),
                             ),
                           ),
-                          basicForm("Nutzername",10.0,30, "wrong", null),
+                          basicForm("Nutzername", 12.0, "wrong", null),
                           // change user name
                           Container(
                             margin: EdgeInsets.only(top: 25, bottom: 7),
@@ -96,8 +97,8 @@ class Nav extends StatelessWidget {
                                   fontSize: 14),
                             ),
                           ),
-                          basicForm("Password",10.0,30, "wrong", null),
-                          basicForm("Password wiederholen",10.0,30, "wrong", null),
+                          basicForm("Password", 12.0, "wrong", null),
+                          basicForm("Password wiederholen",12.0, "wrong", null),
                       
                           // change user name
                           Container(
