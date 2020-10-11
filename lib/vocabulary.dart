@@ -17,7 +17,6 @@ class Trainer extends StatefulWidget {
 class _Trainer extends State<Trainer> {
   final Map<String, Map> args;
 
-
   _Trainer(this.args);
   @override
   void initState() {
@@ -29,28 +28,32 @@ class _Trainer extends State<Trainer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
         body: Stack(children: [
-      Container(
-          padding: EdgeInsets.only(top: 60),
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Text(args.keys.toList()[0].toString(),
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
-          )),
-      CardStack(args[args.keys.toList()[0]],args['userStateVoc'],args['user'],args.keys.toList()[0].toString())
-    ]));
+          Container(
+              padding: EdgeInsets.only(top: 60),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Text(args.keys.toList()[0].toString(),
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
+              )),
+          CardStack(args[args.keys.toList()[0]], args['userStateVoc'],
+              args['user'], args.keys.toList()[0].toString())
+        ]));
   }
 }
 
 class CardStack extends StatefulWidget {
   // final Function onCardChanged;
-  final CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final CollectionReference users =
+      FirebaseFirestore.instance.collection('users');
   final Map voc;
   final Map userStateVoc;
   final Map user;
   final String title;
-  CardStack(this.voc,this.userStateVoc,this.user,this.title);
+  CardStack(this.voc, this.userStateVoc, this.user, this.title);
   @override
   _CardStackState createState() => _CardStackState(voc);
 }
@@ -58,12 +61,10 @@ class CardStack extends StatefulWidget {
 class _CardStackState extends State<CardStack>
     with SingleTickerProviderStateMixin {
   final Map voc;
-   
+
   _CardStackState(this.voc);
 
   List cards;
-
-
 
   int currentIndex;
   AnimationController controller;
@@ -106,12 +107,12 @@ class _CardStackState extends State<CardStack>
     cards = new List<VocCard>.generate(amount, (i) {
       return VocCard(
         move: () {
-          
           controller.forward().whenComplete(() {
             setState(() {
               controller.reset();
 
-              cards[0].color = get_color(cards[0].name, {cards[0].name: cards[0].state});
+              cards[0].color =
+                  get_color(cards[0].name, {cards[0].name: cards[0].state});
               VocCard removedCard = cards.removeAt(0);
               cards.add(removedCard);
               currentIndex = cards[0].index;
@@ -126,10 +127,11 @@ class _CardStackState extends State<CardStack>
         word: voc[vocKeys[i]]['ru'].toString(),
         translation: voc[vocKeys[i]]['de'].toString(),
         description: voc[vocKeys[i]]['desc'].toString(),
-        color: get_color(vocKeys[i].toString(),widget.userStateVoc[widget.title]),
+        color:
+            get_color(vocKeys[i].toString(), widget.userStateVoc[widget.title]),
         expanded: false,
-        user:widget.user['uuid'],
-        name:vocKeys[i],
+        user: widget.user['uuid'],
+        name: vocKeys[i],
         title: widget.title,
       );
     });
@@ -142,50 +144,50 @@ class _CardStackState extends State<CardStack>
         children: cards.reversed.map((card) {
       if (cards.indexOf(card) <= 2) {
         return GestureDetector(
-          onHorizontalDragUpdate: (details){
-             if (details.delta.dx > 0) {
-              // Right Swipe
-              // Sestivity is integer is used when you don't want to mess up vertical drag
-              } else if(details.delta.dx < -0){
-              //Left Swipe
-             setState(() {
-              VocCard removedCard = cards.removeAt(cards.length - 1);
-              cards.insert(0, removedCard);
-              currentIndex = cards[0].index;
-            });
+            onHorizontalDragUpdate: (details) {
+              if (details.delta.dx > 0) {
+                // Right Swipe
+                // Sestivity is integer is used when you don't want to mess up vertical drag
+              } else if (details.delta.dx < -0) {
+                //Left Swipe
+                setState(() {
+                  VocCard removedCard = cards.removeAt(cards.length - 1);
+                  cards.insert(0, removedCard);
+                  currentIndex = cards[0].index;
+                });
               }
-          } ,
-          child:
-          InkWell(borderRadius: BorderRadius.circular(11),
-          onDoubleTap: () {
-            setState(() {
-              VocCard removedCard = cards.removeAt(cards.length - 1);
-              cards.insert(0, removedCard);
-              currentIndex = cards[0].index;
-            });
-          },
-          onTap: () {
-            controller.forward().whenComplete(() {
-              setState(() {
-                controller.reset();
-                VocCard removedCard = cards.removeAt(0);
-                cards.add(removedCard);
-                currentIndex = cards[0].index;
-              });
-            });
-          },
-          child: Transform.translate(
-            offset: _getFlickTransformOffset(card),
-            child: FractionalTranslation(
-              translation: _getStackedCardOffset(card),
-              child: Transform.scale(
-                scale: _getStackedCardScale(card),
-                // the actual card component
-                child: Center(child: card),
+            },
+            child: InkWell(
+              borderRadius: BorderRadius.circular(11),
+              onDoubleTap: () {
+                setState(() {
+                  VocCard removedCard = cards.removeAt(cards.length - 1);
+                  cards.insert(0, removedCard);
+                  currentIndex = cards[0].index;
+                });
+              },
+              onTap: () {
+                controller.forward().whenComplete(() {
+                  setState(() {
+                    controller.reset();
+                    VocCard removedCard = cards.removeAt(0);
+                    cards.add(removedCard);
+                    currentIndex = cards[0].index;
+                  });
+                });
+              },
+              child: Transform.translate(
+                offset: _getFlickTransformOffset(card),
+                child: FractionalTranslation(
+                  translation: _getStackedCardOffset(card),
+                  child: Transform.scale(
+                    scale: _getStackedCardScale(card),
+                    // the actual card component
+                    child: Center(child: card),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ));
+            ));
       } else {
         return Container();
       }
