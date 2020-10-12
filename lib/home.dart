@@ -46,7 +46,6 @@ class _Home extends State<Home> {
         show = true;
       })
     });
-    print("heollo:" + userStateVoc[title[topicData.keys.toList()[0]]]['percent'].toString());
   }
   getPercent(int all, int known){
     print("all: " + all.toString() + "known: " + known.toString());
@@ -89,16 +88,12 @@ class _Home extends State<Home> {
                       itemBuilder: (BuildContext ctxt, int index) {
                         return new InkWell(
                             onTap: () {
-                              print('Data: ' +
-                                
-                                      userStateVoc.toString());
-                             
                                 Navigator.pushNamed(context, Trainer.route,
                                   arguments: {
                                     title[topicData.keys.toList()[index]]:
                                         topicData[
                                             topicData.keys.toList()[index]],
-                                    'userStateVoc': userStateVoc,
+                                    'userStateVoc': show ? userStateVoc:{title[topicData.keys.toList()[index]]:{}},
                                     'user': {'uuid': auth.currentUser().uid},
                                     'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]}
                                   });
