@@ -61,7 +61,7 @@ class _VocCardState extends State<VocCard> {
       }
       // need to be dynamic
       topics.doc(widget.databaseTitle).update({
-        "vocabulary." + widget.name + "." + widget.name: {
+        "vocabulary." + widget.name: {
           "de": widget.translation,
           "desc": widget.description,
           "ru": widget.word
@@ -284,7 +284,7 @@ class _VocCardState extends State<VocCard> {
                                                                   child:
                                                                       FloatingActionButton(
                                                                     onPressed:
-                                                                        () {saveNewContent();},
+                                                                        () {saveNewContent();Navigator.pop(context);},
                                                                     child: Icon(
                                                                         Icons
                                                                             .save),
