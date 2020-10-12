@@ -39,8 +39,12 @@ class _Trainer extends State<Trainer> {
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
               )),
-          CardStack(args[args.keys.toList()[0]], args['userStateVoc'],
-              args['user'], args.keys.toList()[0].toString())
+          CardStack(
+              args[args.keys.toList()[0]],
+              args['userStateVoc'],
+              args['user'],
+              args.keys.toList()[0].toString(),
+              args['databaseTitle']['databaseTitle'])
         ]));
   }
 }
@@ -53,7 +57,9 @@ class CardStack extends StatefulWidget {
   final Map userStateVoc;
   final Map user;
   final String title;
-  CardStack(this.voc, this.userStateVoc, this.user, this.title);
+  final String databaseTitle;
+  CardStack(
+      this.voc, this.userStateVoc, this.user, this.title, this.databaseTitle);
   @override
   _CardStackState createState() => _CardStackState(voc);
 }
@@ -106,34 +112,33 @@ class _CardStackState extends State<CardStack>
 
     cards = new List<VocCard>.generate(amount, (i) {
       return VocCard(
-        move: () {
-          controller.forward().whenComplete(() {
-            setState(() {
-              controller.reset();
-
-              cards[0].color =
-                  get_color(cards[0].name, {cards[0].name: cards[0].state});
-              VocCard removedCard = cards.removeAt(0);
-              cards.add(removedCard);
-              currentIndex = cards[0].index;
-              print(currentIndex.toString() + cards[currentIndex].word);
-              // if (widget.onCardChanged != null)
-              //   widget.onCardChanged(cards[0].word, cards[0].translation,
-              //       cards[0].description, cards[0].color);
+          move: () {
+            controller.forward().whenComplete(() {
+              setState(() {
+                controller.reset();
+                cards[0].color = get_color(cards[0].name, {cards[0].name: cards[0].state});
+                print("setting color" + cards[0].color.toString());
+                print("state: " + cards[0].state.toString());
+                VocCard removedCard = cards.removeAt(0);
+                cards.add(removedCard);
+                currentIndex = cards[0].index;
+                print(currentIndex.toString() + cards[currentIndex].word);
+                // if (widget.onCardChanged != null)
+                //   widget.onCardChanged(cards[0].word, cards[0].translation,
+                //       cards[0].description, cards[0].color);
+              });
             });
-          });
-        },
-        index: i,
-        word: voc[vocKeys[i]]['ru'].toString(),
-        translation: voc[vocKeys[i]]['de'].toString(),
-        description: voc[vocKeys[i]]['desc'].toString(),
-        color:
-            get_color(vocKeys[i].toString(), widget.userStateVoc[widget.title]),
-        expanded: false,
-        user: widget.user['uuid'],
-        name: vocKeys[i],
-        title: widget.title,
-      );
+          },
+          index: i,
+          word: voc[vocKeys[i]]['ru'].toString(),
+          translation: voc[vocKeys[i]]['de'].toString(),
+          description: voc[vocKeys[i]]['desc'].toString(),
+          color: get_color(vocKeys[i].toString(), widget.userStateVoc[widget.title]),
+          expanded: false,
+          user: widget.user['uuid'],
+          name: vocKeys[i],
+          title: widget.title,
+          databaseTitle: widget.databaseTitle);
     });
   }
 

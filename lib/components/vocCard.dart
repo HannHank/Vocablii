@@ -15,6 +15,7 @@ class VocCard extends StatefulWidget {
   final String user;
   final String name;
   final String title;
+  final String databaseTitle;
   String state;
   VocCard(
       {this.index,
@@ -26,7 +27,8 @@ class VocCard extends StatefulWidget {
       this.move,
       this.user,
       this.name,
-      this.title});
+      this.title,
+      this.databaseTitle});
 
   @override
   _VocCardState createState() => _VocCardState(
@@ -58,7 +60,7 @@ class _VocCardState extends State<VocCard> {
         widget.description = "0";
       }
       // need to be dynamic
-      topics.doc("russian_rock").update({
+      topics.doc(widget.databaseTitle).update({
         "vocabulary." + widget.name + "." + widget.name: {
           "de": widget.translation,
           "desc": widget.description,
@@ -67,8 +69,12 @@ class _VocCardState extends State<VocCard> {
       });
     });
   }
-
-  updateState(state) async {
+  updateState(state){
+    setState(() {
+      widget.state = state;
+    });
+  }
+  updateDatabase(state) async {
     await users.doc(widget.user.toString()).get().then(
         (snapshot) => {percent = snapshot['class'][widget.title]['percent']});
     if (state == "wtf" && percent != 0 && widget.state != "wtf") {
@@ -93,6 +99,7 @@ class _VocCardState extends State<VocCard> {
     }
     setState(() {
       widget.state = state;
+      print("state bevor: " + widget.state.toString());
       users.doc(widget.user.toString()).update({
         'class.' + widget.title + "." + widget.name: state,
         'class.' + widget.title + "." + "percent": percent
@@ -345,6 +352,7 @@ class _VocCardState extends State<VocCard> {
                                     minWidth: 80,
                                     onPressed: () {
                                       updateState("Iknow");
+                                      updateDatabase("Iknow");
                                       widget.move();
                                       fold();
                                     },
@@ -362,6 +370,7 @@ class _VocCardState extends State<VocCard> {
                                     minWidth: 80,
                                     onPressed: () {
                                       updateState("notSave");
+                                      updateDatabase("notSave");
                                       widget.move();
                                       fold();
                                     },
@@ -379,6 +388,7 @@ class _VocCardState extends State<VocCard> {
                                   minWidth: 80,
                                   onPressed: () {
                                     updateState("wtf");
+                                    updateDatabase("wtf");
                                     widget.move();
                                     fold();
                                   },
