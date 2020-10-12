@@ -45,7 +45,11 @@ class _NavState extends State<Nav> {
         showModalBottomSheet(
             isScrollControlled: true,
             context: context,
-            builder: (context) => Container(
+            builder: (context) =>
+            
+            StatefulBuilder(
+          builder: (BuildContext context, StateSetter setStateModal)=>
+             Container(
                 margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
                 padding: EdgeInsets.fromLTRB(50, 50, 50, 0),
                 decoration: BoxDecoration(
@@ -81,7 +85,7 @@ class _NavState extends State<Nav> {
                                   ),
                                   settingButton(
                                       emojis[0], 'Beantwortete Anzeigen', () {
-                                    setState(() {
+                                    setStateModal(() {
                                       settings['show_answerd'] =
                                           !settings['show_answerd'];
                                         emojis[0] = emoji(settings['show_answerd']);
@@ -92,14 +96,14 @@ class _NavState extends State<Nav> {
                                   }),
                                   settingButton(emojis[1], 'Audio Vokabeln',
                                       () {
-                                    setState(() {
+                                    setStateModal(() {
                                       settings['audio'] = !settings['audio'];
                                        emojis[1] = emoji(settings['audio']);
                                     });
                                   }),
                                   settingButton(
                                       emojis[2], 'Audio nur über WLAN', () {
-                                    setState(() {
+                                    setStateModal(() {
                                       settings['audio_over_wifi'] =
                                           !settings['audio_over_wifi'];
                                           emojis[2] = emoji(settings['audio_over_wifi']);
@@ -160,7 +164,7 @@ class _NavState extends State<Nav> {
                               ),
                             )
                           ],
-                        ))))));
+                        )))))));
       },
     );
   }
