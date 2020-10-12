@@ -18,11 +18,11 @@ class _NavState extends State<Nav> {
   Map settings;
   List emojis = [];
 
-  void emoji(String key) {
-    if (settings[key] == true) {
-      emojis.add('✅');
+  String emoji(bool key) {
+    if (key == true) {
+      return '✅';
     } else {
-      emojis.add('⛔');
+      return '⛔';
     }
   }
 
@@ -30,14 +30,10 @@ class _NavState extends State<Nav> {
   void initState() {
     super.initState();
 
-    settings = {
-      'show_answerd': true,
-      'audio': true,
-      'audio_over_wifi': false
-    };
+    settings = {'show_answerd': true, 'audio': true, 'audio_over_wifi': false};
 
-    settings.forEach((key, value) { 
-      emoji(key);
+    settings.forEach((key, value) {
+      emojis.add(emoji(value));
     });
   }
 
@@ -84,26 +80,30 @@ class _NavState extends State<Nav> {
                                     ),
                                   ),
                                   settingButton(
-                                    emojis[0],
-                                    'Beantwortete Anzeigen', 
-                                    () {
-                                      setState(() {
-                                    settings['show_answerd'] =
-                                        !settings['show_answerd'];
-                                      });
+                                      emojis[0], 'Beantwortete Anzeigen', () {
+                                    setState(() {
+                                      settings['show_answerd'] =
+                                          !settings['show_answerd'];
+                                        emojis[0] = emoji(settings['show_answerd']);
+                                      print(
+                                          settings['show_answerd'].toString() +
+                                              emojis[0]);
+                                    });
+                                  }),
+                                  settingButton(emojis[1], 'Audio Vokabeln',
+                                      () {
+                                    setState(() {
+                                      settings['audio'] = !settings['audio'];
+                                       emojis[1] = emoji(settings['audio']);
+                                    });
                                   }),
                                   settingButton(
-                                      emojis[1], 'Audio Vokabeln', () {
-                                        setState(() {
-                                      settings['audio'] = !settings['audio'];
-                                        });
-                                  }),
-                                  settingButton(emojis[2],
-                                      'Audio nur über WLAN', () {
-                                        setState(() {
+                                      emojis[2], 'Audio nur über WLAN', () {
+                                    setState(() {
                                       settings['audio_over_wifi'] =
                                           !settings['audio_over_wifi'];
-                                        });
+                                          emojis[2] = emoji(settings['audio_over_wifi']);
+                                    });
                                   }),
                                   // change user name
                                   Container(
