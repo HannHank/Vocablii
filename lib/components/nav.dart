@@ -120,7 +120,7 @@ class _NavState extends State<Nav> {
                                           fontSize: 14),
                                     ),
                                   ),
-                                  basicForm("Nutzername", 12.0, "wrong", null),
+                                  basicForm("Nutzername", 12.0, "wrong",false,null),
                                   // change user name
                                   Container(
                                     margin: EdgeInsets.only(top: 25, bottom: 7),
@@ -132,9 +132,9 @@ class _NavState extends State<Nav> {
                                           fontSize: 14),
                                     ),
                                   ),
-                                  basicForm("Password", 12.0, "wrong", null),
+                                  basicForm("Password", 12.0, "wrong",false, null),
                                   basicForm("Password wiederholen", 12.0,
-                                      "wrong", null),
+                                      "wrong", false, null),
 
                                   // change user name
                                   Container(

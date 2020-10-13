@@ -59,8 +59,8 @@ class _Home extends State<Home> {
   @override
   void initState() {
     super.initState();
-    getTopics();
     getStateVoc();
+    getTopics();
    
   }
 
