@@ -48,10 +48,10 @@ class AddVoc extends StatelessWidget {
             textAlign: TextAlign.left,
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
           ),
-          basicForm('Russische Vokabel', 12.0, 'Something is wrong', false, null),
+          basicForm('Russische Vokabel', 12.0, 'Something is wrong', false,1, null),
           // TODO: Add automatic translate -> fetchTranslation(input, lang)
-          basicForm('Deutsche Übersetzung', 12.0, 'Something is wrong', false, null),
-          basicForm('Beschreibung', 12.0, 'Something is wrong', false, null),
+          basicForm('Deutsche Übersetzung', 12.0, 'Something is wrong', false,1, null),
+          basicForm('Beschreibung', 12.0, 'Something is wrong', false, null ,null),
           FloatingActionButton(
             onPressed: null,
             child: Text('hinzufügen'),
