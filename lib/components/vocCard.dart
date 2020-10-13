@@ -262,17 +262,17 @@ class _VocCardState extends State<VocCard> {
                                                                 basicForm(
                                                                     "Russisch",
                                                                     12,
-                                                                    "not working",
+                                                                    "not working",false,
                                                                     ruController),
                                                                 basicForm(
                                                                     "Deutsch",
                                                                     12,
-                                                                    "not working",
+                                                                    "not working",false,
                                                                     deController),
                                                                 basicForm(
                                                                     "Beschreibung",
                                                                     12,
-                                                                    "not working",
+                                                                    "not working",false,
                                                                     descrController),
                                                                 Center(
                                                                     child:
