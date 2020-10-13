@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget basicForm(String name, double fontSize, String errmsg, bool _obscureText,
+Widget basicForm(String name, double fontSize, String errmsg, bool _obscureText,dynamic _maxLine,
     TextEditingController controller) {
     return Container(
       margin: EdgeInsets.only(top: 5, bottom: 5),
@@ -27,7 +27,7 @@ Widget basicForm(String name, double fontSize, String errmsg, bool _obscureText,
               ),
               hintText: name),
           textAlign: TextAlign.start,
-          maxLines: null,
+          maxLines: _maxLine,
           maxLength: null,
           style: TextStyle(fontSize: fontSize, height: 1.6, color: Colors.black),
           obscureText: _obscureText

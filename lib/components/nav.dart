@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'settingsButton.dart';
 import 'package:Vocablii/auth/auth.dart';
 import 'InputField.dart';
+import 'package:Vocablii/home.dart';
 
 class Nav extends StatefulWidget {
   final AuthenticationService auth;
@@ -120,7 +121,7 @@ class _NavState extends State<Nav> {
                                           fontSize: 14),
                                     ),
                                   ),
-                                  basicForm("Nutzername", 12.0, "wrong",false,null),
+                                  basicForm("Nutzername", 12.0, "wrong",false,1,null),
                                   // change user name
                                   Container(
                                     margin: EdgeInsets.only(top: 25, bottom: 7),
@@ -132,9 +133,9 @@ class _NavState extends State<Nav> {
                                           fontSize: 14),
                                     ),
                                   ),
-                                  basicForm("Password", 12.0, "wrong",false, null),
+                                  basicForm("Password", 12.0, "wrong",false,1,null),
                                   basicForm("Password wiederholen", 12.0,
-                                      "wrong", false, null),
+                                      "wrong", false, 1, null),
 
                                   // change user name
                                   Container(
@@ -156,6 +157,10 @@ class _NavState extends State<Nav> {
                                     child: FloatingActionButton(
                                       onPressed: () {
                                         auth.signOut();
+                                          Navigator.pushNamed(context, Home.route, arguments: {
+                                              'User':""
+                                                 
+                                            });
                                       },
                                       child: Icon(Icons.logout),
                                     ),
