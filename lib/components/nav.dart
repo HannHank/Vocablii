@@ -155,8 +155,8 @@ class _NavState extends State<Nav> {
                                       child: Padding(
                                     padding: EdgeInsets.all(25),
                                     child: FloatingActionButton(
-                                      onPressed: () {
-                                        auth.signOut();
+                                      onPressed: () async{
+                                        await auth.signOut();
                                           Navigator.pushNamed(context, Home.route, arguments: {
                                               'User':""
                                                  
