@@ -77,8 +77,9 @@ class _VocCardState extends State<VocCard> {
         .then((snapshot) => {
           data = snapshot.data()
         });
-    print("index: " + data.keys.toList().indexOf(widget.name).toString());
-    
+    data['vocabulary'].removeWhere((key, value) => key == widget.name);
+    await topics.doc(widget.databaseTitle).update(data);
+     
   }
 
   updateState(state) {
@@ -202,7 +203,7 @@ class _VocCardState extends State<VocCard> {
                                   ),
                                   FlatButton(
                                     onPressed: () {
-                                      delteCard();
+                                      deleteCard();
                                     },
                                     child: Icon(
                                       Icons.delete,
