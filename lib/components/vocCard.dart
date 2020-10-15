@@ -47,7 +47,6 @@ class _VocCardState extends State<VocCard> {
   final ruController = TextEditingController();
   final deController = TextEditingController();
   final descrController = TextEditingController();
-
   final assetsAudioPlayer = AssetsAudioPlayer();
 
   _VocCardState({this.color, this.word, this.translation, this.descr});
@@ -56,7 +55,7 @@ class _VocCardState extends State<VocCard> {
       widget.word = ruController.text.trim();
       widget.translation = deController.text.trim();
       widget.description = descrController.text.trim();
-      if(descrController.text.trim() == ""){
+      if (descrController.text.trim() == "") {
         widget.description = "0";
       }
       // need to be dynamic
@@ -69,11 +68,25 @@ class _VocCardState extends State<VocCard> {
       });
     });
   }
-  updateState(state){
+
+  deleteCard() async {
+    Map data;
+    await topics
+        .doc(widget.databaseTitle)
+        .get()
+        .then((snapshot) => {
+          data = snapshot.data()
+        });
+    print("index: " + data.keys.toList().indexOf(widget.name).toString());
+    
+  }
+
+  updateState(state) {
     setState(() {
       widget.state = state;
     });
   }
+
   updateDatabase(state) async {
     await users.doc(widget.user.toString()).get().then(
         (snapshot) => {percent = snapshot['class'][widget.title]['percent']});
@@ -188,9 +201,11 @@ class _VocCardState extends State<VocCard> {
                                         color: Colors.white),
                                   ),
                                   FlatButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      delteCard();
+                                    },
                                     child: Icon(
-                                      Icons.favorite,
+                                      Icons.delete,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -262,17 +277,23 @@ class _VocCardState extends State<VocCard> {
                                                                 basicForm(
                                                                     "Russisch",
                                                                     12,
-                                                                    "not working",false,1,
+                                                                    "not working",
+                                                                    false,
+                                                                    1,
                                                                     ruController),
                                                                 basicForm(
                                                                     "Deutsch",
                                                                     12,
-                                                                    "not working",false,1,
+                                                                    "not working",
+                                                                    false,
+                                                                    1,
                                                                     deController),
                                                                 basicForm(
                                                                     "Beschreibung",
                                                                     12,
-                                                                    "not working",false,null,
+                                                                    "not working",
+                                                                    false,
+                                                                    null,
                                                                     descrController),
                                                                 Center(
                                                                     child:
@@ -284,7 +305,11 @@ class _VocCardState extends State<VocCard> {
                                                                   child:
                                                                       FloatingActionButton(
                                                                     onPressed:
-                                                                        () {saveNewContent();Navigator.pop(context);},
+                                                                        () {
+                                                                      saveNewContent();
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
                                                                     child: Icon(
                                                                         Icons
                                                                             .save),
