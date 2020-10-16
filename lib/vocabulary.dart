@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'components/vocCard.dart';
 import 'package:Vocablii/helper/helper_functions.dart';
 
@@ -42,7 +43,7 @@ class _Trainer extends State<Trainer> {
           CardStack(
               args[args.keys.toList()[0]],
               args['userStateVoc'],
-              args['user'],
+              args['user']['user'],
               args.keys.toList()[0].toString(),
               args['databaseTitle']['databaseTitle'])
         ]));
@@ -55,7 +56,7 @@ class CardStack extends StatefulWidget {
       FirebaseFirestore.instance.collection('users');
   final Map voc;
   final Map userStateVoc;
-  final Map user;
+  final User user;
   final String title;
   final String databaseTitle;
   CardStack(
@@ -112,6 +113,16 @@ class _CardStackState extends State<CardStack>
 
     cards = new List<VocCard>.generate(amount, (i) {
       return VocCard(
+        remove:(){
+          controller.forward().whenComplete(() {
+              setState(() {
+                controller.reset();
+                VocCard removedCard = cards.removeAt(0);
+                currentIndex = cards[0].index;
+                print(currentIndex.toString() + cards[currentIndex].word);
+              });
+            });
+        },
           move: () {
             controller.forward().whenComplete(() {
               setState(() {
@@ -133,12 +144,13 @@ class _CardStackState extends State<CardStack>
           word: voc[vocKeys[i]]['ru'].toString(),
           translation: voc[vocKeys[i]]['de'].toString(),
           description: voc[vocKeys[i]]['desc'].toString(),
-          stateCard: get_color(vocKeys[i].toString(), widget.userStateVoc[widget.title]),
+          stateCard: get_color(vocKeys[i].toString(), widget.userStateVoc['class'][widget.title]),
           expanded: false,
-          user: widget.user['uuid'],
+          user: widget.user,
           name: vocKeys[i],
           title: widget.title,
-          databaseTitle: widget.databaseTitle);
+          databaseTitle: widget.databaseTitle,
+          adminState: widget.userStateVoc['admin']);
     });
   }
 
