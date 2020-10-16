@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class VocCard extends StatefulWidget {
   final int index;
@@ -11,8 +12,10 @@ class VocCard extends StatefulWidget {
   String description;
   Map stateCard;
   bool expanded;
+  final Function remove;
   final Function move;
-  final String user;
+  final User user;
+  final bool adminState;
   final String name;
   final String title;
   final String databaseTitle;
@@ -28,7 +31,9 @@ class VocCard extends StatefulWidget {
       this.user,
       this.name,
       this.title,
-      this.databaseTitle});
+      this.databaseTitle,
+      this.remove,
+      this.adminState});
 
   @override
   _VocCardState createState() => _VocCardState(
@@ -89,7 +94,7 @@ class _VocCardState extends State<VocCard> {
   }
 
   updateDatabase(state) async {
-    await users.doc(widget.user.toString()).get().then(
+    await users.doc().get().then(
         (snapshot) => {percent = snapshot['class'][widget.title]['percent']});
     if (state == "wtf" && percent != 0 && widget.state != "wtf") {
       percent -= 1;
@@ -201,16 +206,17 @@ class _VocCardState extends State<VocCard> {
                                     child: Icon(Icons.play_arrow_rounded,
                                         color: Colors.white),
                                   ),
-                                  FlatButton(
+                                  widget.adminState ? FlatButton(
                                     onPressed: () {
                                       deleteCard();
+                                      widget.remove();
                                     },
                                     child: Icon(
                                       Icons.delete,
                                       color: Colors.white,
                                     ),
-                                  ),
-                                  FlatButton(
+                                  ):SizedBox(),
+                                   widget.adminState ? FlatButton(
                                     onPressed: () {
                                       setState(() {
                                         ruController.text = widget.word;
@@ -326,7 +332,7 @@ class _VocCardState extends State<VocCard> {
                                       Icons.edit,
                                       color: Colors.white,
                                     ),
-                                  ),
+                                  ):SizedBox(),
                                 ],
                               ),
                               Text(widget.description,

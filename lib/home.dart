@@ -93,8 +93,8 @@ class _Home extends State<Home> {
                                     title[topicData.keys.toList()[index]]:
                                         topicData[
                                             topicData.keys.toList()[index]],
-                                    'userStateVoc': show ? userStateVoc:{title[topicData.keys.toList()[index]]:{}},
-                                    'user': {'uuid': auth.currentUser().uid},
+                                    'userStateVoc': show ? userStateVoc:{'admin':false,'class':{title[topicData.keys.toList()[index]]:{}}},
+                                    'user': {'user':auth.currentUser()},
                                     'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]}
                                   });
                             },
@@ -217,7 +217,7 @@ class _Home extends State<Home> {
                                                   Padding(
                                                        padding: EdgeInsets.only(left: 60),
                                                   child:Text(
-                                                    show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['percent']).toString() + '%':"0%",
+                                                    show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc['class'][title[topicData.keys.toList()[index]]]['percent']).toString() + '%':"0%",
                                                     style: TextStyle(
                                                       color: Color(0xff000000),
                                                     ),
@@ -227,7 +227,7 @@ class _Home extends State<Home> {
                                                   strokeWidth: 6.0,
                                                   backgroundColor: Color(0xffCECECE),
                                                   valueColor: new AlwaysStoppedAnimation<Color>(Color(0xff40FF53)),
-                                                  value:  show ? getPercent(topicData[topicData.keys.toList()[index]].keys.toList().length, userStateVoc[title[topicData.keys.toList()[index]]]['percent']).toDouble()/100:0.0,
+                                                  value:  show ? getPercent(topicData[topicData.keys.toList()[index]].keys.toList().length, userStateVoc['class'][title[topicData.keys.toList()[index]]]['percent']).toDouble()/100:0.0,
                                                 ),
                                               ],
                                             ),
