@@ -116,9 +116,9 @@ class _CardStackState extends State<CardStack>
             controller.forward().whenComplete(() {
               setState(() {
                 controller.reset();
-                cards[0].color = get_color(cards[0].name, {cards[0].name: cards[0].state});
-                print("setting color" + cards[0].color.toString());
-                print("state: " + cards[0].state.toString());
+                cards[0].stateCard = get_color(cards[0].name, {cards[0].name: cards[0].stateCard['state']});
+                print("setting color" + cards[0].stateCard.toString());
+                print("state: " + cards[0].stateCard.toString());
                 VocCard removedCard = cards.removeAt(0);
                 cards.add(removedCard);
                 currentIndex = cards[0].index;
@@ -133,7 +133,7 @@ class _CardStackState extends State<CardStack>
           word: voc[vocKeys[i]]['ru'].toString(),
           translation: voc[vocKeys[i]]['de'].toString(),
           description: voc[vocKeys[i]]['desc'].toString(),
-          color: get_color(vocKeys[i].toString(), widget.userStateVoc[widget.title]),
+          stateCard: get_color(vocKeys[i].toString(), widget.userStateVoc[widget.title]),
           expanded: false,
           user: widget.user['uuid'],
           name: vocKeys[i],

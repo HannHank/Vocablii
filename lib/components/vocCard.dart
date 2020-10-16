@@ -9,7 +9,7 @@ class VocCard extends StatefulWidget {
   String word;
   String translation;
   String description;
-  Color color;
+  Map stateCard;
   bool expanded;
   final Function move;
   final String user;
@@ -22,7 +22,7 @@ class VocCard extends StatefulWidget {
       this.word,
       this.translation,
       this.description,
-      this.color,
+      this.stateCard,
       this.expanded,
       this.move,
       this.user,
@@ -32,11 +32,11 @@ class VocCard extends StatefulWidget {
 
   @override
   _VocCardState createState() => _VocCardState(
-      color: color, word: word, translation: translation, descr: description);
+      stateCard: stateCard, word: word, translation: translation, descr: description);
 }
 
 class _VocCardState extends State<VocCard> {
-  Color color;
+  Map stateCard;
   String word;
   String translation;
   String descr;
@@ -49,7 +49,7 @@ class _VocCardState extends State<VocCard> {
   final descrController = TextEditingController();
   final assetsAudioPlayer = AssetsAudioPlayer();
 
-  _VocCardState({this.color, this.word, this.translation, this.descr});
+  _VocCardState({this.stateCard, this.word, this.translation, this.descr});
   saveNewContent() {
     setState(() {
       widget.word = ruController.text.trim();
@@ -160,7 +160,7 @@ class _VocCardState extends State<VocCard> {
                         blurRadius: 10,
                         color: Color(0x80000000))
                   ],
-                  color: widget.color,
+                  color: widget.stateCard['color'],
                   borderRadius: new BorderRadius.circular(30)),
               width: 350,
               height: 600,
@@ -447,7 +447,7 @@ class _VocCardState extends State<VocCard> {
                         blurRadius: 10,
                         color: Color(0x80000000))
                   ],
-                  color: widget.color,
+                  color: widget.stateCard['color'],
                   borderRadius: new BorderRadius.circular(30)),
               width: 350,
               height: 600,
