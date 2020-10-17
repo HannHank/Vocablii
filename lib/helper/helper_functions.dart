@@ -12,7 +12,7 @@ import '../components/vocCard.dart';
     Color(0xff328D93),
   ];
 
-Color get_color(String word,Map userStateVoc) {
+Map get_color(String word,Map userStateVoc) {
 
   Color color;
   if(userStateVoc[word] == "Iknow"){
@@ -23,5 +23,6 @@ Color get_color(String word,Map userStateVoc) {
   }else{
     color = colors[3];
   }
-  return color;
+  print("state: " + userStateVoc[word].toString());
+  return {'color':color, 'state':userStateVoc[word].toString()};
 }
