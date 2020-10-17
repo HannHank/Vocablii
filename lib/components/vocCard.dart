@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class VocCard extends StatefulWidget {
   final int index;
   String word;
   String translation;
   String description;
-  Color color;
+  Map stateCard;
   bool expanded;
+  final Function remove;
   final Function move;
-  final String user;
+  final User user;
+  final bool adminState;
   final String name;
   final String title;
   final String databaseTitle;
@@ -22,21 +25,23 @@ class VocCard extends StatefulWidget {
       this.word,
       this.translation,
       this.description,
-      this.color,
+      this.stateCard,
       this.expanded,
       this.move,
       this.user,
       this.name,
       this.title,
-      this.databaseTitle});
+      this.databaseTitle,
+      this.remove,
+      this.adminState});
 
   @override
   _VocCardState createState() => _VocCardState(
-      color: color, word: word, translation: translation, descr: description);
+      stateCard: stateCard, word: word, translation: translation, descr: description);
 }
 
 class _VocCardState extends State<VocCard> {
-  Color color;
+  Map stateCard;
   String word;
   String translation;
   String descr;
@@ -47,16 +52,15 @@ class _VocCardState extends State<VocCard> {
   final ruController = TextEditingController();
   final deController = TextEditingController();
   final descrController = TextEditingController();
-
   final assetsAudioPlayer = AssetsAudioPlayer();
 
-  _VocCardState({this.color, this.word, this.translation, this.descr});
+  _VocCardState({this.stateCard, this.word, this.translation, this.descr});
   saveNewContent() {
     setState(() {
       widget.word = ruController.text.trim();
       widget.translation = deController.text.trim();
       widget.description = descrController.text.trim();
-      if(descrController.text.trim() == ""){
+      if (descrController.text.trim() == "") {
         widget.description = "0";
       }
       // need to be dynamic
@@ -69,13 +73,28 @@ class _VocCardState extends State<VocCard> {
       });
     });
   }
-  updateState(state){
+
+  deleteCard() async {
+    Map data;
+    await topics
+        .doc(widget.databaseTitle)
+        .get()
+        .then((snapshot) => {
+          data = snapshot.data()
+        });
+    data['vocabulary'].removeWhere((key, value) => key == widget.name);
+    await topics.doc(widget.databaseTitle).update(data);
+     
+  }
+
+  updateState(state) {
     setState(() {
       widget.state = state;
     });
   }
+
   updateDatabase(state) async {
-    await users.doc(widget.user.toString()).get().then(
+    await users.doc().get().then(
         (snapshot) => {percent = snapshot['class'][widget.title]['percent']});
     if (state == "wtf" && percent != 0 && widget.state != "wtf") {
       percent -= 1;
@@ -146,7 +165,7 @@ class _VocCardState extends State<VocCard> {
                         blurRadius: 10,
                         color: Color(0x80000000))
                   ],
-                  color: widget.color,
+                  color: widget.stateCard['color'],
                   borderRadius: new BorderRadius.circular(30)),
               width: 350,
               height: 600,
@@ -187,14 +206,17 @@ class _VocCardState extends State<VocCard> {
                                     child: Icon(Icons.play_arrow_rounded,
                                         color: Colors.white),
                                   ),
-                                  FlatButton(
-                                    onPressed: () {},
+                                  widget.adminState ? FlatButton(
+                                    onPressed: () {
+                                      deleteCard();
+                                      widget.remove();
+                                    },
                                     child: Icon(
-                                      Icons.favorite,
+                                      Icons.delete,
                                       color: Colors.white,
                                     ),
-                                  ),
-                                  FlatButton(
+                                  ):SizedBox(),
+                                   widget.adminState ? FlatButton(
                                     onPressed: () {
                                       setState(() {
                                         ruController.text = widget.word;
@@ -262,17 +284,23 @@ class _VocCardState extends State<VocCard> {
                                                                 basicForm(
                                                                     "Russisch",
                                                                     12,
-                                                                    "not working",false,1,
+                                                                    "not working",
+                                                                    false,
+                                                                    1,
                                                                     ruController),
                                                                 basicForm(
                                                                     "Deutsch",
                                                                     12,
-                                                                    "not working",false,1,
+                                                                    "not working",
+                                                                    false,
+                                                                    1,
                                                                     deController),
                                                                 basicForm(
                                                                     "Beschreibung",
                                                                     12,
-                                                                    "not working",false,null,
+                                                                    "not working",
+                                                                    false,
+                                                                    null,
                                                                     descrController),
                                                                 Center(
                                                                     child:
@@ -284,7 +312,11 @@ class _VocCardState extends State<VocCard> {
                                                                   child:
                                                                       FloatingActionButton(
                                                                     onPressed:
-                                                                        () {saveNewContent();Navigator.pop(context);},
+                                                                        () {
+                                                                      saveNewContent();
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
                                                                     child: Icon(
                                                                         Icons
                                                                             .save),
@@ -300,7 +332,7 @@ class _VocCardState extends State<VocCard> {
                                       Icons.edit,
                                       color: Colors.white,
                                     ),
-                                  ),
+                                  ):SizedBox(),
                                 ],
                               ),
                               Text(widget.description,
@@ -421,7 +453,7 @@ class _VocCardState extends State<VocCard> {
                         blurRadius: 10,
                         color: Color(0x80000000))
                   ],
-                  color: widget.color,
+                  color: widget.stateCard['color'],
                   borderRadius: new BorderRadius.circular(30)),
               width: 350,
               height: 600,

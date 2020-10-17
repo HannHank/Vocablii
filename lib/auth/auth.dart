@@ -48,6 +48,7 @@ class AuthenticationService {
           .doc(user.user.uid.toString())
           .set({
             'name': email,
+            'admin': false,
             'class': {},
             
           });
