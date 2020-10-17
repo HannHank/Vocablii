@@ -21,6 +21,7 @@ class Home extends StatefulWidget {
 class _Home extends State<Home> {
   final auth = AuthenticationService(FirebaseAuth.instance);
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
   List allTopics = [];
   Map<String, Map> topicData = {};
   Map<String, String> meta = {};
@@ -70,7 +71,13 @@ class _Home extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return RefreshIndicator(
+        key:refreshKey,
+        onRefresh: ()async{
+          getStateVoc();
+          getTopics();
+        },
+        child:Scaffold(
         backgroundColor: Colors.white,
         body: Center(
           child: new Column(
@@ -99,7 +106,8 @@ class _Home extends State<Home> {
                                             topicData.keys.toList()[index]],
                                     'userStateVoc': show ? userStateVoc:{'admin':false,'class':{title[topicData.keys.toList()[index]]:{}}},
                                     'user': {'user':auth.currentUser()},
-                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]}
+                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]},
+                                     'key':{'refresh':refreshKey}
                                   });
                             },
                             child: Padding(
@@ -124,7 +132,8 @@ class _Home extends State<Home> {
                                        vocWtf,
                                     'userStateVoc': show ? userStateVoc:{title[topicData.keys.toList()[index]]:{}},
                                     'user': {'uuid': auth.currentUser().uid},
-                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]}
+                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]},
+                                    'key':{'refresh':refreshKey}
                                   });
                                     },
                                     child: Container(
@@ -167,7 +176,8 @@ class _Home extends State<Home> {
                                        vocIKnow,
                                     'userStateVoc': show ? userStateVoc:{title[topicData.keys.toList()[index]]:{}},
                                     'user': {'uuid': auth.currentUser().uid},
-                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]}
+                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]},
+                                     'key':{'refresh':refreshKey}
                                   });
                                     },
                                     child: Container(
@@ -295,6 +305,6 @@ class _Home extends State<Home> {
             padding: const EdgeInsets.all(4.0),
             child: Nav(auth),
           ),
-        ]));
+        ])));
   }
 }
