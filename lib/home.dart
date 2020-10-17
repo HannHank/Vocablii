@@ -111,10 +111,14 @@ class _Home extends State<Home> {
                                 actions: <Widget>[
                                   InkWell(
                                     onTap: (){
-                                        Map vocWtf =  topicData[
+                                         Map vocWtf =  topicData[
                                             topicData.keys.toList()[index]];
-                                      vocWtf.removeWhere((key, value) => ['wtf',null,'notSave'].contains(userStateVoc['class'][title[topicData.keys.toList()[index]]][key]));
-                                         Navigator.pushNamed(context, Trainer.route,
+
+                                 
+                                 vocWtf.removeWhere((key, value) => ['Iknow'].contains(userStateVoc['class'][title[topicData.keys.toList()[index]]][key]));
+                                
+                                  print("lengt:: " + vocWtf.keys.toList().length.toString());
+                                  Navigator.pushNamed(context, Trainer.route, 
                                   arguments: {
                                     title[topicData.keys.toList()[index]]:
                                        vocWtf,
@@ -153,7 +157,8 @@ class _Home extends State<Home> {
                                       Map vocIKnow =  topicData[
                                             topicData.keys.toList()[index]];
 
-                                 vocIKnow.removeWhere((key, value) => ['wtf',null,'notSave'].contains(userStateVoc[title[topicData.keys.toList()[index]]][key]));
+                                 
+                                 vocIKnow.removeWhere((key, value) => ['wtf','notSave',null].contains(userStateVoc['class'][title[topicData.keys.toList()[index]]][key]));
                                   print("change" + vocIKnow.toString());
                                   print("lengt:: " + vocIKnow.keys.toList().length.toString());
                                   Navigator.pushNamed(context, Trainer.route, 

@@ -23,6 +23,5 @@ Map get_color(String word,Map userStateVoc) {
   }else{
     color = colors[3];
   }
-  print("state: " + userStateVoc[word].toString());
   return {'color':color, 'state':userStateVoc[word].toString()};
 }
