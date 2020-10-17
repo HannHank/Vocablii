@@ -10,6 +10,7 @@ class Trainer extends StatefulWidget {
   static const String route = "vocabulary";
   final Map<String, Map> args;
 
+
   Trainer(this.args);
   @override
   State<StatefulWidget> createState() {
@@ -21,16 +22,28 @@ class _Trainer extends State<Trainer> {
   final Map<String, Map> args;
 
   _Trainer(this.args);
+   GlobalKey<RefreshIndicatorState> refreshKey;
   @override
   void initState() {
     super.initState();
-    setState(() {});
+    setState(() {
+      refreshKey = args['key']['refresh'];
+    });
     print("args: " + args.toString());
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    WillPopScope(
+      onWillPop:  () async{
+      print("Hello");
+       Navigator.pushNamed(context, Home.route);
+       // refreshKey.currentState.show();
+       return true;
+      },
+      child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Column(children: [
@@ -58,7 +71,7 @@ class _Trainer extends State<Trainer> {
               args.keys.toList()[0].toString(),
               args['databaseTitle']['databaseTitle'])),
          ])
-        );
+        ));
   }
 }
 
