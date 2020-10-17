@@ -63,6 +63,10 @@ class _Home extends State<Home> {
     getTopics();
    
   }
+  @override
+  Widget buildAction(BuildContext context) {
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +110,19 @@ class _Home extends State<Home> {
                                 actionExtentRatio: 0.25,
                                 actions: <Widget>[
                                   InkWell(
+                                    onTap: (){
+                                        Map vocWtf =  topicData[
+                                            topicData.keys.toList()[index]];
+                                      vocWtf.removeWhere((key, value) => ['wtf',null,'notSave'].contains(userStateVoc['class'][title[topicData.keys.toList()[index]]][key]));
+                                         Navigator.pushNamed(context, Trainer.route,
+                                  arguments: {
+                                    title[topicData.keys.toList()[index]]:
+                                       vocWtf,
+                                    'userStateVoc': show ? userStateVoc:{title[topicData.keys.toList()[index]]:{}},
+                                    'user': {'uuid': auth.currentUser().uid},
+                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]}
+                                  });
+                                    },
                                     child: Container(
                                       decoration: BoxDecoration(
                                           color: Color(0xffED6B6B),
@@ -132,6 +149,22 @@ class _Home extends State<Home> {
                                 ],
                                 secondaryActions: <Widget>[
                                   InkWell(
+                                    onTap: (){
+                                      Map vocIKnow =  topicData[
+                                            topicData.keys.toList()[index]];
+
+                                 vocIKnow.removeWhere((key, value) => ['wtf',null,'notSave'].contains(userStateVoc[title[topicData.keys.toList()[index]]][key]));
+                                  print("change" + vocIKnow.toString());
+                                  print("lengt:: " + vocIKnow.keys.toList().length.toString());
+                                  Navigator.pushNamed(context, Trainer.route, 
+                                  arguments: {
+                                    title[topicData.keys.toList()[index]]:
+                                       vocIKnow,
+                                    'userStateVoc': show ? userStateVoc:{title[topicData.keys.toList()[index]]:{}},
+                                    'user': {'uuid': auth.currentUser().uid},
+                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]}
+                                  });
+                                    },
                                     child: Container(
                                       decoration: BoxDecoration(
                                           color: Color(0xff7E92C8),
