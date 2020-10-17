@@ -87,14 +87,14 @@ class _VocCardState extends State<VocCard> {
      
   }
 
-  updateState(state) {
+  updateState(state) async {
     setState(() {
-      widget.state = state;
+       widget.stateCard['state'] = state;
     });
   }
 
   updateDatabase(state) async {
-    await users.doc().get().then(
+    await users.doc(widget.user.uid).get().then(
         (snapshot) => {percent = snapshot['class'][widget.title]['percent']});
     if (state == "wtf" && percent != 0 && widget.state != "wtf") {
       percent -= 1;
@@ -117,9 +117,8 @@ class _VocCardState extends State<VocCard> {
       print(e);
     }
     setState(() {
-      widget.state = state;
       print("state bevor: " + widget.state.toString());
-      users.doc(widget.user.toString()).update({
+      users.doc(widget.user.uid).update({
         'class.' + widget.title + "." + widget.name: state,
         'class.' + widget.title + "." + "percent": percent
       });
@@ -382,10 +381,10 @@ class _VocCardState extends State<VocCard> {
                                     color: Colors.white,
                                     height: 80,
                                     minWidth: 80,
-                                    onPressed: () {
-                                      updateState("Iknow");
-                                      updateDatabase("Iknow");
-                                      widget.move();
+                                    onPressed: () async{
+                                     await updateState("Iknow");
+                                     updateDatabase("Iknow");
+                                     await widget.move();
                                       fold();
                                     },
                                     child: Text(

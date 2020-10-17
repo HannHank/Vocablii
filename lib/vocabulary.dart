@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'components/vocCard.dart';
+import 'package:Vocablii/home.dart';
 import 'package:Vocablii/helper/helper_functions.dart';
 
 class Trainer extends StatefulWidget {
@@ -31,22 +33,32 @@ class _Trainer extends State<Trainer> {
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        body: Stack(children: [
-          Container(
+        body: Column(children: [
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: (){
+                    Navigator.pushNamed(context, Home.route);
+                    print("tabed");
+            },
+         child: Container(
               padding: EdgeInsets.only(top: 60),
               child: Align(
                 alignment: Alignment.topCenter,
-                child: Text(args.keys.toList()[0].toString(),
+                child:Text( " < " + args.keys.toList()[0].toString(),
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
-              )),
-          CardStack(
+              ))),
+              
+          Padding(
+            padding: EdgeInsets.only(top:60),
+            child:CardStack(
               args[args.keys.toList()[0]],
               args['userStateVoc'],
               args['user']['user'],
               args.keys.toList()[0].toString(),
-              args['databaseTitle']['databaseTitle'])
-        ]));
+              args['databaseTitle']['databaseTitle'])),
+         ])
+        );
   }
 }
 
@@ -83,14 +95,13 @@ class _CardStackState extends State<CardStack>
   @override
   void initState() {
     super.initState();
-    // print("Penis: " + widget.user.toString());
-    print("saved: " + widget.userStateVoc.toString());
+    // print("saved: " + widget.userStateVoc.toString());
     int amount = (voc.keys.toList().length);
-    print("voc: " + voc[voc.keys.toList()[200]].toString());
+    // print("voc: " + voc[voc.keys.toList()[200]].toString());
     List vocKeys = voc.keys.toList();
-    print("bevor: " + vocKeys.toString());
+    // print("bevor: " + vocKeys.toString());
     vocKeys.shuffle();
-    print("after: " + vocKeys.toString());
+    // print("after: " + vocKeys.toString());
     currentIndex = 0;
 
     controller = AnimationController(
