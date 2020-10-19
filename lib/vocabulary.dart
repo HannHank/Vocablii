@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'components/vocCard.dart';
 import 'package:Vocablii/home.dart';
 import 'package:Vocablii/helper/helper_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Trainer extends StatefulWidget {
   static const String route = "vocabulary";
@@ -35,10 +36,10 @@ class _Trainer extends State<Trainer> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: Size(750, 1334), allowFontScaling: false);
     return 
     WillPopScope(
       onWillPop:  () async{
-      print("Hello");
        Navigator.pushNamed(context, Home.route);
        // refreshKey.currentState.show();
        return true;
@@ -54,7 +55,7 @@ class _Trainer extends State<Trainer> {
                     print("tabed");
             },
          child: Container(
-              padding: EdgeInsets.only(top: 60),
+              padding: EdgeInsets.only(top: 60.h),
               child: Align(
                 alignment: Alignment.topCenter,
                 child:Text( " < " + args.keys.toList()[0].toString(),
@@ -63,7 +64,7 @@ class _Trainer extends State<Trainer> {
               ))),
               
           Padding(
-            padding: EdgeInsets.only(top:60),
+            padding: EdgeInsets.only(top:60.h),
             child:CardStack(
               args[args.keys.toList()[0]],
               args['userStateVoc'],
