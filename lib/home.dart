@@ -294,15 +294,15 @@ class _Home extends State<Home> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton:
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            // TODO: Navigate to Add Vocabulary screen
-            child: FloatingActionButton(
-              heroTag: "add",
-              onPressed: null,
-              child: Icon(Icons.add),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(4.0),
+          //   // TODO: Navigate to Add Vocabulary screen
+          //   child: FloatingActionButton(
+          //     heroTag: "add",
+          //     onPressed: null,
+          //     child: Icon(Icons.add),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.all(4.0),
             child: Nav(auth),
