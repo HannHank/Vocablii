@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:Vocablii/vocabulary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-
+import 'package:flutter/services.dart';
 import 'auth/auth.dart';
 import 'home.dart';
 import 'login.dart';
@@ -12,7 +12,12 @@ import 'login.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_){
+  runApp(new MyApp());
+  }
+  );
+
 }
 
 class MyApp extends StatelessWidget {
