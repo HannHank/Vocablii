@@ -75,15 +75,42 @@ class _VocCardState extends State<VocCard> {
   }
 
   deleteCard() async {
-    Map data;
-    await topics
-        .doc(widget.databaseTitle)
-        .get()
-        .then((snapshot) => {
-          data = snapshot.data()
-        });
-    data['vocabulary'].removeWhere((key, value) => key == widget.name);
-    await topics.doc(widget.databaseTitle).update(data);
+     showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Karte löschen"),
+          content: new Text(widget.word),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("cancel"),
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+            ),
+              new FlatButton(
+              child: new Text("delete"),
+              onPressed: () async{
+                Navigator.of(context).pop();
+                 Map data;
+                  await topics
+                      .doc(widget.databaseTitle)
+                      .get()
+                      .then((snapshot) => {
+                        data = snapshot.data()
+                      });
+                  data['vocabulary'].removeWhere((key, value) => key == widget.name);
+                  await topics.doc(widget.databaseTitle).update(data);
+                  widget.remove();
+              },
+            ),
+          ],
+        );
+      },
+    );
+   
      
   }
 
@@ -209,7 +236,6 @@ class _VocCardState extends State<VocCard> {
                                   widget.adminState ? FlatButton(
                                     onPressed: () {
                                       deleteCard();
-                                      widget.remove();
                                     },
                                     child: Icon(
                                       Icons.delete,
