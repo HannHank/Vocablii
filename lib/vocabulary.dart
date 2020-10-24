@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'components/vocCard.dart';
 import 'package:Vocablii/home.dart';
 import 'package:Vocablii/helper/helper_functions.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:Vocablii/helper/responsive.dart';
 
 class Trainer extends StatefulWidget {
   static const String route = "vocabulary";
@@ -36,7 +36,7 @@ class _Trainer extends State<Trainer> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: Size(750, 1334), allowFontScaling: false);
+    SizeConfig().init(context);
     return 
     WillPopScope(
       onWillPop:  () async{
@@ -55,7 +55,7 @@ class _Trainer extends State<Trainer> {
                     print("tabed");
             },
          child: Container(
-              padding: EdgeInsets.only(top: 60.h),
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
               child: Align(
                 alignment: Alignment.topCenter,
                 child:Text( " < " + args.keys.toList()[0].toString(),
@@ -64,7 +64,7 @@ class _Trainer extends State<Trainer> {
               ))),
               
           Padding(
-            padding: EdgeInsets.only(top:60.h),
+            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
             child:CardStack(
               args[args.keys.toList()[0]],
               args['userStateVoc'],
@@ -110,7 +110,7 @@ class _CardStackState extends State<CardStack>
   void initState() {
     super.initState();
     // print("saved: " + widget.userStateVoc.toString());
-    int amount = (voc.keys.toList().length);
+    int amount = (voc.keys.toList().length) ;
     // print("voc: " + voc[voc.keys.toList()[200]].toString());
     List vocKeys = voc.keys.toList();
     // print("bevor: " + vocKeys.toString());
@@ -158,7 +158,8 @@ class _CardStackState extends State<CardStack>
                 VocCard removedCard = cards.removeAt(0);
                 cards.add(removedCard);
                 currentIndex = cards[0].index;
-                print(currentIndex.toString() + cards[currentIndex].word);
+                print(cards.length.toString() + "card" + cards[0].index.toString());
+                print(currentIndex.toString() + cards[currentIndex - 1].word);
                 // if (widget.onCardChanged != null)
                 //   widget.onCardChanged(cards[0].word, cards[0].translation,
                 //       cards[0].description, cards[0].color);
@@ -215,6 +216,7 @@ class _CardStackState extends State<CardStack>
                     VocCard removedCard = cards.removeAt(0);
                     cards.add(removedCard);
                     currentIndex = cards[0].index;
+                    print(currentIndex);
                   });
                 });
               },

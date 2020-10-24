@@ -3,6 +3,8 @@ import 'package:Vocablii/home.dart';
 import 'package:Vocablii/components/InputField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'auth/auth.dart';
+import 'package:Vocablii/helper/responsive.dart';
+
 
 class Login extends StatefulWidget {
   static const String route = "login";
@@ -22,20 +24,21 @@ class _Login extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
         child: Stack(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 2),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 2),
                 child: Column(
                   children: <Widget>[
                     Container(
                         width: double.infinity,
-                        margin: EdgeInsets.only(top: 100),
+                        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 10),
                         child: Column(
                           children: <Widget>[
                             Container(
@@ -91,13 +94,13 @@ class _Login extends State<Login> {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 8),
               child: Align(
                   alignment: FractionalOffset.bottomRight,
                   child: FlatButton(
-                    height: 50,
+                    height: SizeConfig.blockSizeVertical * 6,
                     shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0)),
+                        borderRadius: new BorderRadius.circular(SizeConfig.blockSizeVertical * 7)),
                     color: Colors.black,
                     onPressed: () async {
                       final state = await auth.signIn(
@@ -119,13 +122,13 @@ class _Login extends State<Login> {
                   )),
             ),
             Container(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 4),
               child: Align(
                   alignment: FractionalOffset.bottomLeft,
                   child: FlatButton(
                     height: 50,
                     shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0)),
+                        borderRadius: new BorderRadius.circular(SizeConfig.blockSizeVertical * 6)),
                     color: Colors.black,
                     onPressed: () async {
                       final state = await auth.signUp(
