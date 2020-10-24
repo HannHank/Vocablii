@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:Vocablii/helper/responsive.dart';
 class VocCard extends StatefulWidget {
   final int index;
   String word;
@@ -179,7 +179,8 @@ class _VocCardState extends State<VocCard> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: Size(1080 , 1920), allowFontScaling: false);
+  
+    SizeConfig().init(context);
     return widget.expanded
         ? InkWell(
             borderRadius: new BorderRadius.circular(30),
@@ -194,8 +195,8 @@ class _VocCardState extends State<VocCard> {
                   ],
                   color: widget.stateCard['color'],
                   borderRadius: new BorderRadius.circular(30)),
-              width: 950.w,
-              height: 1500.h,
+              width: SizeConfig.blockSizeHorizontal * 90,
+              height: SizeConfig.blockSizeVertical *80,
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(boxShadow: [
@@ -255,18 +256,18 @@ class _VocCardState extends State<VocCard> {
                                           context: context,
                                           builder: (context) => Container(
                                               margin: EdgeInsets.only(
-                                                  left: 60.w,
-                                                  right: 60.w,
-                                                  bottom: 100.h),
+                                                  left: SizeConfig.blockSizeHorizontal * 5,
+                                                  right: SizeConfig.blockSizeHorizontal * 5,
+                                                  bottom: SizeConfig.blockSizeVertical * 8.3),
                                               padding: EdgeInsets.fromLTRB(
-                                                  50.h, 50.h, 50.h, 0),
+                                                  SizeConfig.blockSizeHorizontal * 5, SizeConfig.blockSizeHorizontal * 5, SizeConfig.blockSizeHorizontal * 5, 0),
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
                                                       new BorderRadius.circular(
                                                           30)),
-                                            width: 950.w,
-                                            height: 1600.h,
+                                              width: SizeConfig.blockSizeHorizontal * 90,
+                                              height: SizeConfig.blockSizeVertical *80,
                                               child: Center(
                                                   child: Container(
                                                       decoration: BoxDecoration(
@@ -294,7 +295,7 @@ class _VocCardState extends State<VocCard> {
                                                                           top:
                                                                               0,
                                                                           bottom:
-                                                                              7.h),
+                                                                              SizeConfig.blockSizeHorizontal * 5),
                                                                   child: Text(
                                                                     'VoKabel bearbeiten',
                                                                     style: TextStyle(
@@ -334,7 +335,7 @@ class _VocCardState extends State<VocCard> {
                                                                   padding:
                                                                       EdgeInsets
                                                                           .all(
-                                                                              25.h),
+                                                                              SizeConfig.blockSizeHorizontal * 10),
                                                                   child:
                                                                       FloatingActionButton(
                                                                     onPressed:
@@ -375,7 +376,7 @@ class _VocCardState extends State<VocCard> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                            padding: EdgeInsets.only(right: 135.h,bottom: 300.h, left:120.h),
+                            padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 13,bottom: SizeConfig.blockSizeVertical * 18, left: SizeConfig.blockSizeHorizontal * 13),
                             //margin: EdgeInsets.all(130.h),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -398,7 +399,7 @@ class _VocCardState extends State<VocCard> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                            padding: EdgeInsets.only(bottom: 80.h),
+                            padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 6),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -406,8 +407,8 @@ class _VocCardState extends State<VocCard> {
                                     child: Stack(children: [
                                   FlatButton(
                                     color: Colors.white,
-                                    height: 170.h,
-                                    minWidth: 170.w,
+                                    height: SizeConfig.blockSizeVertical * 10.5,
+                                    minWidth:  SizeConfig.blockSizeVertical * 10.5,
                                     onPressed: () async{
                                      await updateState("Iknow");
                                      updateDatabase("Iknow");
@@ -424,8 +425,8 @@ class _VocCardState extends State<VocCard> {
                                 Container(
                                   child: FlatButton(
                                     color: Colors.white,
-                                    height: 170.h,
-                                    minWidth: 170.h,
+                                   height: SizeConfig.blockSizeVertical * 10.5,
+                                    minWidth:  SizeConfig.blockSizeVertical * 10.5,
                                     onPressed: () {
                                       updateState("notSave");
                                       updateDatabase("notSave");
@@ -442,8 +443,8 @@ class _VocCardState extends State<VocCard> {
                                 Container(
                                     child: FlatButton(
                                   color: Colors.white,
-                                  height: 170.h,
-                                  minWidth: 170.h,
+                                  height: SizeConfig.blockSizeVertical * 10.5,
+                                  minWidth:  SizeConfig.blockSizeVertical * 10.5,
                                   onPressed: () {
                                     updateState("wtf");
                                     updateDatabase("wtf");
@@ -481,8 +482,8 @@ class _VocCardState extends State<VocCard> {
                   ],
                   color: widget.stateCard['color'],
                   borderRadius: new BorderRadius.circular(30)),
-              width: 950.w,
-              height: 1500.h,
+              width: SizeConfig.blockSizeHorizontal * 90,
+              height: SizeConfig.blockSizeVertical *80,
               child: Center(
                 child: Container(
                   child: Column(

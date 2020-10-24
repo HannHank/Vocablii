@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Vocablii/vocabulary.dart';
 import 'auth/auth.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:Vocablii/helper/responsive.dart';
 import 'components/nav.dart';
 
 class Home extends StatefulWidget {
@@ -72,7 +72,7 @@ class _Home extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: Size(750, 1334), allowFontScaling: false);
+    SizeConfig().init(context);
     return RefreshIndicator(
         key:refreshKey,
         onRefresh: ()async{
@@ -85,7 +85,7 @@ class _Home extends State<Home> {
           child: new Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 77.h, left: 21.h),
+                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5, left: SizeConfig.blockSizeHorizontal * 5),
                 width: double.infinity,
                 child: Text(
                   "Deine Themen",
@@ -265,7 +265,7 @@ class _Home extends State<Home> {
                                                 ),
                                             
                                                   Padding(
-                                                  padding: EdgeInsets.only(left: 60.w),
+                                                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 10),
                                                   child:Text(
                                                     show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc['class'][title[topicData.keys.toList()[index]]]['percent']).toString() + '%':"0%",
                                                     style: TextStyle(
