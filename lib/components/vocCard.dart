@@ -195,8 +195,8 @@ class _VocCardState extends State<VocCard> {
                   ],
                   color: widget.stateCard['color'],
                   borderRadius: new BorderRadius.circular(30)),
-              width: SizeConfig.blockSizeHorizontal * 90,
-              height: SizeConfig.blockSizeVertical *80,
+             width: SizeConfig.blockSizeHorizontal * 88,
+              height: SizeConfig.blockSizeVertical *77,
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(boxShadow: [
@@ -376,7 +376,7 @@ class _VocCardState extends State<VocCard> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                            padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 13,bottom: SizeConfig.blockSizeVertical * 18, left: SizeConfig.blockSizeHorizontal * 13),
+                            padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 13,bottom: SizeConfig.blockSizeVertical * 16, left: SizeConfig.blockSizeHorizontal * 13),
                             //margin: EdgeInsets.all(130.h),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -399,7 +399,7 @@ class _VocCardState extends State<VocCard> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                            padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 6),
+                            padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -407,8 +407,8 @@ class _VocCardState extends State<VocCard> {
                                     child: Stack(children: [
                                   FlatButton(
                                     color: Colors.white,
-                                    height: SizeConfig.blockSizeVertical * 10.5,
-                                    minWidth:  SizeConfig.blockSizeVertical * 10.5,
+                                    height: SizeConfig.blockSizeVertical * 9.5,
+                                    minWidth:  SizeConfig.blockSizeVertical * 9.5,
                                     onPressed: () async{
                                      await updateState("Iknow");
                                      updateDatabase("Iknow");
@@ -425,8 +425,8 @@ class _VocCardState extends State<VocCard> {
                                 Container(
                                   child: FlatButton(
                                     color: Colors.white,
-                                   height: SizeConfig.blockSizeVertical * 10.5,
-                                    minWidth:  SizeConfig.blockSizeVertical * 10.5,
+                                   height: SizeConfig.blockSizeVertical * 9.5,
+                                    minWidth:  SizeConfig.blockSizeVertical * 9.5,
                                     onPressed: () {
                                       updateState("notSave");
                                       updateDatabase("notSave");
@@ -443,8 +443,8 @@ class _VocCardState extends State<VocCard> {
                                 Container(
                                     child: FlatButton(
                                   color: Colors.white,
-                                  height: SizeConfig.blockSizeVertical * 10.5,
-                                  minWidth:  SizeConfig.blockSizeVertical * 10.5,
+                                  height: SizeConfig.blockSizeVertical *9.5,
+                                  minWidth:  SizeConfig.blockSizeVertical * 9.5,
                                   onPressed: () {
                                     updateState("wtf");
                                     updateDatabase("wtf");
@@ -482,8 +482,8 @@ class _VocCardState extends State<VocCard> {
                   ],
                   color: widget.stateCard['color'],
                   borderRadius: new BorderRadius.circular(30)),
-              width: SizeConfig.blockSizeHorizontal * 90,
-              height: SizeConfig.blockSizeVertical *80,
+              width: SizeConfig.blockSizeHorizontal * 88,
+              height: SizeConfig.blockSizeVertical *77,
               child: Center(
                 child: Container(
                   child: Column(
