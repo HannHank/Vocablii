@@ -239,7 +239,12 @@ class _CardStackState extends State<CardStack>
   }
 
   Offset _getStackedCardOffset(VocCard card) {
-    int diff = card.index - currentIndex;
+    int diff;
+    if(currentIndex > card.index){
+      diff = (cards.length - currentIndex) + card.index;
+    }else{
+      diff = card.index - currentIndex;
+    }
     if (card.index == currentIndex + 1) {
       return _moveAnim.value;
     } else if (diff > 0 && diff <= 2) {
@@ -251,6 +256,9 @@ class _CardStackState extends State<CardStack>
 
   double _getStackedCardScale(VocCard card) {
     int diff = card.index - currentIndex;
+    if(currentIndex > card.index){
+      diff = (cards.length - currentIndex) + card.index;
+    }
     if (card.index == currentIndex) {
       return 1.0;
     } else if (card.index == currentIndex + 1) {
