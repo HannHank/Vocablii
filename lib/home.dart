@@ -2,10 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'helper/initialiseTopicsForUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:Vocablii/vocabulary.dart';
+import 'package:Vocablii/pages/vocabulary.dart';
 import 'auth/auth.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:Vocablii/helper/responsive.dart';
+import 'package:Vocablii/pages/addVoc.dart';
 import 'components/nav.dart';
 
 class Home extends StatefulWidget {
@@ -390,20 +391,25 @@ class _Home extends State<Home> {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton:
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              // Padding(
-              //   padding: const EdgeInsets.all(4.0),
-              //   // TODO: Navigate to Add Vocabulary screen
-              //   child: FloatingActionButton(
-              //     heroTag: "add",
-              //     onPressed: null,
-              //     child: Icon(Icons.add),
-              //   ),
-              // ),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Padding(
-                padding: const EdgeInsets.all(4.0),
+                padding: EdgeInsets.only(left:SizeConfig.blockSizeHorizontal * 10,bottom: SizeConfig.blockSizeVertical * 2),
+                // TODO: Navigate to Add Vocabulary screen
+                child: FloatingActionButton(
+                  heroTag: "add",
+                  onPressed: (){
+                      Navigator.pushNamed(
+                                              context, AddVoc.route,
+                                              arguments: {"data":"data"});
+                  },
+                  child: Icon(Icons.add),
+                ),
+              ),
+              Padding(
+                padding:  EdgeInsets.only(right:SizeConfig.blockSizeHorizontal * 10, bottom: SizeConfig.blockSizeVertical * 2),
                 child: Nav(auth),
               ),
             ])));
   }
 }
+

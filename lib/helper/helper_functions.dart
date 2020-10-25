@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:Vocablii/vocabulary.dart';
+import 'package:Vocablii/pages/vocabulary.dart';
 import '../components/vocCard.dart';
 
   List<Color> colors = [
