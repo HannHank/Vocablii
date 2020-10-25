@@ -49,6 +49,7 @@ class _VocCardState extends State<VocCard> {
   int percent;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
+  CollectionReference deleted = FirebaseFirestore.instance.collection('deleted');
   final ruController = TextEditingController();
   final deController = TextEditingController();
   final descrController = TextEditingController();
@@ -103,7 +104,7 @@ class _VocCardState extends State<VocCard> {
                       });
                   data['vocabulary'].removeWhere((key, value) => key == widget.name);
                   await topics.doc(widget.databaseTitle).update(data);
-                  await topics.doc(widget.databaseTitle).update(data);
+                  await deleted.doc(widget.databaseTitle).set({widget.name:{'ru':widget.word,'desc':widget.description,'de':widget.translation,'deletedBy': widget.user.uid, 'timeStamp': DateTime.now()}}, SetOptions(merge: true));
                   widget.remove();
               },
             ),

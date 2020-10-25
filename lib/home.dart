@@ -29,13 +29,16 @@ class _Home extends State<Home> {
   Map<String, String> title = {};
   Map userStateVoc = {};
   bool show = false;
-    getTopics() {
+  getTopics(userStateVoc) {
     topics.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
             setState(() {
-              title[doc.id] = doc.data()['meta']['name'];
-              meta[doc.id] = doc.data()['meta']['descr'];
-              topicData[doc.id] = doc.data()['vocabulary'];
+              // skipp if not public and no admin 
+              if (doc.data()['meta']['public'] == true || userStateVoc['admin'] == true) {
+                title[doc.id] = doc.data()['meta']['name'];
+                meta[doc.id] = doc.data()['meta']['descr'];
+                topicData[doc.id] = doc.data()['vocabulary'];
+              }
             });
           }),
         });
@@ -43,15 +46,18 @@ class _Home extends State<Home> {
 
   getStateVoc() async {
     await initialiseUserLernState(auth.currentUser()).then((data) => {
-      setState(() {
-        userStateVoc = data;
-        show = true;
-      })
-    });
+          setState(() {
+            userStateVoc = data;
+            show = true;
+          }),
+          print("data: " + data.toString()),
+          getTopics(userStateVoc)
+        });
   }
-  getPercent(int all, int known){
+
+  getPercent(int all, int known) {
     print("all: " + all.toString() + "known: " + known.toString());
-    if(known == null) {
+    if (known == null) {
       known = 0;
     }
     int percent = (known / all * 100).toInt();
@@ -62,251 +68,342 @@ class _Home extends State<Home> {
   void initState() {
     super.initState();
     getStateVoc();
-    getTopics();
-   
-  }
-  @override
-  Widget buildAction(BuildContext context) {
-
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return RefreshIndicator(
-        key:refreshKey,
-        onRefresh: ()async{
+        key: refreshKey,
+        onRefresh: () async {
           getStateVoc();
-          getTopics();
         },
-        child:Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-          child: new Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5, left: SizeConfig.blockSizeHorizontal * 5),
-                width: double.infinity,
-                child: Text(
-                  "Deine Themen",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
-                  textScaleFactor: 2,
-                  // has impact
-                ),
-              ),
-              Expanded(
-                  child: ListView.builder(
-                      itemCount: topicData.keys.length,
-                      itemBuilder: (BuildContext ctxt, int index) {
-                        return new InkWell(
-                            onTap: () {
-                                Navigator.pushNamed(context, Trainer.route,
-                                  arguments: {
-                                    title[topicData.keys.toList()[index]]:
-                                        topicData[
-                                            topicData.keys.toList()[index]],
-                                    'userStateVoc': show ? userStateVoc:{'admin':false,'class':{title[topicData.keys.toList()[index]]:{}}},
-                                    'user': {'user':auth.currentUser()},
-                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]},
-                                     'key':{'refresh':refreshKey}
-                                  });
-                            },
-                            child: Padding(
-                              // Padding around Card component
-                              padding: const EdgeInsets.fromLTRB(21, 9, 21, 9),
-                              child: Slidable(
-                                actionPane: SlidableBehindActionPane(),
-                                actionExtentRatio: 0.25,
-                                actions: <Widget>[
-                                  InkWell(
-                                    onTap: (){
-                                         Map vocWtf =  topicData[
-                                            topicData.keys.toList()[index]];
+        child: Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: new Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(
+                        top: SizeConfig.blockSizeVertical * 5,
+                        left: SizeConfig.blockSizeHorizontal * 5),
+                    width: double.infinity,
+                    child: Text(
+                      "Deine Themen",
+                      textAlign: TextAlign.start,
+                      style:
+                          TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
+                      textScaleFactor: 2,
+                      // has impact
+                    ),
+                  ),
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: topicData.keys.length,
+                          itemBuilder: (BuildContext ctxt, int index) {
+                            return new InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(context, Trainer.route,
+                                      arguments: {
+                                        title[topicData.keys.toList()[index]]:
+                                            topicData[
+                                                topicData.keys.toList()[index]],
+                                        'userStateVoc': show
+                                            ? userStateVoc
+                                            : {
+                                                'admin': false,
+                                                'class': {
+                                                  title[topicData.keys
+                                                      .toList()[index]]: {}
+                                                }
+                                              },
+                                        'user': {'user': auth.currentUser()},
+                                        'databaseTitle': {
+                                          'databaseTitle':
+                                              topicData.keys.toList()[index]
+                                        },
+                                        'key': {'refresh': refreshKey}
+                                      });
+                                },
+                                child: Padding(
+                                  // Padding around Card component
+                                  padding:
+                                      const EdgeInsets.fromLTRB(21, 9, 21, 9),
+                                  child: Slidable(
+                                    actionPane: SlidableBehindActionPane(),
+                                    actionExtentRatio: 0.25,
+                                    actions: <Widget>[
+                                      InkWell(
+                                        onTap: () {
+                                          Map vocWtf = topicData[
+                                              topicData.keys.toList()[index]];
 
-                                 
-                                 vocWtf.removeWhere((key, value) => ['Iknow'].contains(userStateVoc['class'][title[topicData.keys.toList()[index]]][key]));
-                                
-                                  print("lengt:: " + vocWtf.keys.toList().length.toString());
-                                  Navigator.pushNamed(context, Trainer.route, 
-                                  arguments: {
-                                    title[topicData.keys.toList()[index]]:
-                                       vocWtf,
-                                    'userStateVoc': show ? userStateVoc:{title[topicData.keys.toList()[index]]:{}},
-                                    'user': {'uuid': auth.currentUser().uid},
-                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]},
-                                    'key':{'refresh':refreshKey}
-                                  });
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffED6B6B),
-                                          borderRadius:
-                                              new BorderRadius.circular(11.0),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 30,
-                                              offset: Offset(10, 10),
-                                              color:
-                                                  Colors.black.withOpacity(.20),
-                                            ),
-                                          ]),
-                                      child: Center(
-                                        // TODO: Replace with icon
-                                        child: Text('🤫',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 25)),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                                secondaryActions: <Widget>[
-                                  InkWell(
-                                    onTap: (){
-                                      Map vocIKnow =  topicData[
-                                            topicData.keys.toList()[index]];
+                                          vocWtf.removeWhere((key, value) => [
+                                                'Iknow'
+                                              ].contains(userStateVoc['class'][
+                                                  title[topicData.keys
+                                                      .toList()[index]]][key]));
 
-                                 
-                                 vocIKnow.removeWhere((key, value) => ['wtf','notSave',null].contains(userStateVoc['class'][title[topicData.keys.toList()[index]]][key]));
-                                  print("change" + vocIKnow.toString());
-                                  print("lengt:: " + vocIKnow.keys.toList().length.toString());
-                                  Navigator.pushNamed(context, Trainer.route, 
-                                  arguments: {
-                                    title[topicData.keys.toList()[index]]:
-                                       vocIKnow,
-                                    'userStateVoc': show ? userStateVoc:{title[topicData.keys.toList()[index]]:{}},
-                                    'user': {'uuid': auth.currentUser().uid},
-                                    'databaseTitle': {'databaseTitle': topicData.keys.toList()[index]},
-                                     'key':{'refresh':refreshKey}
-                                  });
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Color(0xff7E92C8),
-                                          borderRadius:
-                                              new BorderRadius.circular(11.0),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 30,
-                                              offset: Offset(10, 10),
-                                              color:
-                                                  Colors.black.withOpacity(.20),
-                                            ),
-                                          ]),
-                                      child: Center(
-                                        // TODO: Replace with icon
-                                        child: Text(
-                                          '🤓',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 25),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            new BorderRadius.circular(11.0),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            blurRadius: 30,
-                                            offset: Offset(10, 10),
-                                            color:
-                                                Colors.black.withOpacity(.20),
+                                          print("lengt:: " +
+                                              vocWtf.keys
+                                                  .toList()
+                                                  .length
+                                                  .toString());
+                                          Navigator.pushNamed(
+                                              context, Trainer.route,
+                                              arguments: {
+                                                title[topicData.keys
+                                                    .toList()[index]]: vocWtf,
+                                                'userStateVoc': show
+                                                    ? userStateVoc
+                                                    : {
+                                                        title[topicData.keys
+                                                                .toList()[
+                                                            index]]: {}
+                                                      },
+                                                'user': {
+                                                  'uuid': auth.currentUser().uid
+                                                },
+                                                'databaseTitle': {
+                                                  'databaseTitle': topicData
+                                                      .keys
+                                                      .toList()[index]
+                                                },
+                                                'key': {'refresh': refreshKey}
+                                              });
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Color(0xffED6B6B),
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      11.0),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 30,
+                                                  offset: Offset(10, 10),
+                                                  color: Colors.black
+                                                      .withOpacity(.20),
+                                                ),
+                                              ]),
+                                          child: Center(
+                                            // TODO: Replace with icon
+                                            child: Text('🤫',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 25)),
                                           ),
-                                        ]),
-                                    child: Padding(
-                                      padding:
-                                          // Padding inside Card component
-                                          EdgeInsets.fromLTRB(21, 15, 21, 15),
-                                      child: Container(
-                                        child: new Stack(
-                                          children: <Widget>[
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Column(
+                                        ),
+                                      )
+                                    ],
+                                    secondaryActions: <Widget>[
+                                      InkWell(
+                                        onTap: () {
+                                          Map vocIKnow = topicData[
+                                              topicData.keys.toList()[index]];
+
+                                          vocIKnow.removeWhere((key, value) => [
+                                                'wtf',
+                                                'notSave',
+                                                null
+                                              ].contains(userStateVoc['class'][
+                                                  title[topicData.keys
+                                                      .toList()[index]]][key]));
+                                          print("change" + vocIKnow.toString());
+                                          print("lengt:: " +
+                                              vocIKnow.keys
+                                                  .toList()
+                                                  .length
+                                                  .toString());
+                                          Navigator.pushNamed(
+                                              context, Trainer.route,
+                                              arguments: {
+                                                title[topicData.keys
+                                                    .toList()[index]]: vocIKnow,
+                                                'userStateVoc': show
+                                                    ? userStateVoc
+                                                    : {
+                                                        title[topicData.keys
+                                                                .toList()[
+                                                            index]]: {}
+                                                      },
+                                                'user': {
+                                                  'uuid': auth.currentUser().uid
+                                                },
+                                                'databaseTitle': {
+                                                  'databaseTitle': topicData
+                                                      .keys
+                                                      .toList()[index]
+                                                },
+                                                'key': {'refresh': refreshKey}
+                                              });
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Color(0xff7E92C8),
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      11.0),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 30,
+                                                  offset: Offset(10, 10),
+                                                  color: Colors.black
+                                                      .withOpacity(.20),
+                                                ),
+                                              ]),
+                                          child: Center(
+                                            // TODO: Replace with icon
+                                            child: Text(
+                                              '🤓',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 25),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                new BorderRadius.circular(11.0),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                blurRadius: 30,
+                                                offset: Offset(10, 10),
+                                                color: Colors.black
+                                                    .withOpacity(.20),
+                                              ),
+                                            ]),
+                                        child: Padding(
+                                          padding:
+                                              // Padding inside Card component
+                                              EdgeInsets.fromLTRB(
+                                                  21, 15, 21, 15),
+                                          child: Container(
+                                            child: new Stack(
+                                              children: <Widget>[
+                                                Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                      CrossAxisAlignment.center,
                                                   children: [
-                                                    Text(
-                                                      title[topicData.keys
-                                                          .toList()[index]],
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 14),
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          title[topicData.keys
+                                                              .toList()[index]],
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontSize: 14),
+                                                        ),
+                                                        Text(
+                                                          meta[topicData.keys
+                                                              .toList()[index]],
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Color(
+                                                                  0xff000000),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        )
+                                                      ],
                                                     ),
-                                                    Text(
-                                                      meta[topicData.keys
-                                                          .toList()[index]],
-                                                      style: TextStyle(
-                                                          fontSize: 12,
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: SizeConfig
+                                                                  .blockSizeHorizontal *
+                                                              10),
+                                                      child: Text(
+                                                        show
+                                                            ? getPercent(
+                                                                        topicData[topicData.keys.toList()[index]]
+                                                                            .keys
+                                                                            .toList()
+                                                                            .length,
+                                                                        userStateVoc['class'][title[topicData
+                                                                            .keys
+                                                                            .toList()[index]]]['percent'])
+                                                                    .toString() +
+                                                                '%'
+                                                            : "0%",
+                                                        style: TextStyle(
                                                           color:
                                                               Color(0xff000000),
-                                                          fontWeight:
-                                                              FontWeight.w400),
-                                                    )
-                                                  ],
-                                                ),
-                                            
-                                                  Padding(
-                                                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 10),
-                                                  child:Text(
-                                                    show ? getPercent(topicData[ topicData.keys.toList()[index]].keys.toList().length, userStateVoc['class'][title[topicData.keys.toList()[index]]]['percent']).toString() + '%':"0%",
-                                                    style: TextStyle(
-                                                      color: Color(0xff000000),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),),
-                                          
-                                                CircularProgressIndicator(
-                                                  strokeWidth: 6.0,
-                                                  backgroundColor: Color(0xffCECECE),
-                                                  valueColor: new AlwaysStoppedAnimation<Color>(Color(0xff40FF53)),
-                                                  value:  show ? getPercent(topicData[topicData.keys.toList()[index]].keys.toList().length, userStateVoc['class'][title[topicData.keys.toList()[index]]]['percent']).toDouble()/100:0.0,
+                                                    CircularProgressIndicator(
+                                                      strokeWidth: 6.0,
+                                                      backgroundColor:
+                                                          Color(0xffCECECE),
+                                                      valueColor:
+                                                          new AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Color(
+                                                                  0xff40FF53)),
+                                                      value: show
+                                                          ? getPercent(
+                                                                      topicData[topicData.keys.toList()[
+                                                                              index]]
+                                                                          .keys
+                                                                          .toList()
+                                                                          .length,
+                                                                      userStateVoc[
+                                                                          'class'][title[topicData
+                                                                              .keys
+                                                                              .toList()[
+                                                                          index]]]['percent'])
+                                                                  .toDouble() /
+                                                              100
+                                                          : 0.0,
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                            ));
-                      })),
-            ],
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton:
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          // Padding(
-          //   padding: const EdgeInsets.all(4.0),
-          //   // TODO: Navigate to Add Vocabulary screen
-          //   child: FloatingActionButton(
-          //     heroTag: "add",
-          //     onPressed: null,
-          //     child: Icon(Icons.add),
-          //   ),
-          // ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Nav(auth),
-          ),
-        ])));
+                                          ),
+                                        )),
+                                  ),
+                                ));
+                          })),
+                ],
+              ),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton:
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              // Padding(
+              //   padding: const EdgeInsets.all(4.0),
+              //   // TODO: Navigate to Add Vocabulary screen
+              //   child: FloatingActionButton(
+              //     heroTag: "add",
+              //     onPressed: null,
+              //     child: Icon(Icons.add),
+              //   ),
+              // ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Nav(auth),
+              ),
+            ])));
   }
 }
