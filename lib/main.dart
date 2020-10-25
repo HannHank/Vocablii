@@ -1,13 +1,14 @@
 import 'package:Vocablii/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:Vocablii/vocabulary.dart';
+import 'package:Vocablii/pages/vocabulary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter/services.dart';
+import 'package:Vocablii/pages/addVoc.dart';
 import 'auth/auth.dart';
 import 'home.dart';
-import 'login.dart';
+import 'pages/login.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,6 +70,28 @@ class MyApp extends StatelessWidget {
             if (auth.currentUser() != null) {
               return MaterialPageRoute(
                   builder: (_) => Trainer(settings.arguments));
+            } else {
+              return MaterialPageRoute(builder: (_) => Login());
+            }
+            break;
+          case AddVoc.route:
+            if (auth.currentUser() != null) {
+              return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => AddVoc(settings.arguments),
+             transitionsBuilder: (
+        BuildContext context, 
+        Animation<double> animation, 
+        Animation<double> secondaryAnimation, 
+        Widget child) {
+      return Align(
+        child: SizeTransition(
+          sizeFactor: animation,
+          child: child,
+        ),
+      );
+    },
+    transitionDuration: Duration(milliseconds: 500),
+              );
             } else {
               return MaterialPageRoute(builder: (_) => Login());
             }

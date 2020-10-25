@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'components/vocCard.dart';
+import '../components/vocCard.dart';
 import 'package:Vocablii/home.dart';
 import 'package:Vocablii/helper/helper_functions.dart';
 import 'package:Vocablii/helper/responsive.dart';

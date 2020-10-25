@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:Vocablii/home.dart';
 import 'package:Vocablii/components/InputField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'auth/auth.dart';
+import '../auth/auth.dart';
 import 'package:Vocablii/helper/responsive.dart';
 
 class Login extends StatefulWidget {
