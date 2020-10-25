@@ -393,20 +393,20 @@ class _Home extends State<Home> {
             floatingActionButton:
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Padding(
-                padding: EdgeInsets.only(left:SizeConfig.blockSizeHorizontal * 10,bottom: SizeConfig.blockSizeVertical * 2),
-                // TODO: Navigate to Add Vocabulary screen
+                padding: EdgeInsets.only(left:SizeConfig.blockSizeHorizontal * 5,bottom: SizeConfig.blockSizeVertical),
+
                 child: FloatingActionButton(
                   heroTag: "add",
                   onPressed: (){
                       Navigator.pushNamed(
                                               context, AddVoc.route,
-                                              arguments: {"data":"data"});
+                                              arguments: title);
                   },
                   child: Icon(Icons.add),
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.only(right:SizeConfig.blockSizeHorizontal * 10, bottom: SizeConfig.blockSizeVertical * 2),
+                padding:  EdgeInsets.only(right:SizeConfig.blockSizeHorizontal * 5, bottom: SizeConfig.blockSizeVertical),
                 child: Nav(auth),
               ),
             ])));
