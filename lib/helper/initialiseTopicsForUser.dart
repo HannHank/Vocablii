@@ -26,12 +26,15 @@ initialiseUserLernState(user) async{
                   };
                 }
               }),
+              print("userLernState after update: " + usersLernStates.toString())
 });
+
   await users
           .doc(user.uid.toString())
           .update({
             'class': usersLernStates['class'],
           });
+    userState['class'] = usersLernStates['class'];
     return userState;
 
 }

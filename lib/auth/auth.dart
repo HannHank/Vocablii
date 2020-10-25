@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-
+import 'dart:io' show Platform;
+ enum authProblems { UserNotFound, PasswordNotValid, NetworkError }
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
 
@@ -41,7 +41,10 @@ class AuthenticationService {
   /// This is to make it as easy as possible but a better way would be to
   /// use your own custom class that would take the exception and return better
   /// error messages. That way you can throw, return or whatever you prefer with that instead.
+ 
   Future<String> signUp({String email, String password}) async {
+  
+
     try {
       UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       await users
@@ -53,8 +56,9 @@ class AuthenticationService {
             
           });
       return "Signed up";
-    } on FirebaseAuthException catch (e) {
+    } 
+    on FirebaseAuthException catch (e) {
       return e.message;
     }
-  }
+}
 }
