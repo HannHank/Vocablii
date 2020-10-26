@@ -29,24 +29,24 @@ class _AddVoc extends State<AddVoc> {
   }
 
   saveNewVoc() async {
-    print("value: " + selectedTopic.toString());
-    await topics.doc(selectedTopic).get().then((snapshot) => {
-          setState(() {
-            vocs = snapshot.data()['vocabulary'];
-          }),
-        });
-    List<String> newList = [];
-     vocs.keys.toList().forEach((element) {
-          newList.add(element.substring(4));
-     });
-     newList.sort();
+    // print("value: " + selectedTopic.toString());
+    // await topics.doc(selectedTopic).get().then((snapshot) => {
+    //       setState(() {
+    //         vocs = snapshot.data()['vocabulary'];
+    //       }),
+    //     });
+    // List<String> newList = [];
+    //  vocs.keys.toList().forEach((element) {
+    //       newList.add(element.substring(4));
+    //  });
+    //  newList.sort();
  
-     int id = int.parse(newList.last) + 1;
-     int diff = 4 - id.toString().length;
+    //  int id = int.parse(newList.last) + 1;
+    //  int diff = 4 - id.toString().length;
 
-     String newId = "voc_" + "0" * diff + id.toString();
-     print("newId: " +  newId);
-     await topics.doc(selectedTopic).update({  "vocabulary." + newId:{'ru':ruController.text.trim(),'desc':descController.text.trim(),'de':deController.text.trim()}});
+    //  String newId = "voc_" + "0" * diff + id.toString();
+    //  print("newId: " +  newId);
+     await topics.doc(selectedTopic).update({  "vocabulary." + ruController.text.trim():{'ru':ruController.text.trim(),'desc':descController.text.trim(),'de':deController.text.trim()}});
   }
 
   @override
