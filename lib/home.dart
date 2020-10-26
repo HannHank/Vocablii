@@ -35,8 +35,9 @@ class _Home extends State<Home> {
     topics.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
             setState(() {
-              // skipp if not public and no admin 
-              if (doc.data()['meta']['public'] == true || userStateVoc['admin'] == true) {
+              // skipp if not public and no admin
+              if (doc.data()['meta']['public'] == true ||
+                  userStateVoc['admin'] == true) {
                 title[doc.id] = doc.data()['meta']['name'];
                 meta[doc.id] = doc.data()['meta']['descr'];
                 topicData[doc.id] = doc.data()['vocabulary'];
@@ -160,9 +161,12 @@ class _Home extends State<Home> {
                                                 'userStateVoc': show
                                                     ? userStateVoc
                                                     : {
-                                                        title[topicData.keys
-                                                                .toList()[
-                                                            index]]: {}
+                                                        'admin': false,
+                                                        'class': {
+                                                          title[topicData.keys
+                                                                  .toList()[
+                                                              index]]: {}
+                                                        }
                                                       },
                                                 'user': {
                                                   'uuid': auth.currentUser().uid
@@ -213,34 +217,38 @@ class _Home extends State<Home> {
                                               ].contains(userStateVoc['class'][
                                                   title[topicData.keys
                                                       .toList()[index]]][key]));
-                                          print("change" + vocIKnow.toString());
-                                          print("lengt:: " +
-                                              vocIKnow.keys
-                                                  .toList()
-                                                  .length
-                                                  .toString());
-                                          Navigator.pushNamed(
-                                              context, Trainer.route,
-                                              arguments: {
-                                                title[topicData.keys
-                                                    .toList()[index]]: vocIKnow,
-                                                'userStateVoc': show
-                                                    ? userStateVoc
-                                                    : {
-                                                        title[topicData.keys
-                                                                .toList()[
-                                                            index]]: {}
-                                                      },
-                                                'user': {
-                                                  'uuid': auth.currentUser().uid
-                                                },
-                                                'databaseTitle': {
-                                                  'databaseTitle': topicData
-                                                      .keys
-                                                      .toList()[index]
-                                                },
-                                                'key': {'refresh': refreshKey}
-                                              });
+                                          if (vocIKnow.length == 0) {
+                                            // TODO: return AlertDialog
+                                            refreshKey.currentState.show();
+                                          } else {
+                                            Navigator.pushNamed(
+                                                context, Trainer.route,
+                                                arguments: {
+                                                  title[topicData.keys
+                                                          .toList()[index]]:
+                                                      vocIKnow,
+                                                  'userStateVoc': show
+                                                      ? userStateVoc
+                                                      : {
+                                                          'admin': false,
+                                                          'class': {
+                                                            title[topicData.keys
+                                                                    .toList()[
+                                                                index]]: {}
+                                                          }
+                                                        },
+                                                  'user': {
+                                                    'uuid':
+                                                        auth.currentUser().uid
+                                                  },
+                                                  'databaseTitle': {
+                                                    'databaseTitle': topicData
+                                                        .keys
+                                                        .toList()[index]
+                                                  },
+                                                  'key': {'refresh': refreshKey}
+                                                });
+                                          }
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
@@ -392,26 +400,32 @@ class _Home extends State<Home> {
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
-            floatingActionButton:
-                Row(mainAxisAlignment: admin ? MainAxisAlignment.spaceBetween :MainAxisAlignment.center, children: [
-              admin ? Padding(
-                padding: EdgeInsets.only(left:SizeConfig.blockSizeHorizontal * 5,bottom: SizeConfig.blockSizeVertical),
-
-                child: FloatingActionButton(
-                  heroTag: "add",
-                  onPressed: (){
-                      Navigator.pushNamed(
-                                              context, AddVoc.route,
-                                              arguments: title);
-                  },
-                  child: Icon(Icons.add),
-                ),
-              ):SizedBox(),
-              Padding(
-                padding:  EdgeInsets.only(right:SizeConfig.blockSizeHorizontal * 5, bottom: SizeConfig.blockSizeVertical),
-                child: Nav(auth),
-              ),
-            ])));
+            floatingActionButton: Row(
+                mainAxisAlignment: admin
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.center,
+                children: [
+                  admin
+                      ? Padding(
+                          padding: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 5,
+                              bottom: SizeConfig.blockSizeVertical),
+                          child: FloatingActionButton(
+                            heroTag: "add",
+                            onPressed: () {
+                              Navigator.pushNamed(context, AddVoc.route,
+                                  arguments: title);
+                            },
+                            child: Icon(Icons.add),
+                          ),
+                        )
+                      : SizedBox(),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        right: SizeConfig.blockSizeHorizontal * 5,
+                        bottom: SizeConfig.blockSizeVertical),
+                    child: Nav(auth),
+                  ),
+                ])));
   }
 }
-
