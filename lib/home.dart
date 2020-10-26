@@ -30,6 +30,7 @@ class _Home extends State<Home> {
   Map<String, String> title = {};
   Map userStateVoc = {};
   bool show = false;
+  bool admin = false;
   getTopics(userStateVoc) {
     topics.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
@@ -50,6 +51,7 @@ class _Home extends State<Home> {
           setState(() {
             userStateVoc = data;
             show = true;
+            admin = userStateVoc['admin'];
           }),
           print("data: " + data.toString()),
           getTopics(userStateVoc)
@@ -391,8 +393,8 @@ class _Home extends State<Home> {
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
             floatingActionButton:
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Padding(
+                Row(mainAxisAlignment: admin ? MainAxisAlignment.spaceBetween :MainAxisAlignment.center, children: [
+              admin ? Padding(
                 padding: EdgeInsets.only(left:SizeConfig.blockSizeHorizontal * 5,bottom: SizeConfig.blockSizeVertical),
 
                 child: FloatingActionButton(
@@ -404,7 +406,7 @@ class _Home extends State<Home> {
                   },
                   child: Icon(Icons.add),
                 ),
-              ),
+              ):SizedBox(),
               Padding(
                 padding:  EdgeInsets.only(right:SizeConfig.blockSizeHorizontal * 5, bottom: SizeConfig.blockSizeVertical),
                 child: Nav(auth),
