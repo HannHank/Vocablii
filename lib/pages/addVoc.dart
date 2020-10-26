@@ -52,7 +52,7 @@ class _AddVoc extends State<AddVoc> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.deepPurpleAccent,
         body: Column(children: [
           Padding(
               padding: EdgeInsets.only(
