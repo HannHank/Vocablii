@@ -23,6 +23,7 @@ class _AddVoc extends State<AddVoc> {
   List<String> suggestions = [];
   List<String> added = [];
   String currentText = "";
+  bool selected = false;
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
 
   String selectedTopic;
@@ -93,7 +94,14 @@ class _AddVoc extends State<AddVoc> {
                 fillColor: Colors.black12,
                 hintText: 'russisches Wort'),
             suggestions: suggestions,
-            textChanged: (text) => currentText = text,
+            textChanged: (text) =>{
+              if(text == ""){
+                setState((){
+                  selected = false;
+                })
+              },
+              currentText = text
+            } ,
             clearOnSubmit: false,
             textSubmitted: (text) => setState(() {
               if (text != "") {
@@ -103,25 +111,28 @@ class _AddVoc extends State<AddVoc> {
                   deController.text = vocs[text]['de'];
                   descController.text = vocs[text]['desc'];
                 }
+                setState(() {
+                  selected = true;
+                });
               }
             }),
           ),
-          Padding(
+          selected ? Padding(
             padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 1),
             child: basicForm("Russisches Wort", 15, "muss ausgefüllt sein",
                 false, 1, ruController),
-          ),
-          Padding(
+          ):SizedBox(),
+          selected ? Padding(
             padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 1),
             child: basicForm("Deutsche Übersetzung", 15, "muss ausgefüllt sein",
                 false, 1, deController),
-          ),
-          Padding(
+          ):SizedBox(),
+          selected ? Padding(
             padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 1),
             child: basicForm("Beschreibung auf Russisch", 15, "ist optional",
                 false, null, descController),
-          ),
-          FloatingActionButton(
+          ):SizedBox(),
+          selected ? FloatingActionButton(
               heroTag: "SaveButton",
               onPressed: () async {
                 if (ruController.text.trim() != "" &&
@@ -133,7 +144,7 @@ class _AddVoc extends State<AddVoc> {
               child: Icon(
                 Icons.save,
                 color: Colors.white,
-              ))
+              )):SizedBox()
         ]),
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         floatingActionButton: Padding(
