@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:Vocablii/helper/responsive.dart';
 import 'package:Vocablii/components/InputField.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 
 class AddVoc extends StatefulWidget {
   static const String route = "addVoc";
@@ -13,11 +14,16 @@ class AddVoc extends StatefulWidget {
 }
 
 class _AddVoc extends State<AddVoc> {
-  CollectionReference topics = FirebaseFirestore.instance.collection('test');
+  CollectionReference topics = FirebaseFirestore.instance.collection('topics');
 
   final ruController = TextEditingController();
   final deController = TextEditingController();
   final descController = TextEditingController();
+
+  List<String> suggestions = [];
+  List<String> added = [];
+  String currentText = "";
+  GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
 
   String selectedTopic;
   Map<String, dynamic> vocs;
@@ -29,25 +35,17 @@ class _AddVoc extends State<AddVoc> {
   }
 
   saveNewVoc() async {
-    // print("value: " + selectedTopic.toString());
-    // await topics.doc(selectedTopic).get().then((snapshot) => {
-    //       setState(() {
-    //         vocs = snapshot.data()['vocabulary'];
-    //       }),
-    //     });
-    // List<String> newList = [];
-    //  vocs.keys.toList().forEach((element) {
-    //       newList.add(element.substring(4));
-    //  });
-    //  newList.sort();
- 
-    //  int id = int.parse(newList.last) + 1;
-    //  int diff = 4 - id.toString().length;
-
-    //  String newId = "voc_" + "0" * diff + id.toString();
-    //  print("newId: " +  newId);
-     await topics.doc(selectedTopic).update({  "vocabulary." + ruController.text.trim():{'ru':ruController.text.trim(),'desc':descController.text.trim(),'de':deController.text.trim()}});
+    await topics.doc(selectedTopic).update({
+      "vocabulary." + ruController.text.trim(): {
+        'ru': ruController.text.trim(),
+        'desc': descController.text.trim(),
+        'de': deController.text.trim()
+      }
+    });
   }
+
+  SimpleAutoCompleteTextField textField;
+  bool showWhichErrorText = false;
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +76,36 @@ class _AddVoc extends State<AddVoc> {
                         child: Text(widget.args[widget.args.keys.toList()[i]]),
                       );
                     }),
-                    onChanged: (newTopic) {
-                      setState(() {
-                        selectedTopic = newTopic;
+                    onChanged: (newTopic) async {
+                      await topics.doc(newTopic).get().then((snapshot) {
+                        setState(() {
+                          selectedTopic = newTopic;
+                          vocs = snapshot.data()['vocabulary'];
+                          key.currentState.suggestions = vocs.keys.toList();
+                        });
                       });
                     },
                   ))),
+          new SimpleAutoCompleteTextField(
+            key: key,
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.black12,
+                hintText: 'russisches Wort'),
+            suggestions: suggestions,
+            textChanged: (text) => currentText = text,
+            clearOnSubmit: false,
+            textSubmitted: (text) => setState(() {
+              if (text != "") {
+                added.add(text);
+                if (vocs.containsKey(text)) {
+                  ruController.text = vocs[text]['ru'];
+                  deController.text = vocs[text]['de'];
+                  descController.text = vocs[text]['desc'];
+                }
+              }
+            }),
+          ),
           Padding(
             padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 1),
             child: basicForm("Russisches Wort", 15, "muss ausgefüllt sein",
