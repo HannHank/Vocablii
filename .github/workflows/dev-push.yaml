@@ -1,0 +1,74 @@
+# on:
+#   push:
+#     branches: 
+#     - develop
+
+# jobs:
+
+#   unit-tests:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: 'setup flutter env'
+#       - uses: actions/checkout@v1
+#       - uses: subosito/flutter-action@v1
+#         with:
+#           channel: 'stable' # or: 'dev' or 'beta'
+#       - name: 'run unit & integration tests'
+#         run: 'flutter test'
+
+#   apk:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: 'build andriod'
+#       - uses: subosito/flutter-action@v1
+#       - uses: actions/checkout@v1
+#       - run: flutter pub get
+#       - run: flutter build apk
+
+#   ios:
+#     runs-on: macos-latest
+#     steps:
+#       - name: 'build ios'
+#       - uses: subosito/flutter-action@v1
+#       - uses: actions/checkout@v1
+#       - run: flutter pub get
+#       - name: Build iOS App
+#       - run: |
+#           cd ios
+#           bundle exec fastlane distribute
+
+#   ui-tests:
+#     runs-on: ubuntu-latest
+#     needs: [apk, ios]
+#     steps:
+#       - uses: actions/checkout@v2
+
+#   emulator-test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: build ios test
+#         run: xcodebuild -project PATH/TO/YOUR_WORKSPACE.xcodeproj -scheme YOUR_SCHEME -derivedDataPath FOLDER_WITH_TEST_OUTPUT -sdk iphoneos build-for-testing
+#       - name: build andriod test
+#         run: 
+
+#   app-dist:
+#     runs-on: ubuntu-latest
+#     steps:
+#         - uses: actions/checkout@v2
+
+#   telegram-notification:
+#     runs-on: ubuntu-latest
+#     needs: [unit-tests, apk, ios, ui-tests, emulator-test, app-dist]
+#     steps:
+#       - name: Send Notification to testers
+#         uses: fjogeleit/http-request-action@master
+#         with:
+#           url: 'https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT }}/sendMessage'
+#           method: 'POST'
+#           data: "{
+#             token: ${{ secrets.TELEGRAM_BOT }},
+#             chat_id: '@johann_su',
+#             text: 'Hi. Wir haben gerade eine neue Version unserer App hochgeladen und würden und freuen wenn ihr die testet. <br>Hier sind die Änderungen: - bla - bla - bla',
+#             parse_mode: 'Markdown'
+#           }"
