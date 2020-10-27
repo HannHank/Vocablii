@@ -98,6 +98,9 @@ class _AddVoc extends State<AddVoc> {
               if(text == ""){
                 setState((){
                   selected = false;
+                  ruController.text = "";
+                  deController.text = "";
+                  descController.text = "";
                 })
               },
               currentText = text

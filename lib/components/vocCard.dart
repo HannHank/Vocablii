@@ -185,6 +185,7 @@ class _VocCardState extends State<VocCard> {
   @override
   void initState() {
     super.initState();
+    print("user: " + widget.user.toString());
   }
 
   @override
