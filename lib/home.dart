@@ -147,12 +147,6 @@ class _Home extends State<Home> {
                                               ].contains(userStateVoc['class'][
                                                   title[topicData.keys
                                                       .toList()[index]]][key]));
-
-                                          print("lengt:: " +
-                                              vocWtf.keys
-                                                  .toList()
-                                                  .length
-                                                  .toString());
                                           Navigator.pushNamed(
                                               context, Trainer.route,
                                               arguments: {
@@ -169,7 +163,7 @@ class _Home extends State<Home> {
                                                         }
                                                       },
                                                 'user': {
-                                                  'uuid': auth.currentUser().uid
+                                                  'user': auth.currentUser()
                                                 },
                                                 'databaseTitle': {
                                                   'databaseTitle': topicData
@@ -238,8 +232,7 @@ class _Home extends State<Home> {
                                                           }
                                                         },
                                                   'user': {
-                                                    'uuid':
-                                                        auth.currentUser().uid
+                                                    'user': auth.currentUser()
                                                   },
                                                   'databaseTitle': {
                                                     'databaseTitle': topicData
