@@ -417,7 +417,7 @@ class _Home extends State<Home> {
                     padding: EdgeInsets.only(
                         right: SizeConfig.blockSizeHorizontal * 5,
                         bottom: SizeConfig.blockSizeVertical),
-                    child: Nav(auth),
+                    child: Nav(auth,refreshKey),
                   ),
                 ])));
   }
