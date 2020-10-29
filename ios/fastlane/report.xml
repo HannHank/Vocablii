@@ -5,27 +5,27 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000564">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.001722">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: get_certificates" time="13.439626">
+      <testcase classname="fastlane.lanes" name="1: get_certificates" time="12.753671">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: get_provisioning_profile" time="30.561897">
+      <testcase classname="fastlane.lanes" name="2: get_provisioning_profile" time="28.39114">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: build_ios_app" time="1044.244881">
+      <testcase classname="fastlane.lanes" name="3: build_ios_app" time="3013.08221">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: firebase_app_distribution" time="135.892639">
+      <testcase classname="fastlane.lanes" name="4: upload_to_app_store" time="683.902276">
         
       </testcase>
     

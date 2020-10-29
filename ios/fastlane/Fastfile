@@ -17,16 +17,13 @@ default_platform(:ios)
 
 platform :ios do
   desc "Vocablii"
-  lane :distribute do
+  lane :deploy do
     get_certificates
     get_provisioning_profile
     
     build_ios_app # build_ios_app is a built-in fastlane action.
 
-    firebase_app_distribution(
-      groups: "Developers, Testers",
-      release_notes: "Lots of amazing new features to test out!"
-    )
+    upload_to_app_store
 
   end
 end
