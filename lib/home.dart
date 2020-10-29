@@ -46,7 +46,20 @@ class _Home extends State<Home> {
           }),
         });
   }
-
+  getPercentagePadding(percent){
+    print("percent: " + percent.toString());
+      if(percent <= 100 && percent >= 10){
+        print("2 digits ");
+        return SizeConfig.blockSizeHorizontal * 2.5;
+      } else if (percent <= 10){
+         print("1 digits ");
+          return SizeConfig.blockSizeHorizontal * 3;
+      }else{
+         print("3 digits ");
+        return SizeConfig.blockSizeHorizontal * 1.6;
+      }
+      
+  }
   getStateVoc() async {
     await initialiseUserLernState(auth.currentUser()).then((data) => {
           setState(() {
@@ -330,33 +343,17 @@ class _Home extends State<Home> {
                                                         )
                                                       ],
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: SizeConfig
-                                                                  .blockSizeHorizontal *
-                                                              10),
-                                                      child: Text(
-                                                        show
-                                                            ? getPercent(
-                                                                        topicData[topicData.keys.toList()[index]]
-                                                                            .keys
-                                                                            .toList()
-                                                                            .length,
-                                                                        userStateVoc['class'][title[topicData
-                                                                            .keys
-                                                                            .toList()[index]]]['percent'])
-                                                                    .toString() +
-                                                                '%'
-                                                            : "0%",
-                                                        style: TextStyle(
-                                                          color:
-                                                              Color(0xff000000),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    CircularProgressIndicator(
-                                                      strokeWidth: 6.0,
-                                                      backgroundColor:
+                                                     SizedBox(
+                                                          height: SizeConfig.blockSizeVertical * 4.6,
+                                                          child: Stack(
+                                                            children: <Widget>[
+                                                              Center(
+                                                                child: Container(
+                                                                  width: SizeConfig.blockSizeVertical * 4.6,
+                                                                  height: SizeConfig.blockSizeVertical * 4.6,
+                                                                  child: new CircularProgressIndicator(
+                                                                    strokeWidth: 6.0,
+                                                                     backgroundColor:
                                                           Color(0xffCECECE),
                                                       valueColor:
                                                           new AlwaysStoppedAnimation<
@@ -379,6 +376,85 @@ class _Home extends State<Home> {
                                                               100
                                                           : 0.0,
                                                     ),
+                                                                ),
+                                                              ),
+                                                              Center(child: Padding(padding: EdgeInsets.only(left: getPercentagePadding(getPercent(
+                                                                        topicData[topicData.keys.toList()[index]]
+                                                                            .keys
+                                                                            .toList()
+                                                                            .length,
+                                                                        userStateVoc['class'][title[topicData
+                                                                            .keys
+                                                                            .toList()[index]]]['percent']))),child:Text(
+                                                        show
+                                                            ? getPercent(
+                                                                        topicData[topicData.keys.toList()[index]]
+                                                                            .keys
+                                                                            .toList()
+                                                                            .length,
+                                                                        userStateVoc['class'][title[topicData
+                                                                            .keys
+                                                                            .toList()[index]]]['percent'])
+                                                                    .toString() +
+                                                                '%'
+                                                            : "0%",
+                                                        style: TextStyle(
+                                                          color:
+                                                              Color(0xff000000),
+                                                        ),
+                                                      ),),),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                  //  Row(children: [
+                                                   
+                                                  //   new Padding(
+                                                  //     padding:EdgeInsets.only(right: 4), 
+                                                  //     child: Text(
+                                                  //       show
+                                                  //           ? getPercent(
+                                                  //                       topicData[topicData.keys.toList()[index]]
+                                                  //                           .keys
+                                                  //                           .toList()
+                                                  //                           .length,
+                                                  //                       userStateVoc['class'][title[topicData
+                                                  //                           .keys
+                                                  //                           .toList()[index]]]['percent'])
+                                                  //                   .toString() +
+                                                  //               '%'
+                                                  //           : "0%",
+                                                  //       style: TextStyle(
+                                                  //         color:
+                                                  //             Color(0xff000000),
+                                                  //       ),
+                                                  //     ),
+                                                  //   ),
+                                                  //   CircularProgressIndicator(
+                                                  //     strokeWidth: 6.0,
+                                                  //     backgroundColor:
+                                                  //         Color(0xffCECECE),
+                                                  //     valueColor:
+                                                  //         new AlwaysStoppedAnimation<
+                                                  //                 Color>(
+                                                  //             Color(
+                                                  //                 0xff40FF53)),
+                                                  //     value: show
+                                                  //         ? getPercent(
+                                                  //                     topicData[topicData.keys.toList()[
+                                                  //                             index]]
+                                                  //                         .keys
+                                                  //                         .toList()
+                                                  //                         .length,
+                                                  //                     userStateVoc[
+                                                  //                         'class'][title[topicData
+                                                  //                             .keys
+                                                  //                             .toList()[
+                                                  //                         index]]]['percent'])
+                                                  //                 .toDouble() /
+                                                  //             100
+                                                  //         : 0.0,
+                                                  //   ),
+                                                  //   ],)
                                                   ],
                                                 ),
                                               ],

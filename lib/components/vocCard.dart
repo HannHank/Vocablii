@@ -423,7 +423,7 @@ class _VocCardState extends State<VocCard> {
                                     onPressed: () async{
                                      await updateDatabase("Iknow");
                                      await updateState("Iknow");
-                                     await widget.move();
+                                     widget.move();
                                       fold();
                                     },
                                     child: Text(
