@@ -24,6 +24,7 @@ class _AddVoc extends State<AddVoc> {
   List<String> added = [];
   String currentText = "";
   bool selected = false;
+  bool dropDownSelected = false;
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
 
   String selectedTopic;
@@ -78,14 +79,16 @@ class _AddVoc extends State<AddVoc> {
                       );
                     }),
                     onChanged: (newTopic) async {
+                      dropDownSelected = true;
                       await topics.doc(newTopic).get().then((snapshot) {
-                        setState(() {
+                        setState(() {  
                           selectedTopic = newTopic;
                           vocs = snapshot.data()['vocabulary'];
                           key.currentState.suggestions = vocs.keys.toList();
                         });
                       });
                     },
+
                   ))),
           new SimpleAutoCompleteTextField(
             key: key,
@@ -98,6 +101,8 @@ class _AddVoc extends State<AddVoc> {
               if(text == ""){
                 setState((){
                   selected = false;
+                  dropDownSelected = false;
+                  key.currentState.suggestions = [""];
                   ruController.text = "";
                   deController.text = "";
                   descController.text = "";
@@ -107,16 +112,17 @@ class _AddVoc extends State<AddVoc> {
             } ,
             clearOnSubmit: false,
             textSubmitted: (text) => setState(() {
+              print("subbmitted");
               if (text != "") {
                 added.add(text);
                 if (vocs.containsKey(text)) {
                   ruController.text = vocs[text]['ru'];
                   deController.text = vocs[text]['de'];
-                  descController.text = vocs[text]['desc'];
+                  descController.text = vocs[text]['desc'].toString();
                 }
-                setState(() {
-                  selected = true;
-                });
+                selected = true;
+               
+                
               }
             }),
           ),
@@ -143,6 +149,10 @@ class _AddVoc extends State<AddVoc> {
                     selectedTopic != null) {
                   await saveNewVoc();
                 }
+                setState(() {
+                  selected = false;
+                  key.currentState.clear();
+                });
               },
               child: Icon(
                 Icons.save,
