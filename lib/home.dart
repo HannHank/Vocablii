@@ -31,6 +31,7 @@ class _Home extends State<Home> {
   Map userStateVoc = {};
   bool show = false;
   bool admin = false;
+  int chunkSize = 0;
   getTopics(userStateVoc) {
     topics.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
@@ -64,6 +65,8 @@ class _Home extends State<Home> {
     await initialiseUserLernState(auth.currentUser()).then((data) => {
           setState(() {
             userStateVoc = data;
+            chunkSize = userStateVoc['chunkSize'];
+            print("chunkSize: " + chunkSize.toString());
             show = true;
             admin = userStateVoc['admin'];
           }),
@@ -135,6 +138,7 @@ class _Home extends State<Home> {
                                                 }
                                               },
                                         'user': {'user': auth.currentUser()},
+                                        'chunkSize':{'chunkSize':chunkSize},
                                         'databaseTitle': {
                                           'databaseTitle':
                                               topicData.keys.toList()[index]
@@ -178,6 +182,7 @@ class _Home extends State<Home> {
                                                 'user': {
                                                   'user': auth.currentUser()
                                                 },
+                                                'chunkSize':{'chunkSize':chunkSize},
                                                 'databaseTitle': {
                                                   'databaseTitle': topicData
                                                       .keys
@@ -247,6 +252,7 @@ class _Home extends State<Home> {
                                                   'user': {
                                                     'user': auth.currentUser()
                                                   },
+                                                  'chunkSize':{'chunkSize':chunkSize},
                                                   'databaseTitle': {
                                                     'databaseTitle': topicData
                                                         .keys
