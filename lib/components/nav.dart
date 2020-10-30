@@ -4,6 +4,7 @@ import 'package:Vocablii/auth/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'InputField.dart';
 import 'package:Vocablii/home.dart';
+import 'package:flutter/services.dart';
 
 class Nav extends StatefulWidget {
   final AuthenticationService auth;
@@ -17,6 +18,7 @@ class Nav extends StatefulWidget {
 class _NavState extends State<Nav> {
   final AuthenticationService auth;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final chunk = TextEditingController();
   _NavState(this.auth);
 
   Map settings;
@@ -29,7 +31,16 @@ class _NavState extends State<Nav> {
       return '⛔';
     }
   }
-
+  getChunkSize()async{
+    await users.doc(auth.currentUser().uid).get().then((snapshot) => {
+      chunk.text = snapshot.data()['chunkSize'].toString()
+    }); 
+  }
+  onSubmitted(chunkSize)async{
+    await users.doc(auth.currentUser().uid).update({'chunkSize':int.parse(chunkSize.trim())});
+    widget.refresh.currentState.show();
+    Navigator.pop(context);
+  }
   deleteProgress() async {
     showDialog(
         context: context,
@@ -66,11 +77,10 @@ class _NavState extends State<Nav> {
   }
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
-
+    getChunkSize();
     settings = {'show_answerd': true, 'audio': true, 'audio_over_wifi': false};
-
     settings.forEach((key, value) {
       emojis.add(emoji(value));
     });
@@ -149,17 +159,17 @@ class _NavState extends State<Nav> {
                                           //   });
                                           // }),
                                           // // change user name
-                                          // Container(
-                                          //   margin: EdgeInsets.only(top: 25, bottom: 7),
-                                          //   child: Text(
-                                          //     'Nutzernamen ändern',
-                                          //     style: TextStyle(
-                                          //         color: Colors.black,
-                                          //         fontWeight: FontWeight.w700,
-                                          //         fontSize: 14),
-                                          //   ),
-                                          // ),
-                                          // basicForm("Nutzername", 12.0, "wrong",false,1,null),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 25, bottom: 7),
+                                            child: Text(
+                                              'Chunk-size (0 für alle)',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                          basicFormChunk("", 12.0, "wrong",false,1,chunk,onSubmitted),
                                           // // change user name
                                           // Container(
                                           //   margin: EdgeInsets.only(top: 25, bottom: 7),
@@ -187,6 +197,7 @@ class _NavState extends State<Nav> {
                                                   fontSize: 14),
                                             ),
                                           ),
+                                       
                                           settingButton(
                                               '❌', 'Alles zurücksetzen?', () {
                                             deleteProgress();
@@ -213,4 +224,46 @@ class _NavState extends State<Nav> {
       },
     );
   }
+}
+
+
+Widget basicFormChunk(String name, double fontSize, String errmsg, bool _obscureText,dynamic _maxLine,
+    TextEditingController controller,Function onSubmitted) {
+    return Container(
+      margin: EdgeInsets.only(top: 5, bottom: 5),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(11),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey[600], blurRadius: 10, offset: Offset(4, 4)),
+          ]),
+      child: Padding(
+        padding: EdgeInsets.all(2),
+              child: TextField(
+          controller: controller,
+          onSubmitted: onSubmitted,
+                      keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+    FilteringTextInputFormatter.digitsOnly
+], 
+          decoration: InputDecoration(
+              isDense: true,
+              counterText: "",
+              contentPadding: EdgeInsets.all(10.0),
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+                borderSide: BorderSide.none,
+              ),
+              hintText: name),
+          textAlign: TextAlign.start,
+          maxLines: _maxLine,
+          maxLength: null,
+          style: TextStyle(fontSize: fontSize, height: 1.6, color: Colors.black),
+          obscureText: _obscureText
+          // controller: _locationNameTextController,
+        ),
+      ));
 }

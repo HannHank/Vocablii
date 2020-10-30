@@ -70,7 +70,7 @@ class _Trainer extends State<Trainer> {
               args['userStateVoc'],
               args['user']['user'],
               args.keys.toList()[0].toString(),
-              args['databaseTitle']['databaseTitle'])),
+              args['databaseTitle']['databaseTitle'],args['chunkSize']['chunkSize'])),
          ])
         ));
   }
@@ -85,8 +85,9 @@ class CardStack extends StatefulWidget {
   final User user;
   final String title;
   final String databaseTitle;
+  final int chunkSize;
   CardStack(
-      this.voc, this.userStateVoc, this.user, this.title, this.databaseTitle);
+      this.voc, this.userStateVoc, this.user, this.title, this.databaseTitle, this.chunkSize);
   @override
   _CardStackState createState() => _CardStackState(voc);
 }
@@ -136,7 +137,7 @@ class _CardStackState extends State<CardStack>
     _moveAnim = Tween(begin: Offset(0.0, 0.05), end: Offset(0.0, 0.0))
         .animate(curvedAnimation);
 
-    cards = new List<VocCard>.generate(amount, (i) {
+    cards = new List<VocCard>.generate(widget.chunkSize != 0 && widget.chunkSize < amount ? widget.chunkSize:amount, (i) {
       return VocCard(
         remove:(){
           controller.forward().whenComplete(() {
