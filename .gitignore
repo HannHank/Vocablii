@@ -237,14 +237,17 @@ bin-release/
 
 build
 .dart_tool
-**/google-services.json
-**/GoogleService-Info.plist
+google-services.json
+GoogleService-Info.plist
 
 key.jks
 
 appbundel
 
 .vscode
+8MZQFV9XTQ.cer
+AppStore_com.navabase.vocablii.mobileprovision
+
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.

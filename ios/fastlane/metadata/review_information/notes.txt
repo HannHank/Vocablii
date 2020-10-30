@@ -1,0 +1,1 @@
+Bei dieser Version handelt es sich um einen MVP der Vocablii app. Die App soll Schüler dabei unterstützen, Vokabeln nach Themen zu lernen.
