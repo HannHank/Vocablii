@@ -21,6 +21,11 @@ or alternatively using `brew install fastlane`
 fastlane ios deploy
 ```
 Vocablii
+### ios firebase
+```
+fastlane ios firebase
+```
+
 
 ----
 
