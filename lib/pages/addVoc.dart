@@ -26,6 +26,7 @@ class _AddVoc extends State<AddVoc> {
   bool selected = false;
   bool dropDownSelected = false;
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
+  bool topicSelected = false;
 
   String selectedTopic;
   Map<String, dynamic> vocs;
@@ -108,9 +109,9 @@ class _AddVoc extends State<AddVoc> {
                             );
                           }),
                           onChanged: (newTopic) async {
-                            dropDownSelected = true;
                             await topics.doc(newTopic).get().then((snapshot) {
                               setState(() {
+                                topicSelected = true;
                                 selectedTopic = newTopic;
                                 vocs = snapshot.data()['vocabulary'];
                                 key.currentState.suggestions =
@@ -119,20 +120,20 @@ class _AddVoc extends State<AddVoc> {
                             });
                           },
                         ))),
-                
                 Padding(
                   padding: EdgeInsets.only(
-                    left: SizeConfig.blockSizeVertical * 1, 
+                    left: SizeConfig.blockSizeVertical * 1,
                     right: SizeConfig.blockSizeVertical * 1,
                     bottom: SizeConfig.blockSizeHorizontal * 2,
                   ),
                   child: new SimpleAutoCompleteTextField(
                     key: key,
                     decoration: InputDecoration(
-                        filled: true,
-                        fillColor: dropDownSelected ? Color(0xffffffff) : Color(0x55ffffff),
-                        hintText: 'russisches Wort',
-                        enabled: dropDownSelected,
+                      filled: true,
+                      fillColor:
+                          topicSelected ? Color(0xffffffff) : Color(0x55ffffff),
+                      hintText: 'russisches Wort',
+                      enabled: topicSelected,
                     ),
                     suggestions: suggestions,
                     textChanged: (text) => {
@@ -154,6 +155,7 @@ class _AddVoc extends State<AddVoc> {
                       print("subbmitted");
                       if (text != "") {
                         added.add(text);
+                        dropDownSelected = true;
                         if (vocs.containsKey(text)) {
                           ruController.text = vocs[text]['ru'];
                           deController.text = vocs[text]['de'];
