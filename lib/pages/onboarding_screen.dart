@@ -131,7 +131,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                             SizedBox(height: 30.0),
                             Text(
-                              'Kurz-tippen,',
+                              'Kurz Tippen,',
                               style: kTitleStyle,
                             ),
                             SizedBox(height: 15.0),
@@ -158,7 +158,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                             SizedBox(height: 30.0),
                             Text(
-                              'Lange-drücken,',
+                              'Lange Drücken,',
                               style: kTitleStyle,
                             ),
                             SizedBox(height: 15.0),
@@ -185,7 +185,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                             SizedBox(height: 30.0),
                             Text(
-                              'Zweimal-tippen,',
+                              'Zweimal Tippen,',
                               style: kTitleStyle,
                             ),
                             SizedBox(height: 15.0),
@@ -217,7 +217,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                             SizedBox(height: 15.0),
                             Text(
-                              'um in das Hauptmenü zugelangen.',
+                              'um in das Hauptmenü zu gelangen.',
                               style: kSubtitleStyle,
                             ),
                           ],
