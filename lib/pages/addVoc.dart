@@ -112,6 +112,7 @@ class _AddVoc extends State<AddVoc> {
                             await topics.doc(newTopic).get().then((snapshot) {
                               setState(() {
                                 topicSelected = true;
+                                key.currentState.updateDecoration(InputDecoration(fillColor:Color(0xffffffff)), null, null, null, null, null);
                                 selectedTopic = newTopic;
                                 vocs = snapshot.data()['vocabulary'];
                                 key.currentState.suggestions =
@@ -130,8 +131,7 @@ class _AddVoc extends State<AddVoc> {
                     key: key,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor:
-                          topicSelected ? Color(0xffffffff) : Color(0x55ffffff),
+                      fillColor: Color(0x55ffffff),
                       hintText: 'russisches Wort',
                       enabled: topicSelected,
                     ),
