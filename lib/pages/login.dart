@@ -4,6 +4,7 @@ import 'package:Vocablii/components/InputField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../auth/auth.dart';
 import 'package:Vocablii/helper/responsive.dart';
+import 'package:Vocablii/pages/onboarding_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
