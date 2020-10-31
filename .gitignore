@@ -249,6 +249,7 @@ Runner.app.dSYM.zip
 8MZQFV9XTQ.cer
 AppStore_com.navabase.vocablii.mobileprovision
 AdHoc_com.navabase.vocablii.mobileprovision
+test_output/*
 
 client-secret.json
 

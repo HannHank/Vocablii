@@ -47,31 +47,35 @@ class _Trainer extends State<Trainer> {
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        body: Column(children: [
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: (){
-                    Navigator.pushNamed(context, Home.route);
-                    print("tabed");
-            },
-         child: Container(
+        body: SafeArea(
+          top: true,
+          bottom: true,
+          child: Column(children: [
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: (){
+                      Navigator.pushNamed(context, Home.route);
+                      print("tabed");
+              },
+           child: Container(
+                padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child:Text( " < " + args.keys.toList()[0].toString(),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
+                ))),
+                
+            Padding(
               padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child:Text( " < " + args.keys.toList()[0].toString(),
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
-              ))),
-              
-          Padding(
-            padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
-            child:CardStack(
-              args[args.keys.toList()[0]],
-              args['userStateVoc'],
-              args['user']['user'],
-              args.keys.toList()[0].toString(),
-              args['databaseTitle']['databaseTitle'],args['chunkSize']['chunkSize'])),
-         ])
+              child:CardStack(
+                args[args.keys.toList()[0]],
+                args['userStateVoc'],
+                args['user']['user'],
+                args.keys.toList()[0].toString(),
+                args['databaseTitle']['databaseTitle'],args['chunkSize']['chunkSize'])),
+           ]),
+        )
         ));
   }
 }

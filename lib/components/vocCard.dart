@@ -308,7 +308,7 @@ class _VocCardState extends State<VocCard> {
                                                                           bottom:
                                                                               SizeConfig.blockSizeHorizontal * 5),
                                                                   child: Text(
-                                                                    'VoKabel bearbeiten',
+                                                                    'Vokabel bearbeiten',
                                                                     style: TextStyle(
                                                                         color: Colors
                                                                             .black,

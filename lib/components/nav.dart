@@ -99,12 +99,12 @@ class _NavState extends State<Nav> {
                     Container(
                         margin:
                             EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                        padding: EdgeInsets.fromLTRB(50, 50, 50, 0),
+                        padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: new BorderRadius.circular(30)),
                         width: 350,
-                        height: 700,
+                        height: 400,
                         child: Center(
                             child: Container(
                                 decoration: BoxDecoration(boxShadow: [
@@ -116,6 +116,16 @@ class _NavState extends State<Nav> {
                                 child: Center(
                                     child: Column(
                                   children: [
+                                    Container(
+                                      width: 60,
+                                      height: 6,
+                                      decoration: BoxDecoration(
+                                        color: Color(0x22000000),
+                                        borderRadius: BorderRadius.circular(3)
+                                      ),
+                                      margin: EdgeInsets.only(bottom: 20),
+                                    ),
+                                    Text('Einstellungen', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),),
                                     Container(
                                       child: Column(
                                         crossAxisAlignment:
