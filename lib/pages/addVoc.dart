@@ -112,6 +112,7 @@ class _AddVoc extends State<AddVoc> {
                             await topics.doc(newTopic).get().then((snapshot) {
                               setState(() {
                                 topicSelected = true;
+                                key.currentState.suggestions = [""];
                                 key.currentState.updateDecoration(InputDecoration(fillColor:Color(0xffffffff)), null, null, null, null, null);
                                 selectedTopic = newTopic;
                                 vocs = snapshot.data()['vocabulary'];
@@ -142,7 +143,6 @@ class _AddVoc extends State<AddVoc> {
                           setState(() {
                             selected = false;
                             dropDownSelected = false;
-                            key.currentState.suggestions = [""];
                             ruController.text = "";
                             deController.text = "";
                             descController.text = "";
