@@ -45,7 +45,15 @@ If you like our app and you want to help us administer the vocabulary in the app
 With an admin account you have the option to edit, delete or create Vocabulary.
 
 ## Submit Vocabulary for Review
-Create a csv file with your vocabulary in [this](https://github.com/HannHank/RuLangCSVs/blob/master/example.csv) format and create a pull request in [this](https://github.com/HannHank/RuLangCSVs) repository where the name of the pr is the topic.
+If you want to submit your own topic you can create a .csv file with the columns word for the russian vocabulary, translation for the german translation and fact for context about the word or the topic in general. <br>
+
+This is how the csv file should look like: <br>
+| word             | translation            | fact                                         |
+| ---------------- | ---------------------- | -------------------------------------------- |
+| the russian word | the german translation | context for the vocabulary - 0 if no context |
+
+Please send the name of your topic, a short description, a source (e.g. your Name, some Website), the difficulty and the csv file to the following email adress: [info@navabase.com](mailto:info@navabase.com).
+<br> <b>Thant you for your effort. Only with the help of the community we are able to offer intresting and helpful vocabulary to students</b>
 
 ## Contributors
 [HannHank](https://www.github.com/hannhank), [johann-su](https://www.github.com/johann-su)
