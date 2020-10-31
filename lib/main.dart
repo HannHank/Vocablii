@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:Vocablii/pages/vocabulary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:Vocablii/pages/onboarding_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:Vocablii/pages/addVoc.dart';
 import 'auth/auth.dart';
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
                   builder: (_) =>
                       Home({"User": auth.currentUser().toString()}));
             } else {
-              return MaterialPageRoute(builder: (_) => Login());
+              return MaterialPageRoute(builder: (_) => OnboardingScreen({'namedRoute':Login.route}));
             }
             break;
           case Home.route:
@@ -71,7 +72,15 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (_) => Trainer(settings.arguments));
             } else {
-              return MaterialPageRoute(builder: (_) => Login());
+              return MaterialPageRoute(builder: (_) =>Login());
+            }
+            break;
+          case OnboardingScreen.route:
+            if (auth.currentUser() != null) {
+              return MaterialPageRoute(
+                  builder: (_) => OnboardingScreen(settings.arguments));
+            } else {
+              return MaterialPageRoute(builder: (_) =>  OnboardingScreen({'namedRoute':Login.route}));
             }
             break;
           case AddVoc.route:

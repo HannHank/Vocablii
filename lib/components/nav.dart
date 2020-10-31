@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'InputField.dart';
 import 'package:Vocablii/home.dart';
 import 'package:flutter/services.dart';
+import 'package:Vocablii/helper/responsive.dart';
+import 'package:Vocablii/pages/onboarding_screen.dart';
 
 class Nav extends StatefulWidget {
   final AuthenticationService auth;
@@ -88,6 +90,7 @@ class _NavState extends State<Nav> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return FloatingActionButton(
       child: Icon(Icons.settings),
       onPressed: () {
@@ -103,8 +106,8 @@ class _NavState extends State<Nav> {
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: new BorderRadius.circular(30)),
-                        width: 350,
-                        height: 400,
+                        width: SizeConfig.blockSizeHorizontal * 50,
+                        height: SizeConfig.blockSizeVertical * 60,
                         child: Center(
                             child: Container(
                                 decoration: BoxDecoration(boxShadow: [
@@ -180,6 +183,23 @@ class _NavState extends State<Nav> {
                                             ),
                                           ),
                                           basicFormChunk("", 12.0, "wrong",false,1,chunk,onSubmitted),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 25, bottom: 7),
+                                            child: Text(
+                                              'Anleitung',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                            settingButton('🤔', 'Wie ging das nochmal?',
+                                              () {
+                                          Navigator.pushNamed(context, OnboardingScreen.route,
+                                          arguments: {
+                                          'namedRoute':Home.route
+                                          });
+                                          }),
                                           // // change user name
                                           // Container(
                                           //   margin: EdgeInsets.only(top: 25, bottom: 7),

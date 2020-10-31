@@ -52,8 +52,21 @@ class _AddVoc extends State<AddVoc> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-        backgroundColor: Colors.deepPurpleAccent,
+    return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0.1, 0.4, 0.7, 0.9],
+              colors: [
+                Color(0xFF3594DD),
+                Color(0xFF4563DB),
+                Color(0xFF5036D5),
+                Color(0xFF5B16D0),
+              ],
+            ),
+          ),
+        child:Scaffold(
         body: SafeArea(
           top: true,
           bottom: true,
@@ -171,6 +184,6 @@ class _AddVoc extends State<AddVoc> {
                 Navigator.pop(context);
               },
               child: Icon(Icons.arrow_back),
-            )));
+            ))));
   }
 }

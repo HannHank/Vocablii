@@ -432,17 +432,6 @@ class _Home extends State<Home> {
                                                               ),
                                                             ),
                                                             Center(
-                                                              // widthFactor: 1.7,
-                                                              // child: Pading(
-                                                              //   padding: EdgeInsets.only(
-                                                              //       left: getPercentagePadding(getPercent(
-                                                              //           topicData[topicData.keys.toList()[index]]
-                                                              //               .keys
-                                                              //               .toList()
-                                                              //               .length,
-                                                              //           userStateVoc['class'][title[topicData
-                                                              //               .keys
-                                                              //               .toList()[index]]]['percent']))),
                                                                 child: Text(
                                                                   show
                                                                       ? getPercent(topicData[topicData.keys.toList()[index]].keys.toList().length, userStateVoc['class'][title[topicData.keys.toList()[index]]]['percent'])
@@ -462,55 +451,6 @@ class _Home extends State<Home> {
                                                           ],
                                                         ),
                                                       ),
-                                                      //  Row(children: [
-
-                                                      //   new Padding(
-                                                      //     padding:EdgeInsets.only(right: 4),
-                                                      //     child: Text(
-                                                      //       show
-                                                      //           ? getPercent(
-                                                      //                       topicData[topicData.keys.toList()[index]]
-                                                      //                           .keys
-                                                      //                           .toList()
-                                                      //                           .length,
-                                                      //                       userStateVoc['class'][title[topicData
-                                                      //                           .keys
-                                                      //                           .toList()[index]]]['percent'])
-                                                      //                   .toString() +
-                                                      //               '%'
-                                                      //           : "0%",
-                                                      //       style: TextStyle(
-                                                      //         color:
-                                                      //             Color(0xff000000),
-                                                      //       ),
-                                                      //     ),
-                                                      //   ),
-                                                      //   CircularProgressIndicator(
-                                                      //     strokeWidth: 6.0,
-                                                      //     backgroundColor:
-                                                      //         Color(0xffCECECE),
-                                                      //     valueColor:
-                                                      //         new AlwaysStoppedAnimation<
-                                                      //                 Color>(
-                                                      //             Color(
-                                                      //                 0xff40FF53)),
-                                                      //     value: show
-                                                      //         ? getPercent(
-                                                      //                     topicData[topicData.keys.toList()[
-                                                      //                             index]]
-                                                      //                         .keys
-                                                      //                         .toList()
-                                                      //                         .length,
-                                                      //                     userStateVoc[
-                                                      //                         'class'][title[topicData
-                                                      //                             .keys
-                                                      //                             .toList()[
-                                                      //                         index]]]['percent'])
-                                                      //                 .toDouble() /
-                                                      //             100
-                                                      //         : 0.0,
-                                                      //   ),
-                                                      //   ],)
                                                     ],
                                                   ),
                                                 ],
