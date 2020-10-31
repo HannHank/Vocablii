@@ -99,12 +99,20 @@ class _NavState extends State<Nav> {
                     Container(
                         margin:
                             EdgeInsets.only(left: 20, right: 20, bottom: 20),
+<<<<<<< HEAD
                         padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
+=======
+                        padding: EdgeInsets.fromLTRB(50, 50, 50, 0),
+>>>>>>> eb2a9f85c0c8e6316af0cd91b08c8c76a7494563
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: new BorderRadius.circular(30)),
                         width: 350,
+<<<<<<< HEAD
                         height: 400,
+=======
+                        height: 700,
+>>>>>>> eb2a9f85c0c8e6316af0cd91b08c8c76a7494563
                         child: Center(
                             child: Container(
                                 decoration: BoxDecoration(boxShadow: [
@@ -117,6 +125,7 @@ class _NavState extends State<Nav> {
                                     child: Column(
                                   children: [
                                     Container(
+<<<<<<< HEAD
                                       width: 60,
                                       height: 6,
                                       decoration: BoxDecoration(
@@ -127,6 +136,8 @@ class _NavState extends State<Nav> {
                                     ),
                                     Text('Einstellungen', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),),
                                     Container(
+=======
+>>>>>>> eb2a9f85c0c8e6316af0cd91b08c8c76a7494563
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
