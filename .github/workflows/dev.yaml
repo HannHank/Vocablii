@@ -1,0 +1,25 @@
+on:
+  push:
+  pull_request:
+    branches: 
+    - staging
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - name: build app
+      - uses: actions/setup-java@v1
+      - uses: subosito/flutter-action@v1
+      - run: flutter pub get
+      - run: flutter build apk
+      - run: flutter build ios --release --no-codesign
+      - name: run test lab tests
+      - uses: maierj/fastlane-action@v1.4.0
+        with:
+          lane: 'test'
+          subdirectory: 'ios'
+      - uses: maierj/fastlane-action@v1.4.0
+        with:
+          lane: 'test'
+          subdirectory: 'android'
