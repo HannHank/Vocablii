@@ -17,6 +17,28 @@ default_platform(:ios)
 
 platform :ios do
   desc "Vocablii"
+  lane :test do
+    scan(
+      clean: true, 
+      skip_detect_devices: true,
+      build_for_testing: true,
+      sdk: 'iphoneos',
+      should_zip_build_products: true
+    )
+
+    firebase_test_lab_ios_xctest(
+      gcp_project: 'vocably-c0fa9', # Your Google Cloud project name
+      devices: [
+        {
+          ios_model_id: 'iphonex',
+          ios_version_id: '14.0',
+          locale: 'de_DE',
+          orientation: 'portrait'
+        }
+      ]
+    )
+  end
+
   lane :deploy do
     increment_build_number
 

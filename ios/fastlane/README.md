@@ -16,11 +16,16 @@ or alternatively using `brew install fastlane`
 
 # Available Actions
 ## iOS
+### ios test
+```
+fastlane ios test
+```
+Vocablii
 ### ios deploy
 ```
 fastlane ios deploy
 ```
-Vocablii
+
 ### ios firebase
 ```
 fastlane ios firebase

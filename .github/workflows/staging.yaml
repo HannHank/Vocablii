@@ -1,8 +1,7 @@
 on:
   push:
   pull_request:
-    branches: 
-    - staging
+    branches: [staging]
 
 jobs:
   test:
