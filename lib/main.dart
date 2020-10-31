@@ -56,7 +56,16 @@ class MyApp extends StatelessWidget {
                   builder: (_) =>
                       Home({"User": auth.currentUser().toString()}));
             } else {
-              return MaterialPageRoute(builder: (_) => OnboardingScreen({'namedRoute':Login.route}));
+              return MaterialPageRoute(builder: (_) => OnboardingScreen({'namedRoute':'loginOnboarding'}));
+            }
+            break;
+          case "loginOnboarding":
+            if (auth.currentUser() != null) {
+              return MaterialPageRoute(
+                  builder: (_) =>
+                      Home({"User": auth.currentUser().toString()}));
+            } else {
+              return MaterialPageRoute(builder: (_) => Login());
             }
             break;
           case Home.route:
@@ -80,7 +89,7 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (_) => OnboardingScreen(settings.arguments));
             } else {
-              return MaterialPageRoute(builder: (_) =>  OnboardingScreen({'namedRoute':Login.route}));
+              return MaterialPageRoute(builder: (_) =>  OnboardingScreen({'namedRoute':'loginOnboarding'}));
             }
             break;
           case AddVoc.route:
