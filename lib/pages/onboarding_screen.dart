@@ -14,7 +14,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final int _numPages = 6;
+  final int _numPages = 7;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -223,7 +223,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ],
                         ),
                       ),
-                     
+                      Padding(
+                      padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Center(
+                              child: Image(
+                                image: AssetImage(
+                                  'assets/images/Swipe.png',
+                                ),
+                                height: SizeConfig.blockSizeVertical * 50,
+                                width: SizeConfig.blockSizeVertical * 50,
+                              ),
+                            ),
+                            SizedBox(height: 30.0),
+                            Text(
+                              'Swipe die Themen,',
+                              style: kTitleStyle,
+                            ),
+                            SizedBox(height: 15.0),
+                            Text(
+                              'und lerne Vokabeln die du kannst/ nicht kannst.',
+                              style: kSubtitleStyle,
+                            ),
+                          ],
+                        ),
+                      ),
                            Padding(
                       padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 5),
                         child: Column(
