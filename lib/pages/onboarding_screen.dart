@@ -14,7 +14,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final int _numPages = 6;
+  final int _numPages = 7;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -60,7 +60,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 40.0),
+            padding: EdgeInsets.symmetric(vertical: SizeConfig.blockSizeVertical * 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -89,7 +89,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     },
                     children: <Widget>[ 
                       Padding(
-                      padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 5),
+                      padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 4),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -99,15 +99,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   'assets/images/Logo.png',
                                 ),
                                 height: SizeConfig.blockSizeVertical * 40,
-                                width: SizeConfig.blockSizeVertical * 5400,
+                                width: SizeConfig.blockSizeVertical * 40,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: SizeConfig.blockSizeVertical * 2),
                             Text(
                               'Lerne neue Vokabeln,\nganz einfach unterwegs',
                               style: kTitleStyle,
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height: SizeConfig.blockSizeVertical * 2.5),
                             Text(
                               'Mit dieser App gelingt es dir spielerisch, alle Prüfungsthemen zu lernen und ohne Probleme auf russisch über sie zu reden.',
                               style: kSubtitleStyle,
@@ -129,12 +129,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 width: SizeConfig.blockSizeVertical * 50,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height:  SizeConfig.blockSizeVertical * 3),
                             Text(
                               'Kurz Tippen,',
                               style: kTitleStyle,
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height:  SizeConfig.blockSizeVertical),
                             Text(
                               'um Vokabel zu überspringen.',
                               style: kSubtitleStyle,
@@ -156,12 +156,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 width: SizeConfig.blockSizeVertical * 50,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height:SizeConfig.blockSizeVertical * 3),
                             Text(
                               'Lange Drücken,',
                               style: kTitleStyle,
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height: SizeConfig.blockSizeVertical),
                             Text(
                               'um die Übersetzung anzuzeigen.',
                               style: kSubtitleStyle,
@@ -183,12 +183,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 width: SizeConfig.blockSizeVertical * 50,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: SizeConfig.blockSizeVertical * 3),
                             Text(
                               'Zweimal Tippen,',
                               style: kTitleStyle,
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height: SizeConfig.blockSizeVertical),
                             Text(
                               'um in den Vokabeln zurück zugehen.',
                               style: kSubtitleStyle,
@@ -210,12 +210,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 width: SizeConfig.blockSizeVertical * 50,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: SizeConfig.blockSizeVertical * 3),
                             Text(
                               'Tippe auf den Titel,',
                               style: kTitleStyle,
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height: SizeConfig.blockSizeVertical),
                             Text(
                               'um in das Hauptmenü zu gelangen.',
                               style: kSubtitleStyle,
@@ -223,7 +223,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ],
                         ),
                       ),
-                     
+                      Padding(
+                      padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Center(
+                              child: Image(
+                                image: AssetImage(
+                                  'assets/images/Swipe.png',
+                                ),
+                                height: SizeConfig.blockSizeVertical * 50,
+                                width: SizeConfig.blockSizeVertical * 50,
+                              ),
+                            ),
+                            SizedBox(height: SizeConfig.blockSizeVertical * 3),
+                            Text(
+                              'Swipe die Themen,',
+                              style: kTitleStyle,
+                            ),
+                            SizedBox(height: SizeConfig.blockSizeVertical),
+                            Text(
+                              'und lerne Vokabeln die du kannst/ nicht kannst.',
+                              style: kSubtitleStyle,
+                            ),
+                          ],
+                        ),
+                      ),
                            Padding(
                       padding: EdgeInsets.all(SizeConfig.blockSizeVertical * 5),
                         child: Column(
@@ -238,12 +264,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 width: SizeConfig.blockSizeVertical * 50,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: SizeConfig.blockSizeVertical * 3),
                             Text(
                               'Lerne in Blöcken,',
                               style: kTitleStyle,
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height: SizeConfig.blockSizeVertical),
                             Text(
                               'und steigere deine Effektivität.',
                               style: kSubtitleStyle,
@@ -281,7 +307,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     fontSize: 22.0,
                                   ),
                                 ),
-                                SizedBox(width: 10.0),
+                                SizedBox(width: SizeConfig.blockSizeVertical),
                                 Icon(
                                   Icons.arrow_forward,
                                   color: Colors.white,
@@ -300,14 +326,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
       bottomSheet: _currentPage == _numPages - 1
           ? Container(
-              height: 100.0,
+              height: SizeConfig.blockSizeVertical * 10,
               width: double.infinity,
               color: Colors.white,
               child: GestureDetector(
                 onTap: () => widget.args != null ? Navigator.pushNamed(context, widget.args['namedRoute']):Navigator.pushNamed(context, Login.route),
                 child: Center(
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 30.0),
+                    padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical),
                     child: Text(
                       'Get started',
                       style: TextStyle(
