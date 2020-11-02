@@ -415,10 +415,10 @@ class _Home extends State<Home> {
                                                                 child:
                                                                     new CircularProgressIndicator(
                                                                   strokeWidth:
-                                                                      6.0,
+                                                                      3.0,
                                                                   backgroundColor:
                                                                       Color(
-                                                                          0xffCECECE),
+                                                                          0xff000000),
                                                                   valueColor: new AlwaysStoppedAnimation<
                                                                           Color>(
                                                                       Color(

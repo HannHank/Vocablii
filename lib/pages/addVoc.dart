@@ -133,6 +133,7 @@ class _AddVoc extends State<AddVoc> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Color(0x55ffffff),
+                      focusColor: Color(0xffffffff),
                       hintText: 'russisches Wort',
                       enabled: topicSelected,
                     ),

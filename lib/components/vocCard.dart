@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Vocablii/helper/responsive.dart';
+
 class VocCard extends StatefulWidget {
   final int index;
   String word;
@@ -37,7 +38,10 @@ class VocCard extends StatefulWidget {
 
   @override
   _VocCardState createState() => _VocCardState(
-      stateCard: stateCard, word: word, translation: translation, descr: description);
+      stateCard: stateCard,
+      word: word,
+      translation: translation,
+      descr: description);
 }
 
 class _VocCardState extends State<VocCard> {
@@ -49,7 +53,8 @@ class _VocCardState extends State<VocCard> {
   int percent;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
-  CollectionReference deleted = FirebaseFirestore.instance.collection('deleted');
+  CollectionReference deleted =
+      FirebaseFirestore.instance.collection('deleted');
   final ruController = TextEditingController();
   final deController = TextEditingController();
   final descrController = TextEditingController();
@@ -76,7 +81,7 @@ class _VocCardState extends State<VocCard> {
   }
 
   deleteCard() async {
-     showDialog(
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
@@ -91,51 +96,57 @@ class _VocCardState extends State<VocCard> {
                 Navigator.of(context).pop();
               },
             ),
-              new FlatButton(
+            new FlatButton(
               child: new Text("delete"),
-              onPressed: () async{
+              onPressed: () async {
                 Navigator.of(context).pop();
-                 Map data;
-                  await topics
-                      .doc(widget.databaseTitle)
-                      .get()
-                      .then((snapshot) => {
-                        data = snapshot.data()
-                      });
-                  data['vocabulary'].removeWhere((key, value) => key == widget.name);
-                  await topics.doc(widget.databaseTitle).update(data);
-                  await deleted.doc(widget.databaseTitle).set({widget.name:{'ru':widget.word,'desc':widget.description,'de':widget.translation,'deletedBy': widget.user.uid, 'timeStamp': DateTime.now()}}, SetOptions(merge: true));
-                  widget.remove();
+                Map data;
+                await topics
+                    .doc(widget.databaseTitle)
+                    .get()
+                    .then((snapshot) => {data = snapshot.data()});
+                data['vocabulary']
+                    .removeWhere((key, value) => key == widget.name);
+                await topics.doc(widget.databaseTitle).update(data);
+                await deleted.doc(widget.databaseTitle).set({
+                  widget.name: {
+                    'ru': widget.word,
+                    'desc': widget.description,
+                    'de': widget.translation,
+                    'deletedBy': widget.user.uid,
+                    'timeStamp': DateTime.now()
+                  }
+                }, SetOptions(merge: true));
+                widget.remove();
               },
             ),
           ],
         );
       },
     );
-   
-     
   }
 
   updateState(state) async {
     setState(() {
-       widget.stateCard['state'] = state;
+      widget.stateCard['state'] = state;
     });
   }
 
   updateDatabase(state) async {
     await users.doc(widget.user.uid).get().then(
         (snapshot) => {percent = snapshot['class'][widget.title]['percent']});
-    print("stateCard: " +  widget.stateCard['state'].toString());
+    print("stateCard: " + widget.stateCard['state'].toString());
     print("stateReceived: " + state.toString());
     print("percent: " + percent.toString());
-    if (state == "wtf" && percent != 0 && widget.stateCard['state'] == "Iknow" ) {
+    if (state == "wtf" &&
+        percent != 0 &&
+        widget.stateCard['state'] == "Iknow") {
       percent -= 1;
-    } 
-    else if (state == "notSave" && widget.stateCard['state'] == "Iknow" && percent != 0) {
-
+    } else if (state == "notSave" &&
+        widget.stateCard['state'] == "Iknow" &&
+        percent != 0) {
       percent -= 1;
     } else if (state == "Iknow" && widget.stateCard['state'] != "Iknow") {
-     
       percent += 1;
     } else {
       // do nothing
@@ -163,7 +174,7 @@ class _VocCardState extends State<VocCard> {
   }
 
   void play() {
-     assetsAudioPlayer.play();
+    assetsAudioPlayer.play();
   }
 
   void change() {
@@ -190,7 +201,6 @@ class _VocCardState extends State<VocCard> {
 
   @override
   Widget build(BuildContext context) {
-  
     SizeConfig().init(context);
     return widget.expanded
         ? InkWell(
@@ -206,8 +216,8 @@ class _VocCardState extends State<VocCard> {
                   ],
                   color: widget.stateCard['color'],
                   borderRadius: new BorderRadius.circular(30)),
-             width: SizeConfig.blockSizeHorizontal * 88,
-              height: SizeConfig.blockSizeVertical *77,
+              width: SizeConfig.blockSizeHorizontal * 88,
+              height: SizeConfig.blockSizeVertical * 77,
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(boxShadow: [
@@ -245,132 +255,134 @@ class _VocCardState extends State<VocCard> {
                                     child: Icon(Icons.play_arrow_rounded,
                                         color: Colors.white),
                                   ),
-                                  widget.adminState ? FlatButton(
-                                    onPressed: () {
-                                      deleteCard();
-                                    },
-                                    child: Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                    ),
-                                  ):SizedBox(),
-                                   widget.adminState ? FlatButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        ruController.text = widget.word;
-                                        deController.text = widget.translation;
-                                        descrController.text =
-                                            widget.description;
-                                      });
-                                      showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          context: context,
-                                          builder: (context) => Container(
-                                              margin: EdgeInsets.only(
-                                                  left: SizeConfig.blockSizeHorizontal * 5,
-                                                  right: SizeConfig.blockSizeHorizontal * 5,
-                                                  bottom: SizeConfig.blockSizeVertical * 8.3),
-                                              padding: EdgeInsets.fromLTRB(
-                                                  SizeConfig.blockSizeHorizontal * 5, SizeConfig.blockSizeHorizontal * 5, SizeConfig.blockSizeHorizontal * 5, 0),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          30)),
-                                              width: SizeConfig.blockSizeHorizontal * 90,
-                                              height: SizeConfig.blockSizeVertical *80,
-                                              child: Center(
-                                                  child: Container(
-                                                      decoration: BoxDecoration(
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                                blurRadius: 30,
-                                                                offset: Offset(
-                                                                    -11, -11),
-                                                                color: Color(
-                                                                    0x9900000))
-                                                          ]),
-                                                      child: Center(
-                                                          child: Column(
-                                                        children: [
-                                                          Container(
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
+                                  widget.adminState
+                                      ? FlatButton(
+                                          onPressed: () {
+                                            deleteCard();
+                                          },
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                  widget.adminState
+                                      ? FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              ruController.text = widget.word;
+                                              deController.text =
+                                                  widget.translation;
+                                              descrController.text =
+                                                  widget.description;
+                                            });
+                                            showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                context: context,
+                                                builder: (context) => Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            5,
+                                                        right: SizeConfig
+                                                                .blockSizeHorizontal *
+                                                            5,
+                                                        bottom: SizeConfig
+                                                                .blockSizeVertical *
+                                                            8.3),
+                                                    padding: EdgeInsets.fromLTRB(
+                                                        SizeConfig.blockSizeHorizontal *
+                                                            5,
+                                                        SizeConfig.blockSizeHorizontal *
+                                                            5,
+                                                        SizeConfig.blockSizeHorizontal *
+                                                            5,
+                                                        0),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            new BorderRadius.circular(
+                                                                30)),
+                                                    width: SizeConfig.blockSizeHorizontal * 90,
+                                                    height: SizeConfig.blockSizeVertical * 80,
+                                                    child: Center(
+                                                        child: Container(
+                                                            decoration: BoxDecoration(boxShadow: [BoxShadow(blurRadius: 30, offset: Offset(-11, -11), color: Color(0x9900000))]),
+                                                            child: Center(
+                                                                child: Column(
                                                               children: [
-                                                                // Settings
                                                                 Container(
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                          top:
-                                                                              0,
-                                                                          bottom:
-                                                                              SizeConfig.blockSizeHorizontal * 5),
-                                                                  child: Text(
-                                                                    'Vokabel bearbeiten',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w700,
-                                                                        fontSize:
-                                                                            14),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      // Settings
+                                                                      Container(
+                                                                        margin: EdgeInsets.only(
+                                                                            top:
+                                                                                0,
+                                                                            bottom:
+                                                                                SizeConfig.blockSizeHorizontal * 5),
+                                                                        child:
+                                                                            Text(
+                                                                          'Vokabel bearbeiten',
+                                                                          style: TextStyle(
+                                                                              color: Colors.black,
+                                                                              fontWeight: FontWeight.w700,
+                                                                              fontSize: 14),
+                                                                        ),
+                                                                      ),
+                                                                      basicForm(
+                                                                          "Russisch",
+                                                                          12,
+                                                                          "not working",
+                                                                          false,
+                                                                          1,
+                                                                          ruController),
+                                                                      basicForm(
+                                                                          "Deutsch",
+                                                                          12,
+                                                                          "not working",
+                                                                          false,
+                                                                          1,
+                                                                          deController),
+                                                                      basicForm(
+                                                                          "Beschreibung",
+                                                                          12,
+                                                                          "not working",
+                                                                          false,
+                                                                          null,
+                                                                          descrController),
+                                                                      Center(
+                                                                          child:
+                                                                              Padding(
+                                                                        padding:
+                                                                            EdgeInsets.all(SizeConfig.blockSizeHorizontal *
+                                                                                10),
+                                                                        child:
+                                                                            FloatingActionButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            saveNewContent();
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child:
+                                                                              Icon(Icons.save),
+                                                                        ),
+                                                                      )),
+                                                                    ],
                                                                   ),
-                                                                ),
-                                                                basicForm(
-                                                                    "Russisch",
-                                                                    12,
-                                                                    "not working",
-                                                                    false,
-                                                                    1,
-                                                                    ruController),
-                                                                basicForm(
-                                                                    "Deutsch",
-                                                                    12,
-                                                                    "not working",
-                                                                    false,
-                                                                    1,
-                                                                    deController),
-                                                                basicForm(
-                                                                    "Beschreibung",
-                                                                    12,
-                                                                    "not working",
-                                                                    false,
-                                                                    null,
-                                                                    descrController),
-                                                                Center(
-                                                                    child:
-                                                                        Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              SizeConfig.blockSizeHorizontal * 10),
-                                                                  child:
-                                                                      FloatingActionButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      saveNewContent();
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: Icon(
-                                                                        Icons
-                                                                            .save),
-                                                                  ),
-                                                                )),
+                                                                )
                                                               ],
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ))))));
-                                    },
-                                    child: Icon(
-                                      Icons.edit,
-                                      color: Colors.white,
-                                    ),
-                                  ):SizedBox(),
+                                                            ))))));
+                                          },
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      : SizedBox(),
                                 ],
                               ),
                               Text(widget.description,
@@ -387,7 +399,10 @@ class _VocCardState extends State<VocCard> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                            padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 13,bottom: SizeConfig.blockSizeVertical * 16, left: SizeConfig.blockSizeHorizontal * 13),
+                            padding: EdgeInsets.only(
+                                right: SizeConfig.blockSizeHorizontal * 16,
+                                bottom: SizeConfig.blockSizeVertical * 16,
+                                left: SizeConfig.blockSizeHorizontal * 16),
                             //margin: EdgeInsets.all(130.h),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -410,7 +425,8 @@ class _VocCardState extends State<VocCard> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                            padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 5),
+                            padding: EdgeInsets.only(
+                                bottom: SizeConfig.blockSizeVertical * 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -419,11 +435,12 @@ class _VocCardState extends State<VocCard> {
                                   FlatButton(
                                     color: Colors.white,
                                     height: SizeConfig.blockSizeVertical * 9.5,
-                                    minWidth:  SizeConfig.blockSizeVertical * 9.5,
-                                    onPressed: () async{
-                                     await updateDatabase("Iknow");
-                                     await updateState("Iknow");
-                                     widget.move();
+                                    minWidth:
+                                        SizeConfig.blockSizeVertical * 9.5,
+                                    onPressed: () async {
+                                      await updateDatabase("Iknow");
+                                      await updateState("Iknow");
+                                      widget.move();
                                       fold();
                                     },
                                     child: Text(
@@ -436,9 +453,10 @@ class _VocCardState extends State<VocCard> {
                                 Container(
                                   child: FlatButton(
                                     color: Colors.white,
-                                   height: SizeConfig.blockSizeVertical * 9.5,
-                                    minWidth:  SizeConfig.blockSizeVertical * 9.5,
-                                    onPressed: () async{
+                                    height: SizeConfig.blockSizeVertical * 9.5,
+                                    minWidth:
+                                        SizeConfig.blockSizeVertical * 9.5,
+                                    onPressed: () async {
                                       await updateDatabase("notSave");
                                       await updateState("notSave");
                                       await widget.move();
@@ -454,9 +472,9 @@ class _VocCardState extends State<VocCard> {
                                 Container(
                                     child: FlatButton(
                                   color: Colors.white,
-                                  height: SizeConfig.blockSizeVertical *9.5,
-                                  minWidth:  SizeConfig.blockSizeVertical * 9.5,
-                                  onPressed: () async{
+                                  height: SizeConfig.blockSizeVertical * 9.5,
+                                  minWidth: SizeConfig.blockSizeVertical * 9.5,
+                                  onPressed: () async {
                                     await updateDatabase("wtf");
                                     await updateState("wtf");
                                     await widget.move();
@@ -494,7 +512,7 @@ class _VocCardState extends State<VocCard> {
                   color: widget.stateCard['color'],
                   borderRadius: new BorderRadius.circular(30)),
               width: SizeConfig.blockSizeHorizontal * 88,
-              height: SizeConfig.blockSizeVertical *77,
+              height: SizeConfig.blockSizeVertical * 77,
               child: Center(
                 child: Container(
                   child: Column(
