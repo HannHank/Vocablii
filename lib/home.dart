@@ -470,7 +470,7 @@ class _Home extends State<Home> {
                 ? MainAxisAlignment.spaceBetween
                 : MainAxisAlignment.center,
             children: [
-              admin
+              admin 
                   ? Padding(
                       padding: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 5,
@@ -485,12 +485,12 @@ class _Home extends State<Home> {
                       ),
                     )
                   : SizedBox(),
-              Padding(
+               admin ? Padding(
                 padding: EdgeInsets.only(
                     right: SizeConfig.blockSizeHorizontal * 5,
                     bottom: SizeConfig.blockSizeVertical),
                 child: Nav(auth, refreshKey),
-              ),
+              ):Nav(auth, refreshKey),
             ]));
   }
 }
