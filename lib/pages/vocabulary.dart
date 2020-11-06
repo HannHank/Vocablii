@@ -67,7 +67,7 @@ class _Trainer extends State<Trainer> {
                 ))),
                 
             Padding(
-              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 4),
               child:CardStack(
                 args[args.keys.toList()[0]],
                 args['userStateVoc'],

@@ -10,6 +10,7 @@ import 'package:Vocablii/pages/addVoc.dart';
 import 'auth/auth.dart';
 import 'home.dart';
 import 'pages/login.dart';
+// import 'package:device_preview/device_preview.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,6 @@ Future<void> main() async {
     runApp(new MyApp());
   }
   );
-
 }
 
 class MyApp extends StatelessWidget {

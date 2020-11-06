@@ -151,19 +151,18 @@ class _VocCardState extends State<VocCard> {
     } else {
       // do nothing
     }
-    try {
-      // url = await FirebaseStorage().ref().child('/vocabulary_audio/' + word.toString() + '.mp3').getDownloadURL();
-      url = await FirebaseStorage()
-          .ref()
-          .child('/vocabulary_audio/word.mp3')
-          .getDownloadURL();
+    // try {
+    //   url = await FirebaseStorage()
+    //       .ref()
+    //       .child('/vocabulary_audio/' + word.toString() + '.mp3')
+    //       .getDownloadURL();
 
-      // await assetsAudioPlayer.open(
-      //   Audio.network(url),
-      // );
-    } catch (e) {
-      print(e);
-    }
+    //   await assetsAudioPlayer.open(
+    //     Audio.network(url),
+    //   );
+    // } catch (e) {
+    //   print(e);
+    // }
     setState(() {
       print("state bevor: " + widget.state.toString());
       users.doc(widget.user.uid).update({
@@ -248,13 +247,14 @@ class _VocCardState extends State<VocCard> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  FlatButton(
-                                    onPressed: () {
-                                      play();
-                                    },
-                                    child: Icon(Icons.play_arrow_rounded,
-                                        color: Colors.white),
-                                  ),
+                                  // TODO: Add audio feature
+                                  // FlatButton(
+                                  //   onPressed: () {
+                                  //     play();
+                                  //   },
+                                  //   child: Icon(Icons.play_arrow_rounded,
+                                  //       color: Colors.white),
+                                  // ),
                                   widget.adminState
                                       ? FlatButton(
                                           onPressed: () {
