@@ -173,9 +173,10 @@ class _VocCardState extends State<VocCard> {
       await assetsAudioPlayer.open(Audio.network(url),
           autoStart: true, showNotification: false);
     } catch (e) {
-      setState() {
+      setState((){
         audioNotFound = true;
-      }
+      }); 
+      
       print(e);
     }
   }
@@ -401,7 +402,7 @@ class _VocCardState extends State<VocCard> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                                '⛔️ Wir haben das Audio nicht gefunden',
+                                                '⛔️ Tut uns leid, die Audio ist nicht verfügbar',
                                                 textAlign: TextAlign.center)
                                           ],
                                         ),
@@ -469,7 +470,7 @@ class _VocCardState extends State<VocCard> {
                                     minWidth:
                                         SizeConfig.blockSizeVertical * 9.5,
                                     onPressed: () async {
-                                      await updateDatabase("Iknow");
+                                      updateDatabase("Iknow");
                                       await updateState("Iknow");
                                       widget.move();
                                       fold();
@@ -488,7 +489,7 @@ class _VocCardState extends State<VocCard> {
                                     minWidth:
                                         SizeConfig.blockSizeVertical * 9.5,
                                     onPressed: () async {
-                                      await updateDatabase("notSave");
+                                      updateDatabase("notSave");
                                       await updateState("notSave");
                                       await widget.move();
                                       fold();
@@ -506,7 +507,7 @@ class _VocCardState extends State<VocCard> {
                                   height: SizeConfig.blockSizeVertical * 9.5,
                                   minWidth: SizeConfig.blockSizeVertical * 9.5,
                                   onPressed: () async {
-                                    await updateDatabase("wtf");
+                                    updateDatabase("wtf");
                                     await updateState("wtf");
                                     await widget.move();
                                     fold();

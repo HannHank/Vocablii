@@ -113,7 +113,21 @@ class _AddVoc extends State<AddVoc> {
                               setState(() {
                                 topicSelected = true;
                                 key.currentState.suggestions = [""];
-                                key.currentState.updateDecoration(InputDecoration(fillColor:Color(0xffffffff)), null, null, null, null, null);
+                                key.currentState.updateDecoration(
+                                    InputDecoration(
+                                      fillColor: Color(0x55ffffff),
+                                      focusColor: Color(0xffffffff),
+                                      filled: true,
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      disabledBorder: InputBorder.none,
+                                    ),
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null);
                                 selectedTopic = newTopic;
                                 vocs = snapshot.data()['vocabulary'];
                                 key.currentState.suggestions =
@@ -134,6 +148,11 @@ class _AddVoc extends State<AddVoc> {
                       filled: true,
                       fillColor: Color(0x55ffffff),
                       focusColor: Color(0xffffffff),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
                       hintText: 'russisches Wort',
                       enabled: topicSelected,
                     ),
@@ -151,7 +170,7 @@ class _AddVoc extends State<AddVoc> {
                         },
                       currentText = text
                     },
-                    clearOnSubmit: false,
+                    clearOnSubmit: true,
                     textSubmitted: (text) => setState(() {
                       print("subbmitted");
                       if (text != "") {

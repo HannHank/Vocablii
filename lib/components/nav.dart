@@ -65,6 +65,7 @@ class _NavState extends State<Nav> {
               new FlatButton(
                   child: new Text("delete"),
                   onPressed: () async {
+                    Navigator.of(context).pop();
                     Map progress;
                     await users.doc(auth.currentUser().uid).get().then(
                         (snapshot) => {
@@ -72,10 +73,11 @@ class _NavState extends State<Nav> {
                               progress = snapshot.data()
                             });
                     progress['class'] = {};
-                    users
+                    await users
                         .doc(auth.currentUser().uid)
-                        .update(progress)
-                        .then((value) => widget.refresh.currentState.show());
+                        .update(progress).then((value) => widget.refresh.currentState.show());
+                        
+                       
                   }),
             ],
           );
