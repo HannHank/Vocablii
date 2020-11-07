@@ -8,6 +8,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:Vocablii/helper/responsive.dart';
 import 'package:Vocablii/pages/addVoc.dart';
 import 'components/nav.dart';
+// import 'package:internet_speed_test/internet_speed_test.dart';
 
 class Home extends StatefulWidget {
   static const String route = "Home";
@@ -39,6 +40,11 @@ class _Home extends State<Home> {
     'errorMsg': 'Deine Internetgeschwindigkeit lässt zu wünschen übrig...'
   };
 
+  final SlidableController slidableController = SlidableController(
+    // onSlideAnimationChanged: handleSlideAnimationChanged,
+    // onSlideIsOpenChanged: handleSlideIsOpenChanged,
+  );
+
   getTopics(userStateVoc) {
     topics.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
@@ -54,21 +60,6 @@ class _Home extends State<Home> {
           }),
         });
   }
-
-  getPercentagePadding(percent) {
-    print("percent: " + percent.toString());
-    if (percent <= 100 && percent >= 10) {
-      print("2 digits ");
-      return SizeConfig.blockSizeHorizontal * 2;
-    } else if (percent <= 10) {
-      print("1 digit ");
-      return SizeConfig.blockSizeHorizontal * 2;
-    } else {
-      print("3 digits ");
-      return SizeConfig.blockSizeHorizontal * 2;
-    }
-  }
-
   getStateVoc() async {
     await initialiseUserLernState(auth.currentUser()).then((data) => {
           setState(() {
@@ -87,6 +78,9 @@ class _Home extends State<Home> {
     print("all: " + all.toString() + "known: " + known.toString());
     if (known == null) {
       known = 0;
+    }
+    if(all == null || all == 0) {
+      return 0;
     }
     int percent = (known / all * 100).toInt();
     return percent;
@@ -126,33 +120,55 @@ class _Home extends State<Home> {
                 ),
                 // Error message
                 error['hasError']
-                    ? Container(
-                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
-                        decoration: BoxDecoration(
-                            color: Color(0xffED6B6B),
-                            borderRadius: new BorderRadius.circular(11.0),
-                            boxShadow: [
-                            BoxShadow(
-                              blurRadius: 30,
-                              offset: Offset(10, 10),
-                              color: Colors.black.withOpacity(.20),
+                    ? GestureDetector(
+                        onVerticalDragEnd: (details) => {
+                          error = {
+                            'hasError': false,
+                            'errorIcn': '',
+                            'errorMsg': ''
+                          },
+                          print(error)
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              left: SizeConfig.blockSizeHorizontal * 5,
+                              right: SizeConfig.blockSizeHorizontal * 5),
+                          decoration: BoxDecoration(
+                              color: Color(0xffED6B6B),
+                              borderRadius: new BorderRadius.circular(11.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 30,
+                                  offset: Offset(10, 10),
+                                  color: Colors.black.withOpacity(.20),
+                                ),
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(11.0),
+                            child: Center(
+                              child: Text(
+                                error['errorMsg'],
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xffffffff)),
+                              ),
                             ),
-                          ]),
-                      child: Padding(
-                        padding: const EdgeInsets.all(11.0),
-                        child: Center(child: 
-                        Text(
-                          error['errorMsg'], 
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xffffffff)),
-                        ),),
-                      ),
-                    ) : Container(),
+                          ),
+                        ),
+                      )
+                    : Container(),
                 Expanded(
                     child: RefreshIndicator(
                         key: refreshKey,
                         onRefresh: () async {
                           getStateVoc();
+                          error = {
+                            'hasError': false,
+                            'errorIcn': '',
+                            'errorMsg': ''
+                          };
                         },
                         child: ListView.builder(
                             itemCount: topicData.keys.length,
@@ -187,6 +203,8 @@ class _Home extends State<Home> {
                                     padding:
                                         const EdgeInsets.fromLTRB(21, 9, 21, 9),
                                     child: Slidable(
+                                      
+                                      controller: slidableController,
                                       actionPane: SlidableBehindActionPane(),
                                       actionExtentRatio: 0.25,
                                       actions: <Widget>[
@@ -286,14 +304,15 @@ class _Home extends State<Home> {
                                                     'wtf',
                                                     'notSave',
                                                     null
-                                                  ].contains(userStateVoc[
-                                                              'class'][
-                                                          title[topicData.keys
-                                                              .toList()[index]]]
-                                                      [key]));
+                                                  ].contains(userStateVoc['class'][title[topicData.keys.toList()[index]]][key]));
+                                              print("vocIknow: --------------" +  vocIKnow.toString() + " " + vocIKnow.length.toString());
                                               if (vocIKnow.length == 0) {
-                                                // TODO: return AlertDialog
                                                 refreshKey.currentState.show();
+                                                error = {
+                                                  'hasError': true,
+                                                  'errorIcn': '',
+                                                  'errorMsg': 'Du musst erst lernen!'
+                                                };
                                               } else {
                                                 Navigator.pushNamed(
                                                     context, Trainer.route,
@@ -328,7 +347,7 @@ class _Home extends State<Home> {
                                                         'refresh': refreshKey
                                                       }
                                                     });
-                                              }
+                                             }
                                             },
                                             child: Container(
                                               child: Container(

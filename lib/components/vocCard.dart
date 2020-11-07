@@ -74,7 +74,7 @@ class _VocCardState extends State<VocCard> {
       }
       // need to be dynamic
       topics.doc(widget.databaseTitle).update({
-        "vocabulary." + widget.name: {
+          "vocabulary." + widget.name: {
           "de": widget.translation,
           "desc": widget.description,
           "ru": widget.word
@@ -165,7 +165,6 @@ class _VocCardState extends State<VocCard> {
 
   void play() async {
     try {
-      print('WORD TO PLAY: ' + word.toString());
       url = await FirebaseStorage()
           .ref()
           .child('vocabulary_audio/' + word.toString() + '.mp3')
@@ -177,7 +176,6 @@ class _VocCardState extends State<VocCard> {
       setState() {
         audioNotFound = true;
       }
-
       print(e);
     }
   }
@@ -242,13 +240,13 @@ class _VocCardState extends State<VocCard> {
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.white,
-                                      fontWeight: FontWeight.w800)),
+                                      fontWeight: FontWeight.w500)),
                               Text(widget.translation,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: Colors.white,
-                                      fontWeight: FontWeight.w800)),
+                                      fontWeight: FontWeight.w500)),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -553,40 +551,40 @@ class _VocCardState extends State<VocCard> {
                     children: [
                       Text(widget.word,
                           style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 24,
                               color: Colors.white,
-                              fontWeight: FontWeight.w800)),
-                      FlatButton(
-                        onPressed: () {
-                          play();
-                        },
-                        child: Icon(
-                          Icons.play_arrow_rounded,
-                          color: Colors.white,
-                        ),
-                      ),
-                      audioNotFound
-                          ? Container(
-                              margin: EdgeInsets.only(
-                                  left: SizeConfig.blockSizeHorizontal * 5,
-                                  right: SizeConfig.blockSizeHorizontal * 5),
-                              decoration: BoxDecoration(
-                                  color: Color(0xffffffff),
-                                  borderRadius: BorderRadius.circular(11)),
-                              child: Padding(
-                                padding: EdgeInsets.all(
-                                    SizeConfig.blockSizeHorizontal * 2),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                        '⛔️ Wir haben das Audio nicht gefunden 🙁',
-                                        textAlign: TextAlign.center)
-                                  ],
-                                ),
-                              ),
-                            )
-                          : Container()
+                              fontWeight: FontWeight.w500)),
+                      // FlatButton(
+                      //   onPressed: () {
+                      //     play();
+                      //   },
+                      //   child: Icon(
+                      //     Icons.play_arrow_rounded,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
+                      // audioNotFound
+                      //     ? Container(
+                      //         margin: EdgeInsets.only(
+                      //             left: SizeConfig.blockSizeHorizontal * 5,
+                      //             right: SizeConfig.blockSizeHorizontal * 5),
+                      //         decoration: BoxDecoration(
+                      //             color: Color(0xffffffff),
+                      //             borderRadius: BorderRadius.circular(11)),
+                      //         child: Padding(
+                      //           padding: EdgeInsets.all(
+                      //               SizeConfig.blockSizeHorizontal * 2),
+                      //           child: Row(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: [
+                      //               Text(
+                      //                   '⛔️ Wir haben das Audio nicht gefunden 🙁',
+                      //                   textAlign: TextAlign.center)
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       )
+                      //     : Container()
                     ],
                   ),
                 ),

@@ -17,7 +17,7 @@ initialiseUserLernState(user) async{
   });
       await topics.get().then((QuerySnapshot querySnapshot) => {
               querySnapshot.docs.forEach((doc) {
-                print("not null: " + usersLernStates.toString());
+         
                 if(usersLernStates['class'].containsKey(doc.data()['meta']['name'])){
                   //nothing to do
                 }else{
