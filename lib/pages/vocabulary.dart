@@ -58,16 +58,16 @@ class _Trainer extends State<Trainer> {
                       print("tabed");
               },
            child: Container(
-                padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+                padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
                 child: Align(
                   alignment: Alignment.topCenter,
                   child:Text( " < " + args.keys.toList()[0].toString(),
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
                 ))),
                 
             Padding(
-              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 4),
+              padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
               child:CardStack(
                 args[args.keys.toList()[0]],
                 args['userStateVoc'],

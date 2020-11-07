@@ -81,7 +81,7 @@ class _AddVoc extends State<AddVoc> {
                       "Bearbeiten",
                       textAlign: TextAlign.start,
                       style:
-                          TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                       textScaleFactor: 2,
                       // has impact
                     )),

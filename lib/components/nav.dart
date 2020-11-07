@@ -7,7 +7,6 @@ import 'package:Vocablii/home.dart';
 import 'package:flutter/services.dart';
 import 'package:Vocablii/helper/responsive.dart';
 import 'package:Vocablii/pages/onboarding_screen.dart';
-import 'package:localstorage/localstorage.dart';
 
 class Nav extends StatefulWidget {
   final AuthenticationService auth;
@@ -23,9 +22,6 @@ class _NavState extends State<Nav> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   final chunk = TextEditingController();
   _NavState(this.auth);
-  final LocalStorage storage = new LocalStorage('settings');
-
-  bool play_voc = false;
 
   Map settings;
   List emojis = [];

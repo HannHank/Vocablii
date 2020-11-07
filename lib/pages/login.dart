@@ -106,7 +106,7 @@ class _Login extends State<Login> {
                                         "Login",
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.w700),
                                         textScaleFactor: 2,
                                         // has impact
                                       ),

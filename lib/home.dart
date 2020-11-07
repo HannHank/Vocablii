@@ -32,6 +32,13 @@ class _Home extends State<Home> {
   bool show = false;
   bool admin = false;
   int chunkSize = 0;
+  // Error banner for slow internet or trying to learn vocabulary that are empty (https://github.com/HannHank/Vocablii/issues/30)
+  Map<String, dynamic> error = {
+    'hasError': false,
+    'errorIcn': '',
+    'errorMsg': 'Deine Internetgeschwindigkeit lässt zu wünschen übrig...'
+  };
+
   getTopics(userStateVoc) {
     topics.get().then((QuerySnapshot querySnapshot) => {
           querySnapshot.docs.forEach((doc) {
@@ -104,17 +111,43 @@ class _Home extends State<Home> {
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 5,
-                      left: SizeConfig.blockSizeHorizontal * 5),
+                    top: SizeConfig.blockSizeVertical * 5,
+                    left: SizeConfig.blockSizeHorizontal * 5,
+                    bottom: SizeConfig.blockSizeHorizontal * 5,
+                  ),
                   width: double.infinity,
                   child: Text(
                     "Deine Themen",
                     textAlign: TextAlign.start,
-                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                     textScaleFactor: 2,
                     // has impact
                   ),
                 ),
+                // Error message
+                error['hasError']
+                    ? Container(
+                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, right: SizeConfig.blockSizeHorizontal * 5),
+                        decoration: BoxDecoration(
+                            color: Color(0xffED6B6B),
+                            borderRadius: new BorderRadius.circular(11.0),
+                            boxShadow: [
+                            BoxShadow(
+                              blurRadius: 30,
+                              offset: Offset(10, 10),
+                              color: Colors.black.withOpacity(.20),
+                            ),
+                          ]),
+                      child: Padding(
+                        padding: const EdgeInsets.all(11.0),
+                        child: Center(child: 
+                        Text(
+                          error['errorMsg'], 
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xffffffff)),
+                        ),),
+                      ),
+                    ) : Container(),
                 Expanded(
                     child: RefreshIndicator(
                         key: refreshKey,
@@ -201,29 +234,32 @@ class _Home extends State<Home> {
                                             child: Stack(
                                               children: [
                                                 OverflowBox(
-                                                  alignment: Alignment.centerLeft,
-                                                  maxWidth: 130,
-                                                  child: SizedBox(
-                                                  width: 130,
-                                                  height: 70,
-                                                  child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color:
-                                                              Color(0xffED6B6B),
-                                                          borderRadius:
-                                                              new BorderRadius
-                                                                      .circular(
-                                                                  11.0),
-                                                          boxShadow: [
-                                                        BoxShadow(
-                                                          blurRadius: 30,
-                                                          offset:
-                                                              Offset(10, 10),
-                                                          color: Colors.black
-                                                              .withOpacity(.20),
-                                                        ),
-                                                      ])),
-                                                )),
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    maxWidth: 130,
+                                                    child: SizedBox(
+                                                      width: 130,
+                                                      height: 70,
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                              color: Color(
+                                                                  0xffED6B6B),
+                                                              borderRadius:
+                                                                  new BorderRadius
+                                                                          .circular(
+                                                                      11.0),
+                                                              boxShadow: [
+                                                            BoxShadow(
+                                                              blurRadius: 30,
+                                                              offset: Offset(
+                                                                  10, 10),
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      .20),
+                                                            ),
+                                                          ])),
+                                                    )),
                                                 Center(
                                                   child: Text('🤫',
                                                       textAlign:
@@ -239,97 +275,107 @@ class _Home extends State<Home> {
                                       ],
                                       secondaryActions: <Widget>[
                                         InkWell(
-                                          onTap: () {
-                                            Map vocIKnow = topicData[
-                                                topicData.keys.toList()[index]];
+                                            onTap: () {
+                                              Map vocIKnow = topicData[topicData
+                                                  .keys
+                                                  .toList()[index]];
 
-                                            vocIKnow.removeWhere((key, value) =>
-                                                [
-                                                  'wtf',
-                                                  'notSave',
-                                                  null
-                                                ].contains(userStateVoc['class']
-                                                        [title[topicData.keys
-                                                            .toList()[index]]]
-                                                    [key]));
-                                            if (vocIKnow.length == 0) {
-                                              // TODO: return AlertDialog
-                                              refreshKey.currentState.show();
-                                            } else {
-                                              Navigator.pushNamed(
-                                                  context, Trainer.route,
-                                                  arguments: {
-                                                    title[topicData.keys
-                                                            .toList()[index]]:
-                                                        vocIKnow,
-                                                    'userStateVoc': show
-                                                        ? userStateVoc
-                                                        : {
-                                                            'admin': false,
-                                                            'class': {
-                                                              title[topicData
-                                                                      .keys
-                                                                      .toList()[
-                                                                  index]]: {}
-                                                            }
-                                                          },
-                                                    'user': {
-                                                      'user': auth.currentUser()
-                                                    },
-                                                    'chunkSize': {
-                                                      'chunkSize': chunkSize
-                                                    },
-                                                    'databaseTitle': {
-                                                      'databaseTitle': topicData
-                                                          .keys
-                                                          .toList()[index]
-                                                    },
-                                                    'key': {
-                                                      'refresh': refreshKey
-                                                    }
-                                                  });
-                                            }
-                                          },
-                                          child: Container(
+                                              vocIKnow.removeWhere((key,
+                                                      value) =>
+                                                  [
+                                                    'wtf',
+                                                    'notSave',
+                                                    null
+                                                  ].contains(userStateVoc[
+                                                              'class'][
+                                                          title[topicData.keys
+                                                              .toList()[index]]]
+                                                      [key]));
+                                              if (vocIKnow.length == 0) {
+                                                // TODO: return AlertDialog
+                                                refreshKey.currentState.show();
+                                              } else {
+                                                Navigator.pushNamed(
+                                                    context, Trainer.route,
+                                                    arguments: {
+                                                      title[topicData.keys
+                                                              .toList()[index]]:
+                                                          vocIKnow,
+                                                      'userStateVoc': show
+                                                          ? userStateVoc
+                                                          : {
+                                                              'admin': false,
+                                                              'class': {
+                                                                title[topicData
+                                                                        .keys
+                                                                        .toList()[
+                                                                    index]]: {}
+                                                              }
+                                                            },
+                                                      'user': {
+                                                        'user':
+                                                            auth.currentUser()
+                                                      },
+                                                      'chunkSize': {
+                                                        'chunkSize': chunkSize
+                                                      },
+                                                      'databaseTitle': {
+                                                        'databaseTitle':
+                                                            topicData.keys
+                                                                .toList()[index]
+                                                      },
+                                                      'key': {
+                                                        'refresh': refreshKey
+                                                      }
+                                                    });
+                                              }
+                                            },
                                             child: Container(
-                                            child: Stack(
-                                              children: [
-                                                OverflowBox(
-                                                  alignment: Alignment.centerRight,
-                                                  maxWidth: 130,
-                                                  child: SizedBox(
-                                                  width: 130,
-                                                  height: 70,
-                                                  child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color:
-                                                              Color(0xff7E92C8),
-                                                          borderRadius:
-                                                              new BorderRadius
-                                                                      .circular(
-                                                                  11.0),
-                                                          boxShadow: [
-                                                        BoxShadow(
-                                                          blurRadius: 30,
-                                                          offset:
-                                                              Offset(10, 10),
-                                                          color: Colors.black
-                                                              .withOpacity(.20),
-                                                        ),
-                                                      ])),
-                                                )),
-                                                Center(
-                                                  child: Text('🤓',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 25)),
+                                              child: Container(
+                                                child: Stack(
+                                                  children: [
+                                                    OverflowBox(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        maxWidth: 130,
+                                                        child: SizedBox(
+                                                          width: 130,
+                                                          height: 70,
+                                                          child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: Color(
+                                                                      0xff7E92C8),
+                                                                  borderRadius:
+                                                                      new BorderRadius
+                                                                              .circular(
+                                                                          11.0),
+                                                                  boxShadow: [
+                                                                BoxShadow(
+                                                                  blurRadius:
+                                                                      30,
+                                                                  offset:
+                                                                      Offset(10,
+                                                                          10),
+                                                                  color: Colors
+                                                                      .black
+                                                                      .withOpacity(
+                                                                          .20),
+                                                                ),
+                                                              ])),
+                                                        )),
+                                                    Center(
+                                                      child: Text('🤓',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 25)),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                        ))
+                                              ),
+                                            ))
                                       ],
                                       child: Container(
                                           decoration: BoxDecoration(
@@ -399,7 +445,7 @@ class _Home extends State<Home> {
                                                         height: SizeConfig
                                                                 .blockSizeVertical *
                                                             4.6,
-                                                        width:  SizeConfig
+                                                        width: SizeConfig
                                                                 .blockSizeVertical *
                                                             4.6,
                                                         child: Stack(
@@ -432,21 +478,23 @@ class _Home extends State<Home> {
                                                               ),
                                                             ),
                                                             Center(
-                                                                child: Text(
-                                                                  show
-                                                                      ? getPercent(topicData[topicData.keys.toList()[index]].keys.toList().length, userStateVoc['class'][title[topicData.keys.toList()[index]]]['percent'])
-                                                                              .toString() +
-                                                                          '%'
-                                                                      : "0%",
-                                                                    textAlign: TextAlign.center,
-                                                                  style:
-                                                                      TextStyle(
+                                                              child: Text(
+                                                                show
+                                                                    ? getPercent(topicData[topicData.keys.toList()[index]].keys.toList().length,
+                                                                                userStateVoc['class'][title[topicData.keys.toList()[index]]]['percent'])
+                                                                            .toString() +
+                                                                        '%'
+                                                                    : "0%",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: TextStyle(
                                                                     color: Color(
                                                                         0xff000000),
-                                                                    fontSize: 10
-                                                                  ),
-                                                                ),
+                                                                    fontSize:
+                                                                        10),
                                                               ),
+                                                            ),
                                                             // ),
                                                           ],
                                                         ),
@@ -470,7 +518,7 @@ class _Home extends State<Home> {
                 ? MainAxisAlignment.spaceBetween
                 : MainAxisAlignment.center,
             children: [
-              admin 
+              admin
                   ? Padding(
                       padding: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 5,
@@ -485,12 +533,14 @@ class _Home extends State<Home> {
                       ),
                     )
                   : SizedBox(),
-               admin ? Padding(
-                padding: EdgeInsets.only(
-                    right: SizeConfig.blockSizeHorizontal * 5,
-                    bottom: SizeConfig.blockSizeVertical),
-                child: Nav(auth, refreshKey),
-              ):Nav(auth, refreshKey),
+              admin
+                  ? Padding(
+                      padding: EdgeInsets.only(
+                          right: SizeConfig.blockSizeHorizontal * 5,
+                          bottom: SizeConfig.blockSizeVertical),
+                      child: Nav(auth, refreshKey),
+                    )
+                  : Nav(auth, refreshKey),
             ]));
   }
 }

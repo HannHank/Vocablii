@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Vocablii/helper/responsive.dart';
+import 'package:Vocablii/components/custom_icons.dart';
 
 class VocCard extends StatefulWidget {
   final int index;
@@ -59,10 +60,12 @@ class _VocCardState extends State<VocCard> {
   final deController = TextEditingController();
   final descrController = TextEditingController();
   final assetsAudioPlayer = AssetsAudioPlayer();
+  bool audioNotFound = false;
 
   _VocCardState({this.stateCard, this.word, this.translation, this.descr});
   saveNewContent() {
     setState(() {
+      audioNotFound = false;
       widget.word = ruController.text.trim();
       widget.translation = deController.text.trim();
       widget.description = descrController.text.trim();
@@ -151,18 +154,6 @@ class _VocCardState extends State<VocCard> {
     } else {
       // do nothing
     }
-    // try {
-    //   url = await FirebaseStorage()
-    //       .ref()
-    //       .child('/vocabulary_audio/' + word.toString() + '.mp3')
-    //       .getDownloadURL();
-
-    //   await assetsAudioPlayer.open(
-    //     Audio.network(url),
-    //   );
-    // } catch (e) {
-    //   print(e);
-    // }
     setState(() {
       print("state bevor: " + widget.state.toString());
       users.doc(widget.user.uid).update({
@@ -172,12 +163,26 @@ class _VocCardState extends State<VocCard> {
     });
   }
 
-  void play() {
-    assetsAudioPlayer.play();
+  void play() async {
+    try {
+      print('WORD TO PLAY: ' + word.toString());
+      url = await FirebaseStorage()
+          .ref()
+          .child('vocabulary_audio/' + word.toString() + '.mp3')
+          .getDownloadURL();
+
+      await assetsAudioPlayer.open(Audio.network(url),
+          autoStart: true, showNotification: false);
+    } catch (e) {
+      setState() {
+        audioNotFound = true;
+      }
+
+      print(e);
+    }
   }
 
   void change() {
-    play();
     setState(() {
       widget.expanded = true;
       if (widget.description == "0") {
@@ -247,14 +252,15 @@ class _VocCardState extends State<VocCard> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  // TODO: Add audio feature
-                                  // FlatButton(
-                                  //   onPressed: () {
-                                  //     play();
-                                  //   },
-                                  //   child: Icon(Icons.play_arrow_rounded,
-                                  //       color: Colors.white),
-                                  // ),
+                                  FlatButton(
+                                    onPressed: () {
+                                      play();
+                                    },
+                                    child: Icon(
+                                      Icons.play_arrow_rounded,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                   widget.adminState
                                       ? FlatButton(
                                           onPressed: () {
@@ -377,21 +383,48 @@ class _VocCardState extends State<VocCard> {
                                                               ],
                                                             ))))));
                                           },
-                                          child: Icon(
-                                            Icons.edit,
-                                            color: Colors.white,
-                                          ),
+                                          child: Icon(Icons.edit,
+                                              color: Colors.white),
                                         )
                                       : SizedBox(),
                                 ],
                               ),
-                              Text(widget.description,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w800,
-                                  )),
+                              audioNotFound
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                          color: Color(0xffffffff),
+                                          borderRadius:
+                                              BorderRadius.circular(11)),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(
+                                            SizeConfig.blockSizeHorizontal * 2),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                                '⛔️ Wir haben das Audio nicht gefunden',
+                                                textAlign: TextAlign.center)
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
+                              Container(
+                                height: SizeConfig.blockSizeVertical * 40,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(widget.description,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w400,
+                                        ))
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -400,9 +433,9 @@ class _VocCardState extends State<VocCard> {
                         alignment: Alignment.bottomCenter,
                         child: Container(
                             padding: EdgeInsets.only(
-                                right: SizeConfig.blockSizeHorizontal * 16,
+                                right: SizeConfig.blockSizeHorizontal * 14,
                                 bottom: SizeConfig.blockSizeVertical * 16,
-                                left: SizeConfig.blockSizeHorizontal * 16),
+                                left: SizeConfig.blockSizeHorizontal * 12),
                             //margin: EdgeInsets.all(130.h),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -523,6 +556,37 @@ class _VocCardState extends State<VocCard> {
                               fontSize: 20,
                               color: Colors.white,
                               fontWeight: FontWeight.w800)),
+                      FlatButton(
+                        onPressed: () {
+                          play();
+                        },
+                        child: Icon(
+                          Icons.play_arrow_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                      audioNotFound
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeHorizontal * 5,
+                                  right: SizeConfig.blockSizeHorizontal * 5),
+                              decoration: BoxDecoration(
+                                  color: Color(0xffffffff),
+                                  borderRadius: BorderRadius.circular(11)),
+                              child: Padding(
+                                padding: EdgeInsets.all(
+                                    SizeConfig.blockSizeHorizontal * 2),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        '⛔️ Wir haben das Audio nicht gefunden 🙁',
+                                        textAlign: TextAlign.center)
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Container()
                     ],
                   ),
                 ),
