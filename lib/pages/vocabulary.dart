@@ -164,7 +164,6 @@ class _CardStackState extends State<CardStack>
                 cards.add(removedCard);
                 currentIndex = cards[0].index;
                 print(cards.length.toString() + "card" + cards[0].index.toString());
-                print(currentIndex.toString() + cards[currentIndex - 1].word);
                 // if (widget.onCardChanged != null)
                 //   widget.onCardChanged(cards[0].word, cards[0].translation,
                 //       cards[0].description, cards[0].color);

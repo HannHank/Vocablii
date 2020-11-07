@@ -37,7 +37,8 @@ class _Home extends State<Home> {
   Map<String, dynamic> error = {
     'hasError': false,
     'errorIcn': '',
-    'errorMsg': 'Deine Internetgeschwindigkeit lässt zu wünschen übrig...'
+    'errorMsg': 'Deine Internetgeschwindigkeit lässt zu wünschen übrig...',
+    'color':Color(0xffED6B6B)
   };
 
   final SlidableController slidableController = SlidableController(
@@ -126,7 +127,8 @@ class _Home extends State<Home> {
                           error = {
                             'hasError': false,
                             'errorIcn': '',
-                            'errorMsg': ''
+                            'errorMsg': '',
+                            'color':Color(0xffED6B6B)
                           };
                           }),
                           print(error)
@@ -136,7 +138,7 @@ class _Home extends State<Home> {
                               left: SizeConfig.blockSizeHorizontal * 5,
                               right: SizeConfig.blockSizeHorizontal * 5),
                           decoration: BoxDecoration(
-                              color: Color(0xffED6B6B),
+                              color: error['color'],
                               borderRadius: new BorderRadius.circular(11.0),
                               boxShadow: [
                                 BoxShadow(
@@ -221,6 +223,22 @@ class _Home extends State<Home> {
                                                         [title[topicData.keys
                                                             .toList()[index]]]
                                                     [key]));
+                                            if(vocWtf.length == 0){
+                                               slidableController.activeState.close();
+                                                refreshKey.currentState.show().then((value) => {
+                                                setState(() {
+                                                error = {
+                                                  'hasError': true,
+                                                  'errorIcn': '',
+                                                  'errorMsg': 'Du kannst alle Vokabeln von diesem Thema🎉👍🏼',
+                                                  'color':Colors.green
+                                                };
+
+                                                }),
+                                                  
+
+                                                });
+                                            }else{
                                             Navigator.pushNamed(
                                                 context, Trainer.route,
                                                 arguments: {
@@ -249,6 +267,7 @@ class _Home extends State<Home> {
                                                   },
                                                   'key': {'refresh': refreshKey}
                                                 });
+                                            }
                                           },
                                           child: Container(
                                             child: Stack(
@@ -315,7 +334,8 @@ class _Home extends State<Home> {
                                                 error = {
                                                   'hasError': true,
                                                   'errorIcn': '',
-                                                  'errorMsg': 'Du musst erst lernen!'
+                                                  'errorMsg': 'Du musst erst lernen!',
+                                                  'color':Color(0xffED6B6B)
                                                 };
 
                                                 }),
