@@ -122,11 +122,13 @@ class _Home extends State<Home> {
                 error['hasError']
                     ? GestureDetector(
                         onVerticalDragEnd: (details) => {
+                          setState((){
                           error = {
                             'hasError': false,
                             'errorIcn': '',
                             'errorMsg': ''
-                          },
+                          };
+                          }),
                           print(error)
                         },
                         child: Container(
@@ -307,12 +309,19 @@ class _Home extends State<Home> {
                                                   ].contains(userStateVoc['class'][title[topicData.keys.toList()[index]]][key]));
                                               print("vocIknow: --------------" +  vocIKnow.toString() + " " + vocIKnow.length.toString());
                                               if (vocIKnow.length == 0) {
-                                                refreshKey.currentState.show();
+                                                slidableController.activeState.close();
+                                                refreshKey.currentState.show().then((value) => {
+                                                setState(() {
                                                 error = {
                                                   'hasError': true,
                                                   'errorIcn': '',
                                                   'errorMsg': 'Du musst erst lernen!'
                                                 };
+
+                                                }),
+                                                  
+
+                                                });
                                               } else {
                                                 Navigator.pushNamed(
                                                     context, Trainer.route,
@@ -480,7 +489,7 @@ class _Home extends State<Home> {
                                                                 child:
                                                                     new CircularProgressIndicator(
                                                                   strokeWidth:
-                                                                      3.0,
+                                                                      5.0,
                                                                   backgroundColor:
                                                                       Color(
                                                                           0xff000000),
