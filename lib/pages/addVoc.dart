@@ -122,6 +122,7 @@ class _AddVoc extends State<AddVoc> {
                                       enabledBorder: InputBorder.none,
                                       errorBorder: InputBorder.none,
                                       disabledBorder: InputBorder.none,
+                                      hintText: "russisches Wort"
                                     ),
                                     null,
                                     null,
@@ -153,7 +154,7 @@ class _AddVoc extends State<AddVoc> {
                       enabledBorder: InputBorder.none,
                       errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
-                      hintText: 'russisches Wort',
+                      hintText: 'Thema auswählen!',
                       enabled: topicSelected,
                     ),
                     suggestions: suggestions,
