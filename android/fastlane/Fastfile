@@ -1,0 +1,74 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Vocablii"
+  lane :test do
+
+    gradle(
+      task: "assemble",
+      build_type: "Test",
+    )
+
+    # Upload to Firebase Test Lab
+    firebase_test_lab_android(
+      project_id: "vocablii",
+      gcloud_service_key_file: "fastlane/client-secret.json", 
+      devices: [
+        {
+          model: "OnePlus6T",
+          locale: "de",
+          orientation: "portrait"
+        },
+        {
+          model: "Pixel2",
+          locale: "de",
+          orientation: "portrait"
+        },
+        {
+          model: "SC-02K",
+          locale: "de",
+          orientation: "portrait"
+        },
+        {
+          model: "NexusLowRes",
+          version: '30',
+          locale: "de",
+          orientation: "portrait"
+        },
+      ],                                              
+    )
+  end
+
+  lane :firebase do
+    gradle(task: "clean assembleRelease")
+
+    firebase_app_distribution(
+      groups: "Developers, Testers",
+      release_notes: "Lots of amazing new features to test out!"
+    )
+  end
+
+  lane :deploy do
+    gradle(
+      task: "assemble",
+      build_type: "Release",
+    )
+
+    upload_to_play_store
+  end
+end

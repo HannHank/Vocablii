@@ -1,0 +1,2 @@
+json_key_file("/Users/johann/Downloads/pc-api-4813486316729401999-431-bd2d4d2ff96d.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("com.navabase.Vocablii") # e.g. com.krausefx.app

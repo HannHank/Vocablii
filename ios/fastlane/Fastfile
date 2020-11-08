@@ -1,0 +1,84 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Vocablii"
+  lane :test do
+    scan(
+      clean: true, 
+      skip_detect_devices: true,
+      build_for_testing: true,
+      sdk: 'iphoneos',
+      should_zip_build_products: true
+    )
+
+    firebase_test_lab_ios_xctest(
+      gcp_project: 'vocably-c0fa9', # Your Google Cloud project name
+      devices: [
+        {
+          ios_model_id: 'iphonex',
+          ios_version_id: '14.0',
+          locale: 'de_DE',
+          orientation: 'portrait'
+        }
+      ]
+    )
+  end
+
+  lane :deploy do
+    increment_build_number
+
+    get_certificates(username: "johann123.js@gmail.com")
+    get_provisioning_profile(app_identifier: 'com.navabase.vocablii', username: "johann123.js@gmail.com")
+    
+    build_app(
+      scheme: "Runner",
+      export_options: {
+        method: "app-store",
+        provisioningProfiles: { 
+          "com.navabase.vocablii" => "com.navabase.vocablii AppStore"
+        }
+      }
+    )
+    # build_ios_app
+
+    deliver(
+      username: 'johann123.js@gmail.com',
+      app_identifier: 'com.navabase.vocablii',
+      app_version: '1.0.2',
+      submit_for_review: true,
+      automatic_release: true,
+      force: true,
+      skip_metadata: true,
+      skip_screenshots: true,
+      skip_binary_upload: false
+    )
+
+  end
+
+  lane :firebase do
+    get_certificates(username: "johann123.js@gmail.com")
+    get_provisioning_profile(app_identifier: 'com.navabase.vocablii', username: "johann123.js@gmail.com")
+    
+    build_ios_app # build_ios_app is a built-in fastlane action.
+
+    firebase_app_distribution(
+      groups: "Developers, Testers",		
+      release_notes: "Lots of amazing new features to test out!"		
+    )
+  end
+end
