@@ -42,6 +42,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -98,7 +99,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 image: AssetImage(
                                   'assets/images/Logo.png',
                                 ),
-                                height: SizeConfig.blockSizeVertical * 40,
+                                height: screenWidth > 650 ? SizeConfig.blockSizeVertical * 40 : SizeConfig.blockSizeVertical * 20 ,
                                 width: SizeConfig.blockSizeVertical * 40,
                               ),
                             ),
@@ -125,7 +126,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 image: AssetImage(
                                   'assets/images/SimpleTab.png',
                                 ),
-                                height: SizeConfig.blockSizeVertical * 50,
+                                height: screenWidth > 650 ? SizeConfig.blockSizeVertical * 50 : SizeConfig.blockSizeVertical * 45 ,
                                 width: SizeConfig.blockSizeVertical * 50,
                               ),
                             ),
@@ -152,7 +153,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 image: AssetImage(
                                   'assets/images/longPress.png',
                                 ),
-                                height: SizeConfig.blockSizeVertical * 50,
+                                height: screenWidth > 650 ? SizeConfig.blockSizeVertical * 50 : SizeConfig.blockSizeVertical * 45,
                                 width: SizeConfig.blockSizeVertical * 50,
                               ),
                             ),
@@ -179,7 +180,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 image: AssetImage(
                                   'assets/images/doubleTab.png',
                                 ),
-                                height: SizeConfig.blockSizeVertical * 50,
+                                height: screenWidth > 650 ? SizeConfig.blockSizeVertical * 50 : SizeConfig.blockSizeVertical * 45,
                                 width: SizeConfig.blockSizeVertical * 50,
                               ),
                             ),
@@ -206,7 +207,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 image: AssetImage(
                                   'assets/images/backScreen.png',
                                 ),
-                                height: SizeConfig.blockSizeVertical * 50,
+                                height: screenWidth > 650 ? SizeConfig.blockSizeVertical * 50 : SizeConfig.blockSizeVertical * 45 ,
                                 width: SizeConfig.blockSizeVertical * 50,
                               ),
                             ),
@@ -233,7 +234,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 image: AssetImage(
                                   'assets/images/Swipe.png',
                                 ),
-                                height: SizeConfig.blockSizeVertical * 50,
+                                height: screenWidth > 650 ? SizeConfig.blockSizeVertical * 50 : SizeConfig.blockSizeVertical * 45 ,
                                 width: SizeConfig.blockSizeVertical * 50,
                               ),
                             ),
@@ -260,7 +261,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 image: AssetImage(
                                   'assets/images/Chunks.png',
                                 ),
-                                height: SizeConfig.blockSizeVertical * 50,
+                                height: screenWidth > 650 ? SizeConfig.blockSizeVertical * 50 : SizeConfig.blockSizeVertical * 45 ,
                                 width: SizeConfig.blockSizeVertical * 50,
                               ),
                             ),

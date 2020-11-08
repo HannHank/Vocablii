@@ -178,7 +178,6 @@ class _Home extends State<Home> {
                         child: ListView.builder(
                             itemCount: topicData.keys.length,
                             itemBuilder: (BuildContext ctxt, int index) {
-                             
                                   return new Column(children: [
                                       index == 0
                                           ? SizedBox(height: SizeConfig.blockSizeVertical)
@@ -516,42 +515,45 @@ class _Home extends State<Home> {
                                                                 CrossAxisAlignment
                                                                     .center,
                                                             children: [
-                                                              Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                    title[topicData
-                                                                            .keys
-                                                                            .toList()[
-                                                                        index]],
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w700,
-                                                                        fontSize:
-                                                                            14),
-                                                                  ),
-                                                                  Text(
-                                                                    meta[topicData
-                                                                            .keys
-                                                                            .toList()[
-                                                                        index]],
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            12,
-                                                                        color: Color(
-                                                                            0xff000000),
-                                                                        fontWeight:
-                                                                            FontWeight.w400),
-                                                                  )
-                                                                ],
+                                                              Container(
+                                                                width: SizeConfig.blockSizeHorizontal * 65,
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      title[topicData
+                                                                              .keys
+                                                                              .toList()[
+                                                                          index]],
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .black,
+                                                                          fontWeight:
+                                                                              FontWeight
+                                                                                  .w700,
+                                                                          fontSize:
+                                                                              14),
+                                                                    ),
+                                                                    Text(
+                                                                      meta[topicData
+                                                                              .keys
+                                                                              .toList()[
+                                                                          index]],
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: Color(
+                                                                              0xff000000),
+                                                                          fontWeight:
+                                                                              FontWeight.w400),
+                                                                    )
+                                                                  ],
+                                                                ),
                                                               ),
                                                               SizedBox(
                                                                 height: SizeConfig
