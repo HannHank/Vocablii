@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'settingsButton.dart';
 import 'package:Vocablii/auth/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'InputField.dart';
 import 'package:Vocablii/home.dart';
 import 'package:flutter/services.dart';
 import 'package:Vocablii/helper/responsive.dart';
@@ -75,8 +74,9 @@ class _NavState extends State<Nav> {
                     progress['class'] = {};
                     await users
                         .doc(auth.currentUser().uid)
-                        .update(progress)
-                        .then((value) => widget.refresh.currentState.show());
+                        .update(progress).then((value) => widget.refresh.currentState.show());
+                        
+                       
                   }),
             ],
           );
@@ -99,189 +99,185 @@ class _NavState extends State<Nav> {
     return FloatingActionButton(
       child: Icon(Icons.settings),
       onPressed: () {
-        showModalBottomSheet(
+        showModalBottomSheet<dynamic>(
             isScrollControlled: true,
             context: context,
             builder: (context) => StatefulBuilder(
-                builder: (BuildContext context, StateSetter setStateModal) =>
+                builder: (BuildContext context, StateSetter setStateModal) => SingleChildScrollView(child:
                     Container(
                         margin:
                             EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                        padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: new BorderRadius.circular(30)),
-                        width: SizeConfig.blockSizeHorizontal * 50,
-                        height: SizeConfig.blockSizeVertical * 60,
-                        child: ListView(
-                          padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          children: [Center(
-                              child: Container(
-                                  decoration: BoxDecoration(boxShadow: [
-                                    BoxShadow(
-                                        blurRadius: 30,
-                                        offset: Offset(-11, -11),
-                                        color: Color(0x9900000))
-                                  ]),
-                                  child: Center(
+                        // width: SizeConfig.blockSizeHorizontal * 50,
+                        // height: SizeConfig.blockSizeVertical * 60,
+                        child: Center(
+                            child: Container(
+                                decoration: BoxDecoration(boxShadow: [
+                                  BoxShadow(
+                                      blurRadius: 30,
+                                      offset: Offset(-11, -11),
+                                      color: Color(0x9900000))
+                                ]),
+                                child: Center(
+                                    child:Column(
+                                  children: [
+                                    Container(
+                                      width: 60,
+                                      height: 6,
+                                      decoration: BoxDecoration(
+                                          color: Color(0x22000000),
+                                          borderRadius:
+                                              BorderRadius.circular(3)),
+                                      margin: EdgeInsets.only(bottom: 20),
+                                    ),
+                                    Text(
+                                      'Einstellungen',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16),
+                                    ),
+                                    Container(
                                       child: Column(
-                                    children: [
-                                      Container(
-                                        width: 60,
-                                        height: 6,
-                                        decoration: BoxDecoration(
-                                            color: Color(0x22000000),
-                                            borderRadius:
-                                                BorderRadius.circular(3)),
-                                        margin: EdgeInsets.only(bottom: 20),
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // Settings
+                                          // Container(
+                                          //   margin: EdgeInsets.only(top: 0, bottom: 7),
+                                          //   child: Text(
+                                          //     'Einstellungen',
+                                          //     style: TextStyle(
+                                          //         color: Colors.black,
+                                          //         fontWeight: FontWeight.w700,
+                                          //         fontSize: 14),
+                                          //   ),
+                                          // ),
+                                          // settingButton(
+                                          //     emojis[0], 'Beantwortete Anzeigen', () {
+                                          //   setStateModal(() {
+                                          //     settings['show_answerd'] =
+                                          //         !settings['show_answerd'];
+                                          //       emojis[0] = emoji(settings['show_answerd']);
+                                          //     print(
+                                          //         settings['show_answerd'].toString() +
+                                          //             emojis[0]);
+                                          //   });
+                                          // }),
+                                          // settingButton(emojis[1], 'Audio Vokabeln',
+                                          //     () {
+                                          //   setStateModal(() {
+                                          //     settings['audio'] = !settings['audio'];
+                                          //      emojis[1] = emoji(settings['audio']);
+                                          //   });
+                                          // }),
+                                          // settingButton(
+                                          //     emojis[2], 'Audio nur über WLAN', () {
+                                          //   setStateModal(() {
+                                          //     settings['audio_over_wifi'] =
+                                          //         !settings['audio_over_wifi'];
+                                          //         emojis[2] = emoji(settings['audio_over_wifi']);
+                                          //   });
+                                          // }),
+                                          // // change user name
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                top: 25, bottom: 7),
+                                            child: Text(
+                                              'Chunk-size (0 für alle)',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                          basicFormChunk("", 12.0, "wrong",
+                                              false, 1, chunk, onSubmitted),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                top: 25, bottom: 7),
+                                            child: Text(
+                                              'Anleitung',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                          settingButton(
+                                              '🤔', 'Wie ging das nochmal?',
+                                              () {
+                                            Navigator.pushNamed(
+                                                context, OnboardingScreen.route,
+                                                arguments: {
+                                                  'namedRoute': Home.route
+                                                });
+                                          }),
+                                          // play audio
+                                          // Container(
+                                          //   margin: EdgeInsets.only(
+                                          //       top: 25, bottom: 7),
+                                          //   child: Text(
+                                          //     'Audio Abspielen',
+                                          //     style: TextStyle(
+                                          //         color: Colors.black,
+                                          //         fontWeight: FontWeight.w700,
+                                          //         fontSize: 14),
+                                          //   ),
+                                          // ),
+
+                                          // // change user name
+                                          // Container(
+                                          //   margin: EdgeInsets.only(top: 25, bottom: 7),
+                                          //   child: Text(
+                                          //     'Password ändern',
+                                          //     style: TextStyle(
+                                          //         color: Colors.black,
+                                          //         fontWeight: FontWeight.w700,
+                                          //         fontSize: 14),
+                                          //   ),
+                                          // ),
+                                          // basicForm("Password", 12.0, "wrong",false,1,null),
+                                          // basicForm("Password wiederholen", 12.0,
+                                          //     "wrong", false, 1, null),
+
+                                          // change user name
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                top: 25, bottom: 7),
+                                            child: Text(
+                                              'Fortschritt zurücksetzen',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+
+                                          settingButton(
+                                              '❌', 'Alles zurücksetzen?', () {
+                                            deleteProgress();
+                                          }),                                          // Logout
+                                          Center(
+                                              child: Padding(
+                                            padding: EdgeInsets.all(25),
+                                            child: FloatingActionButton(
+                                              onPressed: () async {
+                                                await auth.signOut();
+                                                Navigator.pushNamed(
+                                                    context, Home.route,
+                                                    arguments: {'User': ""});
+                                              },
+                                              child: Icon(Icons.logout),
+                                            ),
+                                          )),
+                                        ],
                                       ),
-                                      Text(
-                                        'Einstellungen',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),
-                                      ),
-                                      Container(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            // Settings
-                                            // Container(
-                                            //   margin: EdgeInsets.only(top: 0, bottom: 7),
-                                            //   child: Text(
-                                            //     'Einstellungen',
-                                            //     style: TextStyle(
-                                            //         color: Colors.black,
-                                            //         fontWeight: FontWeight.w700,
-                                            //         fontSize: 14),
-                                            //   ),
-                                            // ),
-                                            // settingButton(
-                                            //     emojis[0], 'Beantwortete Anzeigen', () {
-                                            //   setStateModal(() {
-                                            //     settings['show_answerd'] =
-                                            //         !settings['show_answerd'];
-                                            //       emojis[0] = emoji(settings['show_answerd']);
-                                            //     print(
-                                            //         settings['show_answerd'].toString() +
-                                            //             emojis[0]);
-                                            //   });
-                                            // }),
-                                            // settingButton(emojis[1], 'Audio Vokabeln',
-                                            //     () {
-                                            //   setStateModal(() {
-                                            //     settings['audio'] = !settings['audio'];
-                                            //      emojis[1] = emoji(settings['audio']);
-                                            //   });
-                                            // }),
-                                            // settingButton(
-                                            //     emojis[2], 'Audio nur über WLAN', () {
-                                            //   setStateModal(() {
-                                            //     settings['audio_over_wifi'] =
-                                            //         !settings['audio_over_wifi'];
-                                            //         emojis[2] = emoji(settings['audio_over_wifi']);
-                                            //   });
-                                            // }),
-                                            // // change user name
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 25, bottom: 7),
-                                              child: Text(
-                                                'Chunk-size (0 für alle)',
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 14),
-                                              ),
-                                            ),
-                                            basicFormChunk("", 12.0, "wrong",
-                                                false, 1, chunk, onSubmitted),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 25, bottom: 7),
-                                              child: Text(
-                                                'Anleitung',
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 14),
-                                              ),
-                                            ),
-                                            settingButton(
-                                                '🤔', 'Wie ging das nochmal?',
-                                                () {
-                                              Navigator.pushNamed(
-                                                  context, OnboardingScreen.route,
-                                                  arguments: {
-                                                    'namedRoute': Home.route
-                                                  });
-                                            }),
-                                            // play audio
-                                            // Container(
-                                            //   margin: EdgeInsets.only(
-                                            //       top: 25, bottom: 7),
-                                            //   child: Text(
-                                            //     'Audio Abspielen',
-                                            //     style: TextStyle(
-                                            //         color: Colors.black,
-                                            //         fontWeight: FontWeight.w700,
-                                            //         fontSize: 14),
-                                            //   ),
-                                            // ),
-
-                                            // // change user name
-                                            // Container(
-                                            //   margin: EdgeInsets.only(top: 25, bottom: 7),
-                                            //   child: Text(
-                                            //     'Password ändern',
-                                            //     style: TextStyle(
-                                            //         color: Colors.black,
-                                            //         fontWeight: FontWeight.w700,
-                                            //         fontSize: 14),
-                                            //   ),
-                                            // ),
-                                            // basicForm("Password", 12.0, "wrong",false,1,null),
-                                            // basicForm("Password wiederholen", 12.0,
-                                            //     "wrong", false, 1, null),
-
-                                            // change user name
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 25, bottom: 7),
-                                              child: Text(
-                                                'Fortschritt zurücksetzen',
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 14),
-                                              ),
-                                            ),
-
-                                            settingButton(
-                                                '❌', 'Alles zurücksetzen?', () {
-                                              deleteProgress();
-                                            }),
-                                            // Logout
-                                            Center(
-                                                child: Padding(
-                                              padding: EdgeInsets.all(25),
-                                              child: FloatingActionButton(
-                                                onPressed: () async {
-                                                  await auth.signOut();
-                                                  Navigator.pushNamed(
-                                                      context, Home.route,
-                                                      arguments: {'User': ""});
-                                                },
-                                                child: Icon(Icons.logout),
-                                              ),
-                                            )),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ))))],
-                        ))));
+                                    )
+                                  ],
+                                ))))))));
       },
     );
   }

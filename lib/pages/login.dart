@@ -143,7 +143,7 @@ class _Login extends State<Login> {
                                   strokeWidth: 5,
                                 )
                               : FlatButton(
-                                  height: SizeConfig.blockSizeVertical * 6,
+                                  height: 50,
                                   shape: new RoundedRectangleBorder(
                                       borderRadius: new BorderRadius.circular(
                                           SizeConfig.blockSizeVertical * 7)),
