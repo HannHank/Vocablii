@@ -45,15 +45,24 @@ platform :ios do
     get_certificates(username: "johann123.js@gmail.com")
     get_provisioning_profile(app_identifier: 'com.navabase.vocablii', username: "johann123.js@gmail.com")
     
-    build_ios_app # build_ios_app is a built-in fastlane action.
+    build_app(
+      scheme: "Runner",
+      export_options: {
+        method: "app-store",
+        provisioningProfiles: { 
+          "com.navabase.vocablii" => "com.navabase.vocablii AppStore"
+        }
+      }
+    )
+    # build_ios_app
 
     deliver(
       username: 'johann123.js@gmail.com',
       app_identifier: 'com.navabase.vocablii',
-      app_version: '1.0.1',
+      app_version: '1.0.2',
       submit_for_review: true,
       automatic_release: true,
-      force: true, # Skip HTMl report verification
+      force: true,
       skip_metadata: true,
       skip_screenshots: true,
       skip_binary_upload: false

@@ -38,13 +38,13 @@ class _Home extends State<Home> {
     'hasError': false,
     'errorIcn': '',
     'errorMsg': 'Deine Internetgeschwindigkeit lässt zu wünschen übrig...',
-    'color':Color(0xffED6B6B)
+    'color': Color(0xffED6B6B)
   };
 
   final SlidableController slidableController = SlidableController(
-    // onSlideAnimationChanged: handleSlideAnimationChanged,
-    // onSlideIsOpenChanged: handleSlideIsOpenChanged,
-  );
+      // onSlideAnimationChanged: handleSlideAnimationChanged,
+      // onSlideIsOpenChanged: handleSlideIsOpenChanged,
+      );
 
   getTopics(userStateVoc) {
     topics.get().then((QuerySnapshot querySnapshot) => {
@@ -61,6 +61,7 @@ class _Home extends State<Home> {
           }),
         });
   }
+
   getStateVoc() async {
     await initialiseUserLernState(auth.currentUser()).then((data) => {
           setState(() {
@@ -80,7 +81,7 @@ class _Home extends State<Home> {
     if (known == null) {
       known = 0;
     }
-    if(all == null || all == 0) {
+    if (all == null || all == 0) {
       return 0;
     }
     int percent = (known / all * 100).toInt();
@@ -123,13 +124,13 @@ class _Home extends State<Home> {
                 error['hasError']
                     ? GestureDetector(
                         onVerticalDragEnd: (details) => {
-                          setState((){
-                          error = {
-                            'hasError': false,
-                            'errorIcn': '',
-                            'errorMsg': '',
-                            'color':Color(0xffED6B6B)
-                          };
+                          setState(() {
+                            error = {
+                              'hasError': false,
+                              'errorIcn': '',
+                              'errorMsg': '',
+                              'color': Color(0xffED6B6B)
+                            };
                           }),
                           print(error)
                         },
@@ -205,9 +206,8 @@ class _Home extends State<Home> {
                                   child: Padding(
                                     // Padding around Card component
                                     padding:
-                                        const EdgeInsets.fromLTRB(21, 9, 21, 9),
+                                        const EdgeInsets.fromLTRB(21, 22, 21, 0),
                                     child: Slidable(
-                                      
                                       controller: slidableController,
                                       actionPane: SlidableBehindActionPane(),
                                       actionExtentRatio: 0.25,
@@ -223,50 +223,56 @@ class _Home extends State<Home> {
                                                         [title[topicData.keys
                                                             .toList()[index]]]
                                                     [key]));
-                                            if(vocWtf.length == 0){
-                                               slidableController.activeState.close();
-                                                refreshKey.currentState.show().then((value) => {
-                                                setState(() {
-                                                error = {
-                                                  'hasError': true,
-                                                  'errorIcn': '',
-                                                  'errorMsg': 'Du kannst alle Vokabeln von diesem Thema🎉👍🏼',
-                                                  'color':Colors.green
-                                                };
-
-                                                }),
-                                                  
-
-                                                });
-                                            }else{
-                                            Navigator.pushNamed(
-                                                context, Trainer.route,
-                                                arguments: {
-                                                  title[topicData.keys
-                                                      .toList()[index]]: vocWtf,
-                                                  'userStateVoc': show
-                                                      ? userStateVoc
-                                                      : {
-                                                          'admin': false,
-                                                          'class': {
-                                                            title[topicData.keys
-                                                                    .toList()[
-                                                                index]]: {}
-                                                          }
-                                                        },
-                                                  'user': {
-                                                    'user': auth.currentUser()
-                                                  },
-                                                  'chunkSize': {
-                                                    'chunkSize': chunkSize
-                                                  },
-                                                  'databaseTitle': {
-                                                    'databaseTitle': topicData
-                                                        .keys
-                                                        .toList()[index]
-                                                  },
-                                                  'key': {'refresh': refreshKey}
-                                                });
+                                            if (vocWtf.length == 0) {
+                                              slidableController.activeState
+                                                  .close();
+                                              refreshKey.currentState
+                                                  .show()
+                                                  .then((value) => {
+                                                        setState(() {
+                                                          error = {
+                                                            'hasError': true,
+                                                            'errorIcn': '',
+                                                            'errorMsg':
+                                                                'Du kannst alle Vokabeln von diesem Thema🎉👍🏼',
+                                                            'color':
+                                                                Colors.green
+                                                          };
+                                                        }),
+                                                      });
+                                            } else {
+                                              Navigator.pushNamed(
+                                                  context, Trainer.route,
+                                                  arguments: {
+                                                    title[topicData.keys
+                                                            .toList()[index]]:
+                                                        vocWtf,
+                                                    'userStateVoc': show
+                                                        ? userStateVoc
+                                                        : {
+                                                            'admin': false,
+                                                            'class': {
+                                                              title[topicData
+                                                                      .keys
+                                                                      .toList()[
+                                                                  index]]: {}
+                                                            }
+                                                          },
+                                                    'user': {
+                                                      'user': auth.currentUser()
+                                                    },
+                                                    'chunkSize': {
+                                                      'chunkSize': chunkSize
+                                                    },
+                                                    'databaseTitle': {
+                                                      'databaseTitle': topicData
+                                                          .keys
+                                                          .toList()[index]
+                                                    },
+                                                    'key': {
+                                                      'refresh': refreshKey
+                                                    }
+                                                  });
                                             }
                                           },
                                           child: Container(
@@ -325,23 +331,32 @@ class _Home extends State<Home> {
                                                     'wtf',
                                                     'notSave',
                                                     null
-                                                  ].contains(userStateVoc['class'][title[topicData.keys.toList()[index]]][key]));
-                                              print("vocIknow: --------------" +  vocIKnow.toString() + " " + vocIKnow.length.toString());
+                                                  ].contains(userStateVoc[
+                                                              'class'][
+                                                          title[topicData.keys
+                                                              .toList()[index]]]
+                                                      [key]));
+                                              print("vocIknow: --------------" +
+                                                  vocIKnow.toString() +
+                                                  " " +
+                                                  vocIKnow.length.toString());
                                               if (vocIKnow.length == 0) {
-                                                slidableController.activeState.close();
-                                                refreshKey.currentState.show().then((value) => {
-                                                setState(() {
-                                                error = {
-                                                  'hasError': true,
-                                                  'errorIcn': '',
-                                                  'errorMsg': 'Du musst erst lernen!',
-                                                  'color':Color(0xffED6B6B)
-                                                };
-
-                                                }),
-                                                  
-
-                                                });
+                                                slidableController.activeState
+                                                    .close();
+                                                refreshKey.currentState
+                                                    .show()
+                                                    .then((value) => {
+                                                          setState(() {
+                                                            error = {
+                                                              'hasError': true,
+                                                              'errorIcn': '',
+                                                              'errorMsg':
+                                                                  'Du musst erst lernen!',
+                                                              'color': Color(
+                                                                  0xffED6B6B)
+                                                            };
+                                                          }),
+                                                        });
                                               } else {
                                                 Navigator.pushNamed(
                                                     context, Trainer.route,
@@ -376,7 +391,7 @@ class _Home extends State<Home> {
                                                         'refresh': refreshKey
                                                       }
                                                     });
-                                             }
+                                              }
                                             },
                                             child: Container(
                                               child: Container(
