@@ -612,7 +612,7 @@ class _Home extends State<Home> {
                                             ),
                                           )),
                                       index + 1 == topicData.keys.length
-                                          ? SizedBox(height: SizeConfig.blockSizeVertical *  4.6)
+                                          ? SizedBox(height: SizeConfig.blockSizeVertical *  20)
                                           : SizedBox()
                                     ]);
                             }))),
