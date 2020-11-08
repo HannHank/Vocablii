@@ -178,11 +178,11 @@ class _Home extends State<Home> {
                         child: ListView.builder(
                             itemCount: topicData.keys.length,
                             itemBuilder: (BuildContext ctxt, int index) {
-                              return index > topicData.keys.length
-                                  ? SizedBox(
-                                      height: 50,
-                                    )
-                                  : new Column(children: [
+                             
+                                  return new Column(children: [
+                                      index == 0
+                                          ? SizedBox(height: SizeConfig.blockSizeVertical)
+                                          : SizedBox(),
                                       InkWell(
                                           onTap: () {
                                             Navigator.pushNamed(
@@ -612,7 +612,7 @@ class _Home extends State<Home> {
                                             ),
                                           )),
                                       index + 1 == topicData.keys.length
-                                          ? SizedBox(height: SizeConfig.blockSizeVertical *  4.6)
+                                          ? SizedBox(height: SizeConfig.blockSizeVertical *  20)
                                           : SizedBox()
                                     ]);
                             }))),
