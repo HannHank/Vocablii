@@ -133,34 +133,38 @@ class _VocCardState extends State<VocCard> {
     setState(() {
       widget.stateCard['state'] = state;
     });
-  }
-
+  } 
+  
   updateDatabase(state) async {
+    String oldState = widget.stateCard['state'];
+    await updateState(state);
     await users.doc(widget.user.uid).get().then(
         (snapshot) => {percent = snapshot['class'][widget.title]['percent']});
-    print("stateCard: " + widget.stateCard['state'].toString());
+    print("stateCard: " + oldState.toString());
     print("stateReceived: " + state.toString());
     print("percent: " + percent.toString());
     if (state == "wtf" &&
         percent != 0 &&
-        widget.stateCard['state'] == "Iknow") {
+       oldState == "Iknow") {
       percent -= 1;
     } else if (state == "notSave" &&
-        widget.stateCard['state'] == "Iknow" &&
+        oldState == "Iknow" &&
         percent != 0) {
       percent -= 1;
-    } else if (state == "Iknow" && widget.stateCard['state'] != "Iknow") {
+    } else if (state == "Iknow" && oldState != "Iknow") {
       percent += 1;
     } else {
       // do nothing
     }
     setState(() {
-      print("state bevor: " + widget.state.toString());
+      print("state bevor: " + oldState.toString());
+      print("setting percent: " + percent.toString());
       users.doc(widget.user.uid).update({
         'class.' + widget.title + "." + widget.name: state,
         'class.' + widget.title + "." + "percent": percent
       });
     });
+    
   }
 
   void play() async {
@@ -471,7 +475,6 @@ class _VocCardState extends State<VocCard> {
                                         SizeConfig.blockSizeVertical * 9.5,
                                     onPressed: () async {
                                       updateDatabase("Iknow");
-                                      await updateState("Iknow");
                                       widget.move();
                                       fold();
                                     },
@@ -490,8 +493,7 @@ class _VocCardState extends State<VocCard> {
                                         SizeConfig.blockSizeVertical * 9.5,
                                     onPressed: () async {
                                       updateDatabase("notSave");
-                                      await updateState("notSave");
-                                      await widget.move();
+                                      widget.move();
                                       fold();
                                     },
                                     child: Text(
@@ -507,9 +509,8 @@ class _VocCardState extends State<VocCard> {
                                   height: SizeConfig.blockSizeVertical * 9.5,
                                   minWidth: SizeConfig.blockSizeVertical * 9.5,
                                   onPressed: () async {
-                                    updateDatabase("wtf");
-                                    await updateState("wtf");
-                                    await widget.move();
+                                    updateDatabase("wtf");  
+                                    widget.move();
                                     fold();
                                   },
                                   child: Text(
