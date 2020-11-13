@@ -9,7 +9,7 @@
 ## The App
 This app allows you to learn new russian words and practice for your examination. The words are grouped into topics to enrich your vocabulary step by step. With the additional background information about the vocabulary you can learn not only words but context for a topic and be prepared for your examination. <br>
 With Vocablii you can learn Vocabulary anywhere at any time. 
-<br> <b>Download the app now in the [google play store](https://play.google.com/store/apps/details?id=com.navabase.Vocablii) and ios app store.</b>
+<br> <b>Download the app now in the [google play store](https://play.google.com/store/apps/details?id=com.navabase.Vocablii) and [ios app store](https://apps.apple.com/de/app/vocablii/id1535255714).</b>
 
 ### How it works
 The app is fairly simple to use. Here is a short guide to give you an overview over the features the app offers.
