@@ -52,6 +52,8 @@ class AuthenticationService {
           .set({
             'name': email,
             'admin': false,
+            'nickName':'',
+            'active': 0,
             'chunkSize':0,
             'class': {},
             
