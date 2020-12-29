@@ -62,6 +62,8 @@ class _Ranking extends State<Ranking> {
   void initState() {
     super.initState();
     getRanking();
+    print(args['nickName'].toString());
+    print(args['nickName'].toString().trim() == '');
     print("ags: " + args.toString());
     print("widget data: " + this.args.toString());
   }
@@ -90,7 +92,7 @@ class _Ranking extends State<Ranking> {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w700)),
                   ))),
-          args['nickName'] != 'null'
+        args['nickName'].toString().trim()!= ''
               ? Expanded(
                   child: Column(children: [
                   Expanded(
@@ -115,29 +117,6 @@ class _Ranking extends State<Ranking> {
                                       ],
                                     ),
                                     child: ListTile(
-                                      // title: Row(
-                                      //   mainAxisAlignment:
-                                      //       MainAxisAlignment.spaceBetween,
-                                      //   children: [
-                                      //     index == 0
-                                      //         ? Text(
-                                      //             (index + 1).toString(),
-                                      //             style: TextStyle(
-                                      //                 fontWeight:
-                                      //                     FontWeight.bold,
-                                      //                 color:
-                                      //                     Colors.yellow[700]),
-                                      //           )
-                                      //         : Text((index + 1).toString()),
-                                      //     Text(ranking[index]['nickName']),
-                                      //     Text(
-                                      //       "Score: " +
-                                      //           ranking[index]['active']
-                                      //               .toString(),
-                                           
-                                      //     ),
-                                      //   ],
-                                      // ),
                                       leading: index == 0
                                               ? Text(
                                                   (index + 1).toString() + ".",

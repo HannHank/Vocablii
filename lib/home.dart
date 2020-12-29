@@ -656,7 +656,7 @@ class _Home extends State<Home> {
                       heroTag: 'ranking',
                   onPressed: () {
                       Navigator.pushNamed(context, Ranking.route,
-                          arguments: {'nickName':userStateVoc['nickName'].toString(),'uid': auth.currentUser().uid.toString()});
+                          arguments: {'nickName':userStateVoc['nickName'] == null ? '':userStateVoc['nickName'].toString(),'uid': auth.currentUser().uid.toString()});
                     },
                       child: Icon(Icons.military_tech_outlined)),
                 )
