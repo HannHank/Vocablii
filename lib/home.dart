@@ -631,7 +631,7 @@ class _Home extends State<Home> {
                     heroTag: "add",
                     onPressed: () {
                       Navigator.pushNamed(context, AddVoc.route,
-                          arguments: title);
+                          arguments: {'title':title,'uid':auth.currentUser().uid});
                     },
                     child: Icon(Icons.add),
                   ),
