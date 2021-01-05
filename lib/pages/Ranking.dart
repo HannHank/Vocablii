@@ -25,10 +25,22 @@ class _Ranking extends State<Ranking> {
   bool showRanking = false;
   List ranking = [];
   List rankingListSort = [];
+  bool userNameExists = false;
   _Ranking(this.args);
   saveNickName() async {
     String name = nicknameController.text.trim();
-    if (name != '') {
+    await collectionRanking.get().then((QuerySnapshot querySnapshot) => {
+         querySnapshot.docs.forEach((doc) {
+           print("doc id bevor: " + doc.id);
+           if(doc.id.toLowerCase() == name.toLowerCase()){
+             print("doc id: " + doc.id);
+             setState(() {
+               userNameExists = true;
+             });
+           }
+         })
+});
+ if (name != '' && userNameExists != true)  {
       await users.doc(args['uid']).update({'nickName': name});
       args['nickName'] = name;
       setState(() {
@@ -36,6 +48,11 @@ class _Ranking extends State<Ranking> {
       });
       return true;
     } else {
+      if(name == ''){
+        setState(() {
+          userNameExists = false;
+        });
+      }
       return false;
     }
   }
@@ -198,7 +215,7 @@ class _Ranking extends State<Ranking> {
                                           height:
                                               SizeConfig.blockSizeVertical * 3,
                                           child: Center(
-                                              child: Text(
+                                              child: userNameExists ? Text("Username already exists!") : Text(
                                             "Enter Nickname!",
                                             style: TextStyle(
                                                 color: Colors.white,
