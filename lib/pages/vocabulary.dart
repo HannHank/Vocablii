@@ -180,7 +180,8 @@ class _CardStackState extends State<CardStack>
           name: vocKeys[i],
           title: widget.title,
           databaseTitle: widget.databaseTitle,
-          adminState: widget.userStateVoc['admin']);
+          adminState: widget.userStateVoc['admin'],
+          nickName: widget.userStateVoc['nickName']);
     });
   }
 

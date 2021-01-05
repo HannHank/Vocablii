@@ -6,7 +6,7 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 
 class AddVoc extends StatefulWidget {
   static const String route = "addVoc";
-  final Map<String, String> args;
+  final Map args;
 
   AddVoc(this.args);
   @override
@@ -15,6 +15,7 @@ class AddVoc extends StatefulWidget {
 
 class _AddVoc extends State<AddVoc> {
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
+  CollectionReference deleted = FirebaseFirestore.instance.collection('deleted');
 
   final ruController = TextEditingController();
   final deController = TextEditingController();
@@ -27,13 +28,67 @@ class _AddVoc extends State<AddVoc> {
   bool dropDownSelected = false;
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
   bool topicSelected = false;
-
+  Map titles = {};
   String selectedTopic;
   Map<String, dynamic> vocs;
+
+  deleteCard() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Karte löschen"),
+          content: new Text(ruController.text.trim()),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("cancel"),
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("delete"),
+              onPressed: () async {
+               
+                setState(() {
+                                selected = false;
+                                key.currentState.clear();
+                              });
+                Navigator.of(context).pop();
+                Map data;
+                await topics
+                    .doc(selectedTopic)
+                    .get()
+                    .then((snapshot) => {data = snapshot.data()});
+                data['vocabulary'].removeWhere(
+                    (key, value) => key == ruController.text.trim());
+                await topics.doc(selectedTopic).update(data);
+                await deleted.doc(selectedTopic).set({
+                  ruController.text.trim(): {
+                    'ru': ruController.text.trim(),
+                    'desc': descController.text,
+                    'de': deController.text,
+                    'deletedBy': widget.args['uid'].toString(),
+                    'timeStamp': DateTime.now()
+                  }
+                }, SetOptions(merge: true));
+                ruController.text = "";
+                deController.text = "";
+                descController.text = "";
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
     super.initState();
+    titles = widget.args['title'];
     print("widget data: " + widget.args.toString());
   }
 
@@ -68,6 +123,7 @@ class _AddVoc extends State<AddVoc> {
           ),
         ),
         child: Scaffold(
+            resizeToAvoidBottomPadding: false,
             body: SafeArea(
               top: true,
               bottom: true,
@@ -101,11 +157,11 @@ class _AddVoc extends State<AddVoc> {
                           hint: Text('Thema auswählen'),
                           value: selectedTopic,
                           items: new List<DropdownMenuItem>.generate(
-                              widget.args.keys.length, (i) {
+                          widget.args['title'].keys.length, (i) {
                             return DropdownMenuItem(
-                              value: widget.args.keys.toList()[i],
+                              value: widget.args['title'].keys.toList()[i],
                               child: Text(
-                                  widget.args[widget.args.keys.toList()[i]]),
+                                  widget.args['title'][widget.args['title'].keys.toList()[i]]),
                             );
                           }),
                           onChanged: (newTopic) async {
@@ -115,15 +171,14 @@ class _AddVoc extends State<AddVoc> {
                                 key.currentState.suggestions = [""];
                                 key.currentState.updateDecoration(
                                     InputDecoration(
-                                      fillColor: Color(0x55ffffff),
-                                      focusColor: Color(0xffffffff),
-                                      filled: true,
-                                      focusedBorder: InputBorder.none,
-                                      enabledBorder: InputBorder.none,
-                                      errorBorder: InputBorder.none,
-                                      disabledBorder: InputBorder.none,
-                                      hintText: "russisches Wort"
-                                    ),
+                                        fillColor: Color(0x55ffffff),
+                                        focusColor: Color(0xffffffff),
+                                        filled: true,
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        disabledBorder: InputBorder.none,
+                                        hintText: "russisches Wort"),
                                     null,
                                     null,
                                     null,
@@ -181,6 +236,10 @@ class _AddVoc extends State<AddVoc> {
                           ruController.text = vocs[text]['ru'];
                           deController.text = vocs[text]['de'];
                           descController.text = vocs[text]['desc'].toString();
+                        }else{
+                           ruController.text = "";
+                           deController.text = "";
+                           descController.text = "";
                         }
                         selected = true;
                       }
@@ -212,23 +271,40 @@ class _AddVoc extends State<AddVoc> {
                       )
                     : SizedBox(),
                 selected
-                    ? FloatingActionButton(
-                        heroTag: "SaveButton",
-                        onPressed: () async {
-                          if (ruController.text.trim() != "" &&
-                              deController.text.trim() != "" &&
-                              selectedTopic != null) {
-                            await saveNewVoc();
-                          }
-                          setState(() {
-                            selected = false;
-                            key.currentState.clear();
-                          });
-                        },
-                        child: Icon(
-                          Icons.save,
-                          color: Colors.white,
-                        ))
+                    ? Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        FloatingActionButton(
+                            heroTag: "SaveButton",
+                            onPressed: () async {
+                              if (ruController.text.trim() != "" &&
+                                  deController.text.trim() != "" &&
+                                  selectedTopic != null) {
+                                await saveNewVoc();
+                              }
+                              setState(() {
+                                selected = false;
+                                key.currentState.clear();
+                              });
+                            },
+                            child: Icon(
+                              Icons.save,
+                              color: Colors.white,
+                            )),
+                        FloatingActionButton(
+                            heroTag: "DeleteButton",
+                            onPressed: () async {
+                              if (ruController.text.trim() != "" &&
+                                  deController.text.trim() != "" &&
+                                  selectedTopic != null) {
+                                await deleteCard();
+                              }
+                            },
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ))
+                      ])
                     : SizedBox()
               ]),
             ),

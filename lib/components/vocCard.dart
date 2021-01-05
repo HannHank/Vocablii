@@ -22,6 +22,7 @@ class VocCard extends StatefulWidget {
   final String title;
   final String databaseTitle;
   String state;
+  String nickName;
   VocCard(
       {this.index,
       this.word,
@@ -35,7 +36,8 @@ class VocCard extends StatefulWidget {
       this.title,
       this.databaseTitle,
       this.remove,
-      this.adminState});
+      this.adminState,
+      this.nickName});
 
   @override
   _VocCardState createState() => _VocCardState(
@@ -52,8 +54,10 @@ class _VocCardState extends State<VocCard> {
   String descr;
   String url;
   int percent;
+  int active;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
+  CollectionReference ranking = FirebaseFirestore.instance.collection('ranking');
   CollectionReference deleted =
       FirebaseFirestore.instance.collection('deleted');
   final ruController = TextEditingController();
@@ -72,7 +76,6 @@ class _VocCardState extends State<VocCard> {
       if (descrController.text.trim() == "") {
         widget.description = "0";
       }
-      // need to be dynamic
       topics.doc(widget.databaseTitle).update({
           "vocabulary." + widget.name: {
           "de": widget.translation,
@@ -139,30 +142,48 @@ class _VocCardState extends State<VocCard> {
     String oldState = widget.stateCard['state'];
     await updateState(state);
     await users.doc(widget.user.uid).get().then(
-        (snapshot) => {percent = snapshot['class'][widget.title]['percent']});
+        (snapshot) => {
+        percent = snapshot['class'][widget.title]['percent'],
+        active = snapshot['active']
+        });
     print("stateCard: " + oldState.toString());
     print("stateReceived: " + state.toString());
     print("percent: " + percent.toString());
     if (state == "wtf" &&
         percent != 0 &&
-       oldState == "Iknow") {
-      percent -= 1;
-    } else if (state == "notSave" &&
+        oldState == "Iknow") {
+        percent -= 1;
+        active -= 1;
+    }
+    else if (state == "notSave" &&
         oldState == "Iknow" &&
         percent != 0) {
-      percent -= 1;
+        percent -= 1;
+        active -= 1;
     } else if (state == "Iknow" && oldState != "Iknow") {
       percent += 1;
+      active += 1;
     } else {
       // do nothing
     }
+   
     setState(() {
       print("state bevor: " + oldState.toString());
       print("setting percent: " + percent.toString());
       users.doc(widget.user.uid).update({
+        'active':active,
         'class.' + widget.title + "." + widget.name: state,
         'class.' + widget.title + "." + "percent": percent
       });
+      print("NickName" + widget.nickName.toString());
+      if(widget.nickName != null){
+        if(widget.nickName != ''){
+
+         ranking.doc(widget.nickName).set({
+         'active':active
+      });
+        }
+      }
     });
     
   }

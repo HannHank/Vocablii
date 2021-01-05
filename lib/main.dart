@@ -7,6 +7,7 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:Vocablii/pages/onboarding_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:Vocablii/pages/addVoc.dart';
+import 'package:Vocablii/pages/Ranking.dart';
 import 'auth/auth.dart';
 import 'home.dart';
 import 'pages/login.dart';
@@ -90,6 +91,14 @@ class MyApp extends StatelessWidget {
                   builder: (_) => OnboardingScreen(settings.arguments));
             } else {
               return MaterialPageRoute(builder: (_) =>  OnboardingScreen({'namedRoute':'loginOnboarding'}));
+            }
+            break;
+          case Ranking.route:
+            if (auth.currentUser() != null) {
+              return MaterialPageRoute(
+                  builder: (_) => Ranking(settings.arguments));
+            } else {
+              return MaterialPageRoute(builder: (_) =>  Login());
             }
             break;
           case AddVoc.route:

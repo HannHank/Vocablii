@@ -22,7 +22,6 @@ class _Login extends State<Login> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final policyController = ScrollController();
- 
 
   String emailErr;
   String pwdErr;
@@ -88,7 +87,8 @@ class _Login extends State<Login> {
                 child: Stack(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 2),
+                      padding:
+                          EdgeInsets.all(SizeConfig.blockSizeHorizontal * 2),
                       child: Padding(
                         padding:
                             EdgeInsets.all(SizeConfig.blockSizeHorizontal * 2),
@@ -119,8 +119,8 @@ class _Login extends State<Login> {
                                         emailController),
                                     Padding(
                                         padding: EdgeInsets.only(
-                                            top:
-                                                SizeConfig.blockSizeVertical * 3),
+                                            top: SizeConfig.blockSizeVertical *
+                                                3),
                                         child: Text(
                                           errMsg,
                                           style: TextStyle(
@@ -133,7 +133,8 @@ class _Login extends State<Login> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 8),
+                      padding:
+                          EdgeInsets.all(SizeConfig.blockSizeHorizontal * 8),
                       child: Align(
                           alignment: FractionalOffset.bottomRight,
                           child: showProgressIndikatorSingUp ||
@@ -201,7 +202,8 @@ class _Login extends State<Login> {
                                     );
                                     if (state == "Signed up") {
                                       Future.delayed(
-                                          const Duration(milliseconds: 2000), () {
+                                          const Duration(milliseconds: 2000),
+                                          () {
                                         Navigator.pushNamed(context, Home.route,
                                             arguments: {
                                               'User': nameController.text +
@@ -232,33 +234,37 @@ class _Login extends State<Login> {
                               data: policy.data,
                               selectable: true,
                               controller: policyController,
-                              onTapLink: (text, href, title) => _launchURL(href),
+                              onTapLink: (text, href, title) =>
+                                  _launchURL(href),
                             ),
                           ),
                           Container(
                               height: SizeConfig.blockSizeVertical * 6,
-                              color: reachedBottom ? Colors.black : Colors.white,
+                              color:
+                                  reachedBottom ? Colors.black : Colors.white,
                               child: InkWell(
                                 onTap: () {
                                   setState(() {
                                     if (reachedBottom) {
                                       policyAccepted = true;
-                                    }else{
-                                    Scaffold.of(context).showSnackBar( SnackBar(
-  content: Container(
-    height: SizeConfig.blockSizeVertical * 3,
-        child: Center(
-            child: Text(
-          "Read to the end.",
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        )),
-        ),
-  duration: Duration(seconds: 3),
-  backgroundColor: Colors.red,
-));
+                                    } else {
+                                      Scaffold.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Container(
+                                          height:
+                                              SizeConfig.blockSizeVertical * 3,
+                                          child: Center(
+                                              child: Text(
+                                            "Read to the end.",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.center,
+                                          )),
+                                        ),
+                                        duration: Duration(seconds: 3),
+                                        backgroundColor: Colors.red,
+                                      ));
                                     }
                                   });
                                 },
