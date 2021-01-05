@@ -188,11 +188,12 @@ class _VocCardState extends State<VocCard> {
     
   }
 
-  void play() async {
+  void play(vocToSpeak) async {
     try {
+      print("word:   ----" +  vocToSpeak.toString());
       url = await FirebaseStorage()
           .ref()
-          .child('vocabulary_audio/' + word.toString() + '.mp3')
+          .child('vocabulary_audio/' + vocToSpeak.toString() + '.mp3')
           .getDownloadURL();
 
       await assetsAudioPlayer.open(Audio.network(url),
@@ -278,7 +279,7 @@ class _VocCardState extends State<VocCard> {
                                 children: [
                                   FlatButton(
                                     onPressed: () {
-                                      play();
+                                      play(widget.word);
                                     },
                                     child: Icon(
                                       Icons.play_arrow_rounded,
