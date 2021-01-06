@@ -8,6 +8,7 @@ import 'package:Vocablii/pages/onboarding_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:Vocablii/pages/addVoc.dart';
 import 'package:Vocablii/pages/Ranking.dart';
+import 'package:Vocablii/pages/OverView.dart';
 import 'auth/auth.dart';
 import 'home.dart';
 import 'pages/login.dart';
@@ -97,6 +98,14 @@ class MyApp extends StatelessWidget {
             if (auth.currentUser() != null) {
               return MaterialPageRoute(
                   builder: (_) => Ranking(settings.arguments));
+            } else {
+              return MaterialPageRoute(builder: (_) =>  Login());
+            }
+            break;
+          case OverView.route:
+            if (auth.currentUser() != null) {
+              return MaterialPageRoute(
+                  builder: (_) => OverView(settings.arguments));
             } else {
               return MaterialPageRoute(builder: (_) =>  Login());
             }

@@ -94,10 +94,10 @@ class _AddVoc extends State<AddVoc> {
 
   saveNewVoc() async {
     await topics.doc(selectedTopic).update({
-      "vocabulary." + ruController.text.trim(): {
-        'ru': ruController.text.trim(),
-        'desc': descController.text.trim(),
-        'de': deController.text.trim()
+      "vocabulary." + ruController.text.trim().toString(): {
+        'ru': ruController.text.trim().toString(),
+        'desc': descController.text.trim().toString(),
+        'de': deController.text.trim().toString()
       }
     });
   }

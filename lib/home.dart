@@ -1,4 +1,5 @@
 import 'package:Vocablii/helper/helper_functions.dart';
+import 'package:Vocablii/pages/OverView.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'helper/initialiseTopicsForUser.dart';
@@ -10,6 +11,7 @@ import 'package:Vocablii/helper/responsive.dart';
 import 'package:Vocablii/pages/addVoc.dart';
 import 'components/nav.dart';
 import 'package:Vocablii/pages/Ranking.dart';
+import 'package:Vocablii/pages/OverView.dart';
 // import 'package:internet_speed_test/internet_speed_test.dart';
 
 class Home extends StatefulWidget {
@@ -192,6 +194,38 @@ class _Home extends State<Home> {
                                         height: SizeConfig.blockSizeVertical)
                                     : SizedBox(),
                                 InkWell(
+                                  onLongPress: (){
+                                    print("long press");
+                                      Navigator.pushNamed(
+                                          context, OverView.route,
+                                          arguments: {
+                                            title[topicData.keys
+                                                    .toList()[index]]:
+                                                topicData[topicData.keys
+                                                    .toList()[index]],
+                                            'userStateVoc': show
+                                                ? userStateVoc
+                                                : {
+                                                    'admin': false,
+                                                    'nickName':'',
+                                                    'class': {
+                                                      title[topicData.keys
+                                                          .toList()[index]]: {}
+                                                    }
+                                                  },
+                                            'user': {
+                                              'user': auth.currentUser()
+                                            },
+                                            'chunkSize': {
+                                              'chunkSize': chunkSize
+                                            },
+                                            'databaseTitle': {
+                                              'databaseTitle':
+                                                  topicData.keys.toList()[index]
+                                            },
+                                            'key': {'refresh': refreshKey}
+                                          });
+                                  },
                                     onTap: () {
                                       Navigator.pushNamed(
                                           context, Trainer.route,
