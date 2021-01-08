@@ -436,20 +436,29 @@ class _VocCardState extends State<VocCard> {
                                     )
                                   : Container(),
                               Container(
+                                
                                 height: SizeConfig.blockSizeVertical * 40,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(widget.description,
+                                
+                                 child:   SingleChildScrollView(
+                                      
+                                      scrollDirection: Axis.vertical,
+                                 
+                                      child: Column(
+                                        children: <Widget>[
+                                            Text(widget.description,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 20,
                                           color: Colors.white,
                                           fontWeight: FontWeight.w400,
                                         ))
-                                  ],
-                                ),
+                                        ],
+                                      ),
+                                  )
+                                  
+                                
                               ),
+                              
                             ],
                           ),
                         ),

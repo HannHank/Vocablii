@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 Widget basicForm(String name, double fontSize, String errmsg, bool _obscureText,dynamic _maxLine,
-    TextEditingController controller) {
+    TextEditingController controller, {double height = 200}) {
     return Container(
+    
+      constraints: BoxConstraints(maxHeight: height),
       margin: EdgeInsets.only(top: 5, bottom: 5),
       decoration: BoxDecoration(
           color: Colors.white,

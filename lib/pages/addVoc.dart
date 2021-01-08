@@ -15,7 +15,8 @@ class AddVoc extends StatefulWidget {
 
 class _AddVoc extends State<AddVoc> {
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
-  CollectionReference deleted = FirebaseFirestore.instance.collection('deleted');
+  CollectionReference deleted =
+      FirebaseFirestore.instance.collection('deleted');
 
   final ruController = TextEditingController();
   final deController = TextEditingController();
@@ -51,11 +52,10 @@ class _AddVoc extends State<AddVoc> {
             new FlatButton(
               child: new Text("delete"),
               onPressed: () async {
-               
                 setState(() {
-                                selected = false;
-                                key.currentState.clear();
-                              });
+                  selected = false;
+                  key.currentState.clear();
+                });
                 Navigator.of(context).pop();
                 Map data;
                 await topics
@@ -157,11 +157,11 @@ class _AddVoc extends State<AddVoc> {
                           hint: Text('Thema auswählen'),
                           value: selectedTopic,
                           items: new List<DropdownMenuItem>.generate(
-                          widget.args['title'].keys.length, (i) {
+                              widget.args['title'].keys.length, (i) {
                             return DropdownMenuItem(
                               value: widget.args['title'].keys.toList()[i],
-                              child: Text(
-                                  widget.args['title'][widget.args['title'].keys.toList()[i]]),
+                              child: Text(widget.args['title']
+                                  [widget.args['title'].keys.toList()[i]]),
                             );
                           }),
                           onChanged: (newTopic) async {
@@ -236,10 +236,10 @@ class _AddVoc extends State<AddVoc> {
                           ruController.text = vocs[text]['ru'];
                           deController.text = vocs[text]['de'];
                           descController.text = vocs[text]['desc'].toString();
-                        }else{
-                           ruController.text = "";
-                           deController.text = "";
-                           descController.text = "";
+                        } else {
+                          ruController.text = text;
+                          deController.text = "";
+                          descController.text = "";
                         }
                         selected = true;
                       }
@@ -267,57 +267,98 @@ class _AddVoc extends State<AddVoc> {
                         padding:
                             EdgeInsets.all(SizeConfig.blockSizeVertical * 1),
                         child: basicForm("Beschreibung auf Russisch", 15,
-                            "ist optional", false, null, descController),
+                            "ist optional", false, null, descController,
+                            height: SizeConfig.blockSizeVertical * 30),
                       )
                     : SizedBox(),
-                selected
-                    ? Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        FloatingActionButton(
-                            heroTag: "SaveButton",
-                            onPressed: () async {
-                              if (ruController.text.trim() != "" &&
-                                  deController.text.trim() != "" &&
-                                  selectedTopic != null) {
-                                await saveNewVoc();
-                              }
-                              setState(() {
-                                selected = false;
-                                key.currentState.clear();
-                              });
-                            },
-                            child: Icon(
-                              Icons.save,
-                              color: Colors.white,
-                            )),
-                        FloatingActionButton(
-                            heroTag: "DeleteButton",
-                            onPressed: () async {
-                              if (ruController.text.trim() != "" &&
-                                  deController.text.trim() != "" &&
-                                  selectedTopic != null) {
-                                await deleteCard();
-                              }
-                            },
-                            child: Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                            ))
-                      ])
-                    : SizedBox()
+                // selected
+                //     ? Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //         children: [
+                //             FloatingActionButton(
+                //                 heroTag: "SaveButton",
+                //                 onPressed: () async {
+                //                   if (ruController.text.trim() != "" &&
+                //                       deController.text.trim() != "" &&
+                //                       selectedTopic != null) {
+                //                     await saveNewVoc();
+                //                   }
+                //                   setState(() {
+                //                     selected = false;
+                //                     key.currentState.clear();
+                //                   });
+                //                 },
+                //                 child: Icon(
+                //                   Icons.save,
+                //                   color: Colors.white,
+                //                 )),
+                //             FloatingActionButton(
+                //                 heroTag: "DeleteButton",
+                //                 onPressed: () async {
+                //                   if (ruController.text.trim() != "" &&
+                //                       deController.text.trim() != "" &&
+                //                       selectedTopic != null) {
+                //                     await deleteCard();
+                //                   }
+                //                 },
+                //                 child: Icon(
+                //                   Icons.delete,
+                //                   color: Colors.white,
+                //                 ))
+                //           ])
+                //     : SizedBox()
               ]),
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.startFloat,
-            floatingActionButton: Padding(
-                padding:
-                    EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1),
-                child: FloatingActionButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(Icons.arrow_back),
-                ))));
+            floatingActionButton: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(
+                          bottom: SizeConfig.blockSizeVertical * 1),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(Icons.arrow_back),
+                      )),
+                  selected ? Padding(
+                      padding: EdgeInsets.only(
+                          bottom: SizeConfig.blockSizeVertical * 1),
+                      child: FloatingActionButton(
+                          heroTag: "SaveButton",
+                          onPressed: () async {
+                            if (ruController.text.trim() != "" &&
+                                deController.text.trim() != "" &&
+                                selectedTopic != null) {
+                              await saveNewVoc();
+                            }
+                            setState(() {
+                              selected = false;
+                              key.currentState.clear();
+                            });
+                          },
+                          child: Icon(
+                            Icons.save,
+                            color: Colors.white,
+                          ))):SizedBox(),
+                 selected ?  Padding(
+                      padding: EdgeInsets.only(
+                          right:SizeConfig.blockSizeHorizontal * 8, bottom: SizeConfig.blockSizeVertical * 1.5),
+                      child: FloatingActionButton(
+                          heroTag: "DeleteButton",
+                          onPressed: () async {
+                            if (ruController.text.trim() != "" &&
+                                deController.text.trim() != "" &&
+                                selectedTopic != null) {
+                              await deleteCard();
+                            }
+                          },
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ))):SizedBox()
+                ])));
   }
 }
