@@ -33,6 +33,7 @@ dependencies:
   firebase_crashlytics: ^0.2.1
   firebase_performance: ^0.4.0
   quiver: ^2.1.5
+  shared_preferences: ^0.5.12+4
 
   # database
   # https://docs.hivedb.dev/#/

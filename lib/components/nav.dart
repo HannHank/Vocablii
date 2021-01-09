@@ -6,6 +6,7 @@ import 'package:Vocablii/home.dart';
 import 'package:flutter/services.dart';
 import 'package:Vocablii/helper/responsive.dart';
 import 'package:Vocablii/pages/onboarding_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Nav extends StatefulWidget {
   final AuthenticationService auth;
@@ -42,6 +43,9 @@ class _NavState extends State<Nav> {
     await users
         .doc(auth.currentUser().uid)
         .update({'chunkSize': int.parse(chunkSize.trim())});
+    // delete when chunkSize changes, because then OverView chunks are changing too. 
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
     widget.refresh.currentState.show();
     Navigator.pop(context);
   }
