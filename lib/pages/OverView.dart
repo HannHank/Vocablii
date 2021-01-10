@@ -48,9 +48,15 @@ class _OverView extends State<OverView> {
     // }
     print("sorted: " + sorted.toString());
     setState(() {
-      chunks = partition(widget.args[widget.args.keys.toList()[0]].keys,
-              widget.args['chunkSize']['chunkSize'])
-          .toList();
+      if (widget.args['chunkSize']['chunkSize'] == 0) {
+        chunks = [
+          [widget.args[widget.args.keys.toList()[0]].keys]
+        ];
+      } else {
+        chunks = partition(widget.args[widget.args.keys.toList()[0]].keys,
+                widget.args['chunkSize']['chunkSize'])
+            .toList();
+      }
 
       print("chunks: " + chunks.toString());
     });
@@ -64,11 +70,10 @@ class _OverView extends State<OverView> {
     try {
       print(jsonEncode(checkBoxes));
       String data = prefs.getString(databaseTitle);
-      if(data == null){
+      if (data == null) {
         print("topic not available");
-      }else{
-      checkBoxes = json.decode(data);
-
+      } else {
+        checkBoxes = json.decode(data);
       }
     } on Exception catch (_) {
       print('never reached');
