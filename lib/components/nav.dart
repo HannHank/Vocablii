@@ -310,6 +310,7 @@ Widget basicFormChunk(
             controller: controller,
             onSubmitted: onSubmitted,
             keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.done,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly
             ],
