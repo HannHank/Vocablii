@@ -188,11 +188,12 @@ class _VocCardState extends State<VocCard> {
     
   }
 
-  void play() async {
+  void play(vocToSpeak) async {
     try {
+      print("word:   ----" +  vocToSpeak.toString());
       url = await FirebaseStorage()
           .ref()
-          .child('vocabulary_audio/' + word.toString() + '.mp3')
+          .child('vocabulary_audio/' + vocToSpeak.toString() + '.mp3')
           .getDownloadURL();
 
       await assetsAudioPlayer.open(Audio.network(url),
@@ -278,7 +279,7 @@ class _VocCardState extends State<VocCard> {
                                 children: [
                                   FlatButton(
                                     onPressed: () {
-                                      play();
+                                      play(widget.word);
                                     },
                                     child: Icon(
                                       Icons.play_arrow_rounded,
@@ -435,20 +436,29 @@ class _VocCardState extends State<VocCard> {
                                     )
                                   : Container(),
                               Container(
+                                
                                 height: SizeConfig.blockSizeVertical * 40,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(widget.description,
+                                
+                                 child:   SingleChildScrollView(
+                                      
+                                      scrollDirection: Axis.vertical,
+                                 
+                                      child: Column(
+                                        children: <Widget>[
+                                            Text(widget.description,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 20,
                                           color: Colors.white,
                                           fontWeight: FontWeight.w400,
                                         ))
-                                  ],
-                                ),
+                                        ],
+                                      ),
+                                  )
+                                  
+                                
                               ),
+                              
                             ],
                           ),
                         ),
