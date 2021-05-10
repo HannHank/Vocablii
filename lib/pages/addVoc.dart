@@ -1,3 +1,5 @@
+import 'package:Vocablii/components/doneButton.dart';
+import 'package:Vocablii/helper/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:Vocablii/helper/responsive.dart';
 import 'package:Vocablii/components/InputField.dart';
@@ -21,7 +23,8 @@ class _AddVoc extends State<AddVoc> {
   final ruController = TextEditingController();
   final deController = TextEditingController();
   final descController = TextEditingController();
-
+  final autoController = TextEditingController();
+  bool addButton = false;
   List<String> suggestions = [];
   List<String> added = [];
   String currentText = "";
@@ -168,6 +171,14 @@ class _AddVoc extends State<AddVoc> {
                             await topics.doc(newTopic).get().then((snapshot) {
                               setState(() {
                                 topicSelected = true;
+                                addButton = true;
+                                selected = false;
+                                dropDownSelected = false;
+                                addButton = true;
+                                ruController.text = "";
+                                deController.text = "";
+                                descController.text = "";
+                                autoController.text = "";
                                 key.currentState.suggestions = [""];
                                 key.currentState.updateDecoration(
                                     InputDecoration(
@@ -200,6 +211,7 @@ class _AddVoc extends State<AddVoc> {
                   ),
                   child: new SimpleAutoCompleteTextField(
                     key: key,
+                    controller: autoController,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Color(0x55ffffff),
@@ -219,6 +231,7 @@ class _AddVoc extends State<AddVoc> {
                           setState(() {
                             selected = false;
                             dropDownSelected = false;
+                            addButton = true;
                             ruController.text = "";
                             deController.text = "";
                             descController.text = "";
@@ -232,6 +245,7 @@ class _AddVoc extends State<AddVoc> {
                       if (text != "") {
                         added.add(text);
                         dropDownSelected = true;
+                        addButton = false;
                         if (vocs.containsKey(text)) {
                           ruController.text = vocs[text]['ru'];
                           deController.text = vocs[text]['de'];
@@ -246,6 +260,28 @@ class _AddVoc extends State<AddVoc> {
                     }),
                   ),
                 ),
+                addButton ? FlatButton(onPressed: (){          
+                      String text = autoController.text;
+                      setState(() {
+                      print("subbmitted");
+                      if (text != "") {
+                        addButton = false;
+                        added.add(text);
+                        dropDownSelected = true;
+                        if (vocs.containsKey(text)) {
+                          ruController.text = vocs[text]['ru'];
+                          deController.text = vocs[text]['de'];
+                          descController.text = vocs[text]['desc'].toString();
+                        } else {
+                          ruController.text = text;
+                          deController.text = "";
+                          descController.text = "";
+                        }
+                        selected = true;
+                      }
+                      });
+                }, child:Text("add",style: TextStyle(color: Colors.white)), color:Colors.black) :SizedBox(),
+
                 selected
                     ? Padding(
                         padding:

@@ -12,6 +12,8 @@ import 'package:Vocablii/pages/addVoc.dart';
 import 'components/nav.dart';
 import 'package:Vocablii/pages/Ranking.dart';
 import 'package:Vocablii/pages/OverView.dart';
+import 'package:Vocablii/components/doneButton.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 // import 'package:internet_speed_test/internet_speed_test.dart';
 
 class Home extends StatefulWidget {
@@ -26,6 +28,7 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  KeyboardVisibilityNotification _keyboardVisibility = new KeyboardVisibilityNotification();
   final auth = AuthenticationService(FirebaseAuth.instance);
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
   var refreshKey = GlobalKey<RefreshIndicatorState>();
@@ -36,6 +39,7 @@ class _Home extends State<Home> {
   Map userStateVoc = {};
   bool show = false;
   bool admin = false;
+  int keyboardId;
   String nickName;
   int chunkSize = 0;
   // Error banner for slow internet or trying to learn vocabulary that are empty (https://github.com/HannHank/Vocablii/issues/30)
@@ -99,6 +103,15 @@ class _Home extends State<Home> {
   void initState() {
     super.initState();
     getStateVoc();
+    keyboardId = _keyboardVisibility.addNewListener(
+    onShow: () {
+      print("open");
+      showOverlay(context);
+    },
+    onHide: (){
+      removeOverlay();
+    }
+  );
   }
 
   @override
