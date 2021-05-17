@@ -558,8 +558,10 @@ class _Home extends State<Home> {
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
                                                                     .start,
-                                                            children: [
-                                                              Text(
+                                                            children: [                                                        
+                                                              // Row(
+                                                              //   children:[
+                                                                Text(
                                                                 title[topicData
                                                                         .keys
                                                                         .toList()[
@@ -573,6 +575,9 @@ class _Home extends State<Home> {
                                                                     fontSize:
                                                                         14),
                                                               ),
+                                                              // InkWell(child:
+                                                              // IconButton(onPressed: null,icon:Icon(Icons.info,color: Colors.deepPurpleAccent,)))
+                                                              // ],),
                                                               Text(
                                                                 meta[topicData
                                                                         .keys

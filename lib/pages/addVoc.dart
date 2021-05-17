@@ -67,6 +67,12 @@ class _AddVoc extends State<AddVoc> {
                     .then((snapshot) => {data = snapshot.data()});
                 data['vocabulary'].removeWhere(
                     (key, value) => key == ruController.text.trim());
+                // remove card also in current add session
+                setState(() {
+                  vocs.removeWhere(
+                    (key, value) => key == ruController.text.trim());
+                    key.currentState.suggestions = vocs.keys.toList();       
+                });
                 await topics.doc(selectedTopic).update(data);
                 await deleted.doc(selectedTopic).set({
                   ruController.text.trim(): {
@@ -102,6 +108,19 @@ class _AddVoc extends State<AddVoc> {
         'desc': descController.text.trim().toString(),
         'de': deController.text.trim().toString()
       }
+    });
+    setState(() {
+      
+    vocs.addAll({
+         ruController.text.trim().toString(): {
+        'ru': ruController.text.trim().toString(),
+        'desc': descController.text.trim().toString(),
+        'de': deController.text.trim().toString()
+      }
+    }
+    
+    );
+    key.currentState.suggestions = vocs.keys.toList();                     
     });
   }
 
