@@ -66,7 +66,7 @@ class _AddVoc extends State<AddVoc> {
                     .get()
                     .then((snapshot) => {data = snapshot.data()});
                 data['vocabulary'].removeWhere(
-                    (key, value) => key == ruController.text.trim());
+                    (key, value) => key == ruController.text.trim().toString());
                 // remove card also in current add session
                 setState(() {
                   vocs.removeWhere(
@@ -75,10 +75,10 @@ class _AddVoc extends State<AddVoc> {
                 });
                 await topics.doc(selectedTopic).update(data);
                 await deleted.doc(selectedTopic).set({
-                  ruController.text.trim(): {
-                    'ru': ruController.text.trim(),
-                    'desc': descController.text,
-                    'de': deController.text,
+                  ruController.text.trim().toString(): {
+                    'ru': ruController.text.trim().toString(),
+                    'desc': descController.text.toString(),
+                    'de': deController.text.toString(),
                     'deletedBy': widget.args['uid'].toString(),
                     'timeStamp': DateTime.now()
                   }
@@ -102,8 +102,10 @@ class _AddVoc extends State<AddVoc> {
   }
 
   saveNewVoc() async {
+    String path = ruController.text.trim().replaceAll("/", "|");
+
     await topics.doc(selectedTopic).update({
-      "vocabulary." + ruController.text.trim().toString(): {
+      "vocabulary." + path: {
         'ru': ruController.text.trim().toString(),
         'desc': descController.text.trim().toString(),
         'de': deController.text.trim().toString()
@@ -112,7 +114,7 @@ class _AddVoc extends State<AddVoc> {
     setState(() {
       
     vocs.addAll({
-         ruController.text.trim().toString(): {
+          path: {
         'ru': ruController.text.trim().toString(),
         'desc': descController.text.trim().toString(),
         'de': deController.text.trim().toString()
