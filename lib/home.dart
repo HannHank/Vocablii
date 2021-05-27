@@ -1,5 +1,6 @@
 import 'package:Vocablii/helper/helper_functions.dart';
 import 'package:Vocablii/pages/OverView.dart';
+import 'package:Vocablii/pages/topicInformation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'helper/initialiseTopicsForUser.dart';
@@ -28,7 +29,8 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  KeyboardVisibilityNotification _keyboardVisibility = new KeyboardVisibilityNotification();
+  KeyboardVisibilityNotification _keyboardVisibility =
+      new KeyboardVisibilityNotification();
   final auth = AuthenticationService(FirebaseAuth.instance);
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
   var refreshKey = GlobalKey<RefreshIndicatorState>();
@@ -65,7 +67,6 @@ class _Home extends State<Home> {
                 title[doc.id] = doc.data()['meta']['name'];
                 meta[doc.id] = doc.data()['meta']['descr'];
                 topicData[doc.id] = doc.data()['vocabulary'];
-
               }
             });
           }),
@@ -103,15 +104,12 @@ class _Home extends State<Home> {
   void initState() {
     super.initState();
     getStateVoc();
-    keyboardId = _keyboardVisibility.addNewListener(
-    onShow: () {
+    keyboardId = _keyboardVisibility.addNewListener(onShow: () {
       print("open");
       showOverlay(context);
-    },
-    onHide: (){
+    }, onHide: () {
       removeOverlay();
-    }
-  );
+    });
   }
 
   @override
@@ -207,8 +205,8 @@ class _Home extends State<Home> {
                                         height: SizeConfig.blockSizeVertical)
                                     : SizedBox(),
                                 InkWell(
-                                  onLongPress: (){
-                                    print("long press");
+                                    onLongPress: () {
+                                      print("long press");
                                       Navigator.pushNamed(
                                           context, OverView.route,
                                           arguments: {
@@ -220,7 +218,7 @@ class _Home extends State<Home> {
                                                 ? userStateVoc
                                                 : {
                                                     'admin': false,
-                                                    'nickName':'',
+                                                    'nickName': '',
                                                     'class': {
                                                       title[topicData.keys
                                                           .toList()[index]]: {}
@@ -238,7 +236,7 @@ class _Home extends State<Home> {
                                             },
                                             'key': {'refresh': refreshKey}
                                           });
-                                  },
+                                    },
                                     onTap: () {
                                       Navigator.pushNamed(
                                           context, Trainer.route,
@@ -251,7 +249,7 @@ class _Home extends State<Home> {
                                                 ? userStateVoc
                                                 : {
                                                     'admin': false,
-                                                    'nickName':'',
+                                                    'nickName': '',
                                                     'class': {
                                                       title[topicData.keys
                                                           .toList()[index]]: {}
@@ -321,7 +319,7 @@ class _Home extends State<Home> {
                                                           ? userStateVoc
                                                           : {
                                                               'admin': false,
-                                                              'nickName':'',
+                                                              'nickName': '',
                                                               'class': {
                                                                 title[topicData
                                                                         .keys
@@ -443,7 +441,7 @@ class _Home extends State<Home> {
                                                             ? userStateVoc
                                                             : {
                                                                 'admin': false,
-                                                                'nickName':'',
+                                                                'nickName': '',
                                                                 'class': {
                                                                   title[topicData
                                                                           .keys
@@ -550,7 +548,7 @@ class _Home extends State<Home> {
                                                         Container(
                                                           width: SizeConfig
                                                                   .blockSizeHorizontal *
-                                                              65,
+                                                              55, // 65
                                                           child: Column(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -558,10 +556,10 @@ class _Home extends State<Home> {
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
                                                                     .start,
-                                                            children: [                                                        
-                                                              // Row(
-                                                              //   children:[
-                                                                Text(
+                                                            children: [
+                                                              /// Row(
+                                                              //children:[
+                                                              Text(
                                                                 title[topicData
                                                                         .keys
                                                                         .toList()[
@@ -575,9 +573,18 @@ class _Home extends State<Home> {
                                                                     fontSize:
                                                                         14),
                                                               ),
-                                                              // InkWell(child:
-                                                              // IconButton(onPressed: null,icon:Icon(Icons.info,color: Colors.deepPurpleAccent,)))
-                                                              // ],),
+                                                              //  IconButton(onPressed: (){
+                                                              //     print("pressed -------------------");
+                                                              //   },icon:Icon(Icons.info,color: Colors.deepPurpleAccent)),
+                                                              // GestureDetector(
+                                                              // excludeFromSemantics: true,
+                                                              // child:
+                                                              //  InkWell(child:
+                                                              //  IconButton(onPressed: (){
+                                                              //   print("pressed -------------------");
+                                                              // },icon:Icon(Icons.info,color: Colors.deepPurpleAccent,))
+                                                              // )),
+                                                              //     ]),
                                                               Text(
                                                                 meta[topicData
                                                                         .keys
@@ -595,6 +602,29 @@ class _Home extends State<Home> {
                                                             ],
                                                           ),
                                                         ),
+                                                        IconButton(
+                                                            onPressed: () {
+                                                              Navigator.pushNamed(
+                                                                  context,
+                                                                  InfoTopic
+                                                                      .route,
+                                                                  arguments: {
+                                                                    'data': {
+                                                                      'topic': topicData
+                                                                          .keys
+                                                                          .toList()[index],
+                                                                      'displayName':   title[topicData
+                                                                        .keys
+                                                                        .toList()[
+                                                                    index]],
+                                                                    }
+                                                                  });
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.info,
+                                                              color: Colors
+                                                                  .deepPurpleAccent,
+                                                            )),
                                                         SizedBox(
                                                           height: SizeConfig
                                                                   .blockSizeVertical *
@@ -682,38 +712,45 @@ class _Home extends State<Home> {
                   child: FloatingActionButton(
                     heroTag: "add",
                     onPressed: () {
-                      Navigator.pushNamed(context, AddVoc.route,
-                          arguments: {'title':title,'uid':auth.currentUser().uid});
+                      Navigator.pushNamed(context, AddVoc.route, arguments: {
+                        'title': title,
+                        'uid': auth.currentUser().uid
+                      });
                     },
                     child: Icon(Icons.add),
                   ),
                 )
               : Padding(
-                  padding:
-                      EdgeInsets.only(bottom: SizeConfig.blockSizeVertical,
-                      left: SizeConfig.blockSizeHorizontal * 5,),
+                  padding: EdgeInsets.only(
+                    bottom: SizeConfig.blockSizeVertical,
+                    left: SizeConfig.blockSizeHorizontal * 5,
+                  ),
                   child: FloatingActionButton(
-                    heroTag: 'rankingCentered',
+                      heroTag: 'rankingCentered',
                       onPressed: () {
-                      Navigator.pushNamed(context, Ranking.route,
-                          arguments: {'nickName':userStateVoc['nickName'].toString(),'uid': auth.currentUser().uid.toString()});
-                    },
+                        Navigator.pushNamed(context, Ranking.route, arguments: {
+                          'nickName': userStateVoc['nickName'].toString(),
+                          'uid': auth.currentUser().uid.toString()
+                        });
+                      },
                       child: Icon(Icons.military_tech_outlined))),
-
-            
-              admin ? Padding(
+          admin
+              ? Padding(
                   padding:
                       EdgeInsets.only(bottom: SizeConfig.blockSizeVertical),
                   child: FloatingActionButton(
                       heroTag: 'ranking',
-                  onPressed: () {
-                      Navigator.pushNamed(context, Ranking.route,
-                          arguments: {'nickName':userStateVoc['nickName'] == null ? '':userStateVoc['nickName'].toString(),'uid': auth.currentUser().uid.toString()});
-                    },
+                      onPressed: () {
+                        Navigator.pushNamed(context, Ranking.route, arguments: {
+                          'nickName': userStateVoc['nickName'] == null
+                              ? ''
+                              : userStateVoc['nickName'].toString(),
+                          'uid': auth.currentUser().uid.toString()
+                        });
+                      },
                       child: Icon(Icons.military_tech_outlined)),
                 )
               : SizedBox(),
-
           Padding(
             padding: EdgeInsets.only(
                 right: SizeConfig.blockSizeHorizontal * 5,
