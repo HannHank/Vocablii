@@ -44,6 +44,7 @@ class _Home extends State<Home> {
   int keyboardId;
   String nickName;
   int chunkSize = 0;
+  bool ruDe;
   // Error banner for slow internet or trying to learn vocabulary that are empty (https://github.com/HannHank/Vocablii/issues/30)
   Map<String, dynamic> error = {
     'hasError': false,
@@ -81,6 +82,7 @@ class _Home extends State<Home> {
             print("chunkSize: " + chunkSize.toString());
             show = true;
             admin = userStateVoc['admin'];
+            ruDe = userStateVoc['ruDe'];
             // nickName = userStateVoc['nickName'];
           }),
           print("data: " + data.toString()),
@@ -230,7 +232,11 @@ class _Home extends State<Home> {
                                             'chunkSize': {
                                               'chunkSize': chunkSize
                                             },
-                                            'databaseTitle': {
+                                            'ruDe':{
+                                              'ruDe': ruDe
+                                            },
+                                          
+                                                                                      'databaseTitle': {
                                               'databaseTitle':
                                                   topicData.keys.toList()[index]
                                             },

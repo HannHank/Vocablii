@@ -23,7 +23,7 @@ class _NavState extends State<Nav> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   final chunk = TextEditingController();
   _NavState(this.auth);
-
+  List<bool> isSelected = [false, false];
   Map settings;
   List emojis = [];
 
@@ -49,6 +49,27 @@ class _NavState extends State<Nav> {
     await preferences.clear();
     widget.refresh.currentState.show();
     Navigator.pop(context);
+  }
+
+  getLearnFlow() async {
+    await users.doc(auth.currentUser().uid).get().then((snapshot) => {
+          print("LOG:" + snapshot.data()['ruDe'].toString()),
+          if (snapshot.data()['ruDe'])
+            {isSelected[0] = true, isSelected[1] = false}
+          else
+            {isSelected[1] = true, isSelected[0] = false}
+        });
+  }
+
+  setLearnFlow(flow) async {
+    await users.doc(auth.currentUser().uid).update({'ruDe': flow});
+    widget.refresh.currentState.show();
+    Navigator.pop(context);
+    // delete when chunkSize changes, because then OverView chunks are changing too.
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    // await preferences.clear();
+    // widget.refresh.currentState.show();
+    // Navigator.pop(context);
   }
 
   deleteProgress() async {
@@ -91,6 +112,7 @@ class _NavState extends State<Nav> {
   void initState() {
     super.initState();
     getChunkSize();
+    getLearnFlow();
     settings = {'show_answerd': true, 'audio': true, 'audio_over_wifi': false};
     settings.forEach((key, value) {
       emojis.add(emoji(value));
@@ -212,6 +234,45 @@ class _NavState extends State<Nav> {
                                                 margin: EdgeInsets.only(
                                                     top: 25, bottom: 7),
                                                 child: Text(
+                                                  'Übersetzung',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 14),
+                                                ),
+                                              ),
+                                              Container(
+                                                child: ToggleButtons(
+                                                  children: <Widget>[
+                                                    Text("ru-de"),
+                                                    Text("de-ru"),
+                                                  ],
+                                                  onPressed: (int index) {
+                                                    setState(() {
+                                                      print("setting ");
+                                                      // isSelected[index] = !isSelected[index];
+                                                      //                                                   widget.refresh.currentState.show();
+                                                      // Navigator.pop(context);
+                                                      if (index == 0) {
+                                                        isSelected[0] = true;
+                                                        isSelected[1] = false;
+                                                        setLearnFlow(true);
+                                                      } else {
+                                                        isSelected[0] = false;
+                                                        isSelected[1] = true;
+                                                        setLearnFlow(false);
+                                                      }
+                                                    });
+                                                  },
+                                                  isSelected: isSelected,
+                                                ),
+                                                // play audio
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    top: 25, bottom: 7),
+                                                child: Text(
                                                   'Anleitung',
                                                   style: TextStyle(
                                                       color: Colors.black,
@@ -220,6 +281,7 @@ class _NavState extends State<Nav> {
                                                       fontSize: 14),
                                                 ),
                                               ),
+
                                               settingButton(
                                                   '🤔', 'Wie ging das nochmal?',
                                                   () {
@@ -229,7 +291,7 @@ class _NavState extends State<Nav> {
                                                       'namedRoute': Home.route
                                                     });
                                               }),
-                                              // play audio
+
                                               // Container(
                                               //   margin: EdgeInsets.only(
                                               //       top: 25, bottom: 7),

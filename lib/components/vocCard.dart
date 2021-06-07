@@ -23,6 +23,7 @@ class VocCard extends StatefulWidget {
   final String databaseTitle;
   String state;
   String nickName;
+  bool ruDe;
   VocCard(
       {this.index,
       this.word,
@@ -37,7 +38,8 @@ class VocCard extends StatefulWidget {
       this.databaseTitle,
       this.remove,
       this.adminState,
-      this.nickName});
+      this.nickName,
+      this.ruDe});
 
   @override
   _VocCardState createState() => _VocCardState(
@@ -55,6 +57,7 @@ class _VocCardState extends State<VocCard> {
   String url;
   int percent;
   int active;
+  bool ruDe;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference topics = FirebaseFirestore.instance.collection('topics');
   CollectionReference ranking = FirebaseFirestore.instance.collection('ranking');
@@ -66,7 +69,7 @@ class _VocCardState extends State<VocCard> {
   final assetsAudioPlayer = AssetsAudioPlayer();
   bool audioNotFound = false;
 
-  _VocCardState({this.stateCard, this.word, this.translation, this.descr});
+  _VocCardState({this.stateCard, this.word, this.translation, this.descr, this.ruDe});
   saveNewContent() {
     setState(() {
       audioNotFound = false;
@@ -582,7 +585,7 @@ class _VocCardState extends State<VocCard> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(widget.word,
+                      Text(widget.ruDe ? widget.word: widget.translation,
                           style: TextStyle(
                               fontSize: 24,
                               color: Colors.white,
