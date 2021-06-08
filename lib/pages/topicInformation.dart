@@ -143,7 +143,7 @@ Widget notFound(context, args) {
                   new TextSpan(text:' has not been created yet 😩😟. If you want, you can help us on', style: new TextStyle(color:Colors.black,fontSize: 18.0)),
                   new TextSpan(text:' Github', style: new TextStyle(color:Colors.blue,fontSize: 18.0), recognizer: TapGestureRecognizer()
                   ..onTap = () async {
-                    final url = 'https://github.com/HannHank/Vocablii';
+                    final url = 'https://github.com/HannHank/Vocablii/blob/develop/contentTopics/create_content.md';
                     if (await canLaunch(url)) {
                       await launch(
                         url,
