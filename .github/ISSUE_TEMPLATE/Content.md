@@ -1,8 +1,8 @@
 ---
-name: Faulty Content
-about: You found something wrong with the content?
+name: Wrong Content
+about: You found something wrong with the content of Vocablii?
 title: ''
-labels: bug
+labels: content
 assignees: ''
 ---
 
