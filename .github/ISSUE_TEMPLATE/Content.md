@@ -1,3 +1,11 @@
+---
+name: Faulty Content
+about: You found something wrong with the content?
+title: ''
+labels: bug
+assignees: ''
+---
+
 <!-- Title -->
 # 
 
