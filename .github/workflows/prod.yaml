@@ -1,22 +1,12 @@
-on:  
-  push:
-  pull_request:
-    branches: [master]
-jobs:
-  test:
-    runs-on: macos-latest
-    steps:
-      - name: build app
-      - uses: actions/setup-java@v1
-      - uses: subosito/flutter-action@v1
-      - run: flutter pub get
-      - run: flutter build apk
-      - run: flutter build ios --release --no-codesign
-      - name: run test lab tests
-      - run: cd ios && bundle exec fastlane test
-      - run: cd android && bundle exec fastlane test
+name: 'deploy app'
 
-  distribute-to-play-store:
+'on':
+  push:
+    branches:
+      - develop
+      
+jobs:
+  distribute:
     runs-on: macos-latest
     steps:
       - name: upload ipa
