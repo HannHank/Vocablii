@@ -55,6 +55,7 @@ class AuthenticationService {
             'nickName':'',
             'active': 0,
             'chunkSize':0,
+            'ruDe':true,
             'class': {},
             
           });

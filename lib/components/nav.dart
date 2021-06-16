@@ -52,13 +52,18 @@ class _NavState extends State<Nav> {
   }
 
   getLearnFlow() async {
-    await users.doc(auth.currentUser().uid).get().then((snapshot) => {
+    try{
+      await users.doc(auth.currentUser().uid).get().then((snapshot) => {
           print("LOG:" + snapshot.data()['ruDe'].toString()),
           if (snapshot.data()['ruDe'])
             {isSelected[0] = true, isSelected[1] = false}
           else
             {isSelected[1] = true, isSelected[0] = false}
         });
+    }catch(err){
+      isSelected[0] = true;
+      isSelected[1] = false;
+    }
   }
 
   setLearnFlow(flow) async {

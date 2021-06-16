@@ -182,7 +182,7 @@ class _CardStackState extends State<CardStack>
           databaseTitle: widget.databaseTitle,
           adminState: widget.userStateVoc['admin'],
           nickName: widget.userStateVoc['nickName'],
-          ruDe: widget.userStateVoc['ruDe'],
+          ruDe: widget.userStateVoc['ruDe'] != null? widget.userStateVoc['ruDe']:true,
           );
     });
   }

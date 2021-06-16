@@ -83,6 +83,7 @@ class _Home extends State<Home> {
             show = true;
             admin = userStateVoc['admin'];
             ruDe = userStateVoc['ruDe'];
+            print("ruDe:" + ruDe.toString());
             // nickName = userStateVoc['nickName'];
           }),
           print("data: " + data.toString()),
@@ -232,11 +233,7 @@ class _Home extends State<Home> {
                                             'chunkSize': {
                                               'chunkSize': chunkSize
                                             },
-                                            'ruDe':{
-                                              'ruDe': ruDe
-                                            },
-                                          
-                                                                                      'databaseTitle': {
+                                            'databaseTitle': {
                                               'databaseTitle':
                                                   topicData.keys.toList()[index]
                                             },
@@ -619,10 +616,9 @@ class _Home extends State<Home> {
                                                                       'topic': topicData
                                                                           .keys
                                                                           .toList()[index],
-                                                                      'displayName':   title[topicData
-                                                                        .keys
-                                                                        .toList()[
-                                                                    index]],
+                                                                      'displayName': title[topicData
+                                                                          .keys
+                                                                          .toList()[index]],
                                                                     }
                                                                   });
                                                             },
